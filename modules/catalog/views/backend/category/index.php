@@ -29,6 +29,14 @@ $this->params['breadcrumbs'] = [
     'dataProvider' => $dataProvider,
     'columns' => [
         'id',
+        [
+            'class' => DataColumn::class,
+            'attribute' => 'image',
+            'format' => 'raw',
+            'value' => function(Category $category) {
+                return '<img src="' . $category->getThumbFileUrl('image', 'thumb', '/images/empty.jpg') . '">';
+            }
+        ],
         'title',
         'alias',
         [

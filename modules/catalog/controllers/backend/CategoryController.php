@@ -6,6 +6,7 @@ use app\modules\admin\components\BalletController;
 use app\modules\catalog\models\Category;
 use app\modules\catalog\models\CategorySearch;
 use yii\web\NotFoundHttpException;
+use yii\web\UploadedFile;
 
 class CategoryController extends BalletController
 {
@@ -54,6 +55,17 @@ class CategoryController extends BalletController
             \Yii::$app->session->setFlash('success', 'Категория удалена');
             return $this->redirect(['index']);
         }
+        return $this->redirect(\Yii::$app->request->referrer);
+    }
+
+    public function actionDeleteImage($id)
+    {
+        if (!$category = Category::findOne($id)) {
+            throw new NotFoundHttpException();
+        }
+
+        $category->deleteImage();
+
         return $this->redirect(\Yii::$app->request->referrer);
     }
 }
