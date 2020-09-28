@@ -4,13 +4,22 @@ use app\modules\catalog\models\Product;
 use yii\data\DataProviderInterface;
 use yii\grid\DataColumn;
 use yii\grid\GridView;
+use yii\helpers\Html;
 
 /**
  * @var DataProviderInterface $dataProvider
  * @var \app\modules\catalog\models\ProductSearch $searchModel
  */
 
+$this->title = 'Товары';
+$this->params['breadcrumbs'] = [
+    'Товары',
+];
 ?>
+
+<p>
+    <?= Html::a('Добавить товар', ['/catalog/backend/product/create'], ['class' => 'btn btn-success btn-sm']) ?>
+</p>
 
 <h1>Products</h1>
 

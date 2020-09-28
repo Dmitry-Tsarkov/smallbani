@@ -47,6 +47,7 @@ $this->params['breadcrumbs'] = [
             'format' => 'html',
             'value' => function(Category $category) {
                 return $category->status ? '<span class="label label-success" data-test="123">Да</span>' : '<span class="label label-danger">Нет</span>';
+                var_dump ($category);
             },
         ],
         [
