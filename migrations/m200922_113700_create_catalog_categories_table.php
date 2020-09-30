@@ -21,8 +21,8 @@ class m200922_113700_create_catalog_categories_table extends Migration
             'image_hash' => $this->string(),
             'created_at' => $this->integer()->notNull(),
             'updated_at' => $this->integer()->notNull(),
+            'position'   => $this->integer()->notNull(),
         ]);
-
     }
 
     /**

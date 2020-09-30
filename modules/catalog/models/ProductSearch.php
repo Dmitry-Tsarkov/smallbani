@@ -22,7 +22,7 @@ class ProductSearch extends Model
 
     public function search(array $params): ActiveDataProvider
     {
-        $query = Product::find();
+        $query = Product::find()->with('category');
 
         if ($this->load($params) && $this->validate()) {
             $query->andFilterWhere([

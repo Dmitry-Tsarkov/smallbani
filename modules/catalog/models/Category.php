@@ -7,6 +7,7 @@ use app\modules\admin\behaviors\SlugBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\web\UploadedFile;
+use yii2tech\ar\position\PositionBehavior;
 use yiidreamteam\upload\ImageUploadBehavior;
 
 /**
@@ -18,8 +19,10 @@ use yiidreamteam\upload\ImageUploadBehavior;
  * @property int $image_hash [int(11)]
  * @property int $created_at [int(11)]
  * @property int $updated_at [int(11)]
+ * @property int $position [int(11)]
  *
  * @mixin ImageUploadBehavior
+ * @mixin PositionBehavior
  */
 class Category extends ActiveRecord
 {
@@ -28,12 +31,12 @@ class Category extends ActiveRecord
         return '{{catalog_categories}}';
     }
 
-
     public function behaviors()
     {
         return [
             TimestampBehavior::class,
             SlugBehavior::class,
+            PositionBehavior::class,
             'image' => [
                 'class' => ImageUploadBehavior::class,
                 'attribute' => 'image',
@@ -92,5 +95,10 @@ class Category extends ActiveRecord
     public function hasImage()
     {
         return !empty($this->image) && is_file($this->getUploadedFilePath('image'));
+    }
+
+    public function getProducts()
+    {
+        return $this->hasMany(Product::className(), ['category_id' => 'id']);
     }
 }

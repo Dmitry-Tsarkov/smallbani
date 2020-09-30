@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "557fb4c3e02761275e28281d4a094b83",
+    "content-hash": "79d99c65546236c63ac6ac10f1c9f8ef",
     "packages": [
         {
             "name": "2amigos/yii2-transliterator-helper",

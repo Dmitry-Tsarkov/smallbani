@@ -1,37 +1,38 @@
 <?php
 
-namespace app\modules\catalog\models;
+
+namespace app\modules\faq\models;
+
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-
-class CategorySearch extends Model
+/**
+ * @property string $question [varchar(255)]
+ * @property string $answer [varchar(255)]
+ */
+class QuestionSearch extends Model
 {
     public $id;
-    public $title;
-    public  $alias;
-    public $status;
+    public $question;
 
     public function rules()
     {
         return [
-            [['id', 'title', 'alias', 'status'], 'string'],
+            [['id', 'question'], 'string'],
         ];
     }
 
     public function search(array $params): ActiveDataProvider
     {
-        $query = Category::find();
+        $query = Question::find();
 
         if ($this->load($params) && $this->validate()) {
             $query->andFilterWhere([
-                'id'     => $this->id,
-                'status' => $this->status,
+                'id' => $this->id,
             ]);
-            $query->andFilterWhere(['like', 'title', $this->title]);
-            $query->andFilterWhere(['like', 'alias', $this->alias]);
-
+            $query->andFilterWhere(['like', 'question', $this->question]);
         }
+
 
         return new ActiveDataProvider([
             'query' => $query,

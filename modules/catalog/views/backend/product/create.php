@@ -1,30 +1,22 @@
 <?php
 
-use kartik\form\ActiveForm;
-use yii\helpers\Html;
-
 /**
  * @var \yii\web\View $this
- * @var \app\modules\catalog\models\Category $category
+ * @var \app\modules\catalog\models\Product $product
+ * @var array $categoriesDropDown
  */
 
-$this->title = 'Добавление категории';
+$this->title = 'Добавление товара';
 $this->params['breadcrumbs'] = [
-    ['label' => 'Категории', 'url' => ['/catalog/backend/category/index']],
-    $this->title,
+    ['label' => 'Товары', 'url' => ['/catalog/backend/product/index']],
+    $product->title,
 ];
 
 ?>
 
+
 <div class="box box-default">
     <div class="box-body">
-        <?php $form = ActiveForm::begin() ?>
-        <?= $form->field($category, 'title') ?>
-        <?= $form->field($category, 'alias') ?>
-        <?= $form->field($category, 'status')->dropDownList([0 => 'Неактивный', 1 => 'Активный']) ?>
-        <?= Html::submitButton('Сохранить', ['class' => 'btn btn-primary']) ?>
-        <?php ActiveForm::end() ?>
+        <?= $this->render('_form', compact('product', 'categoriesDropDown')) ?>
     </div>
 </div>
-
-

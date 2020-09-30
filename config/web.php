@@ -21,6 +21,7 @@ $config = [
         'admin' => \app\modules\admin\Module::class,
         'gridview' => \kartik\grid\Module::class,
         'catalog' => \app\modules\catalog\Module::class,
+        'faq' => \app\modules\faq\Module::class,
     ],
     'components' => [
         'authManager' => \yii\rbac\DbManager::class,

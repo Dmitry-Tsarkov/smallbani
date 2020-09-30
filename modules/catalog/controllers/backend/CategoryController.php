@@ -68,4 +68,22 @@ class CategoryController extends BalletController
 
         return $this->redirect(\Yii::$app->request->referrer);
     }
+
+    public function actionMoveUp($id)
+    {
+        if (!$question = Category::findOne($id)) {
+            throw new NotFoundHttpException();
+        }
+
+        $question->movePrev();
+    }
+
+    public function actionMoveDown($id)
+    {
+        if (!$question = Category::findOne($id)) {
+            throw new NotFoundHttpException();
+        }
+
+        $question->moveNext();
+    }
 }

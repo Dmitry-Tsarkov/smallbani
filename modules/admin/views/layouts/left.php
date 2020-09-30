@@ -36,6 +36,18 @@ use dmstr\widgets\Menu;
                         ],
                     ],
                     [
+                        'label' => 'Контент',
+                        'icon' => 'adjust',
+                        'items' => [
+                            [
+                                'label' => 'Вопрос-ответ',
+                                'icon' => 'user',
+                                'url' => ['/faq/backend/question/index'],
+                                'active' => Yii::$app->controller->module->id == 'faq',
+                            ],
+                        ],
+                    ],
+                    [
                         'label' => 'Настройки',
                         'icon' => 'cogs',
                         'items' => [
