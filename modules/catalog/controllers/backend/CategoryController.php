@@ -24,9 +24,7 @@ class CategoryController extends BalletController
 
     public function actionUpdate($id)
     {
-        if (!$category = Category::findOne($id)) {
-            throw new NotFoundHttpException();
-        }
+        $category = Category::getOrFail($id);
 
         if ($category->load(\Yii::$app->request->post()) && $category->save()) {
             \Yii::$app->session->setFlash('success', 'Категория обновлена');
@@ -50,8 +48,7 @@ class CategoryController extends BalletController
 
     public function actionDelete($id)
     {
-        $category = Category::findOne($id);
-        if ($category->delete()) {
+        if (Category::getOrFail($id)->delete()) {
             \Yii::$app->session->setFlash('success', 'Категория удалена');
             return $this->redirect(['index']);
         }
@@ -60,30 +57,18 @@ class CategoryController extends BalletController
 
     public function actionDeleteImage($id)
     {
-        if (!$category = Category::findOne($id)) {
-            throw new NotFoundHttpException();
-        }
-
-        $category->deleteImage();
+        Category::getOrFail($id)->deleteImage();
 
         return $this->redirect(\Yii::$app->request->referrer);
     }
 
     public function actionMoveUp($id)
     {
-        if (!$question = Category::findOne($id)) {
-            throw new NotFoundHttpException();
-        }
-
-        $question->movePrev();
+        Category::getOrFail($id)->movePrev();
     }
 
     public function actionMoveDown($id)
     {
-        if (!$question = Category::findOne($id)) {
-            throw new NotFoundHttpException();
-        }
-
-        $question->moveNext();
+        Category::getOrFail($id)->moveNext();
     }
 }

@@ -4,10 +4,9 @@
 namespace app\modules\catalog\models;
 
 use app\modules\admin\behaviors\SlugBehavior;
+use app\modules\admin\traits\QueryExceptions;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
-use yiidreamteam\upload\ImageUploadBehavior;
-
 
 /**
  * @property string $id
@@ -23,9 +22,31 @@ use yiidreamteam\upload\ImageUploadBehavior;
  */
 class Product extends ActiveRecord
 {
+    use QueryExceptions;
+
     public static function tableName()
     {
         return '{{catalog_products}}';
+    }
+
+    public static function create($title, $alias, $description, $categoryId): Product
+    {
+        $product = new Product();
+        $product->title = $title;
+        $product->alias = $alias;
+        $product->description = $description;
+        $product->category_id = $categoryId;
+        $product->status = 0;
+
+        return $product;
+    }
+
+    public function edit($title, $alias, $description, $categoryId)
+    {
+        $this->title = $title;
+        $this->alias = $alias;
+        $this->description = $description;
+        $this->category_id = $categoryId;
     }
 
     public function behaviors()

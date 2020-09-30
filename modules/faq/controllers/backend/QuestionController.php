@@ -33,9 +33,7 @@ class QuestionController extends BalletController
 
     public function actionUpdate($id)
     {
-        if (!$question = Question::findOne($id)) {
-            throw new NotFoundHttpException();
-        }
+        $question = Question::getOrFail($id);
 
         if ($question->load(\Yii::$app->request->post()) && $question->save()) {
             \Yii::$app->session->setFlash('success', 'Вопрос-ответ обновлен');
@@ -47,8 +45,8 @@ class QuestionController extends BalletController
 
     public function actionDelete($id)
     {
-        $category = Question::findOne($id);
-        if ($category->delete()) {
+        $question = Question::getOrFail($id);
+        if ($question->delete()) {
             \Yii::$app->session->setFlash('success', 'Вопрос-ответ удален');
             return $this->redirect(['index']);
         }
@@ -57,20 +55,12 @@ class QuestionController extends BalletController
 
     public function actionMoveUp($id)
     {
-        if (!$question = Question::findOne($id)) {
-            throw new NotFoundHttpException();
-        }
-
-        $question->movePrev();
+        Question::getOrFail($id)->movePrev();
     }
 
     public function actionMoveDown($id)
     {
-        if (!$question = Question::findOne($id)) {
-            throw new NotFoundHttpException();
-        }
-
-        $question->moveNext();
+        Question::getOrFail($id)->moveNext();
     }
 
 }

@@ -4,6 +4,7 @@
 namespace app\modules\catalog\models;
 
 use app\modules\admin\behaviors\SlugBehavior;
+use app\modules\admin\traits\QueryExceptions;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\web\UploadedFile;
@@ -26,6 +27,8 @@ use yiidreamteam\upload\ImageUploadBehavior;
  */
 class Category extends ActiveRecord
 {
+    use QueryExceptions;
+
     public static function tableName()
     {
         return '{{catalog_categories}}';

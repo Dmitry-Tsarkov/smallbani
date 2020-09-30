@@ -7,6 +7,7 @@
 
 namespace app\commands;
 
+use app\modules\catalog\services\ProductService;
 use yii\console\Controller;
 use yii\console\ExitCode;
 
@@ -20,6 +21,14 @@ use yii\console\ExitCode;
  */
 class HelloController extends Controller
 {
+    private $service;
+
+    public function __construct($id, $module, ProductService $service, $config = [])
+    {
+        parent::__construct($id, $module, $config);
+        $this->service = $service;
+    }
+
     /**
      * This command echoes what you have entered as the message.
      * @param string $message the message to be echoed.

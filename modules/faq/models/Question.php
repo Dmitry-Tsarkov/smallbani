@@ -4,6 +4,7 @@
 namespace app\modules\faq\models;
 
 
+use app\modules\admin\traits\QueryExceptions;
 use yii\db\ActiveRecord;
 use yii2tech\ar\position\PositionBehavior;
 
@@ -18,6 +19,8 @@ use yii2tech\ar\position\PositionBehavior;
  */
 class Question extends ActiveRecord
 {
+    use QueryExceptions;
+
     public function behaviors()
     {
         return [
