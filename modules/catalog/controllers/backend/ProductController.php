@@ -3,12 +3,13 @@
 namespace app\modules\catalog\controllers\backend;
 
 use app\modules\admin\components\BalletController;
+use app\modules\catalog\forms\PhotosForm;
 use app\modules\catalog\forms\ProductCreateForm;
 use app\modules\catalog\forms\ProductUpdateForm;
-use app\modules\catalog\models\Category;
 use app\modules\catalog\models\Product;
 use app\modules\catalog\models\ProductSearch;
 use app\modules\catalog\services\ProductService;
+use yii\web\UploadedFile;
 
 class ProductController extends BalletController
 {
@@ -24,9 +25,14 @@ class ProductController extends BalletController
     {
         $searchModel = new ProductSearch();
         $dataProvider = $searchModel->search(\Yii::$app->request->get());
-        $categoriesDropDown = Category::find()->select('title')->indexBy('id')->column();
 
-        return $this->render('index', compact('dataProvider', 'searchModel', 'categoriesDropDown'));
+        return $this->render('index', compact('dataProvider', 'searchModel'));
+    }
+
+    public function actionView($id)
+    {
+        $product = Product::getOrFail($id);
+        return $this->render('view', compact( 'product'));
     }
 
     public function actionCreate()
@@ -37,13 +43,13 @@ class ProductController extends BalletController
             try {
                 $product = $this->service->create($createForm);
                 \Yii::$app->session->setFlash('success', 'Товар добавлен');
-                return $this->redirect(['update', 'id' => $product->id]);
+                return $this->redirect(['view', 'id' => $product->id]);
             } catch (\DomainException $e) {
                 \Yii::$app->session->setFlash('error', $e->getMessage());
             }
         }
 
-        return $this->render('create', compact('createForm'));
+        return $this->render('create', compact('createForm', 'photosForm'));
     }
 
     public function actionUpdate($id)

@@ -5,6 +5,7 @@ namespace app\modules\catalog\models;
 
 use app\modules\admin\behaviors\SlugBehavior;
 use app\modules\admin\traits\QueryExceptions;
+use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 
@@ -19,6 +20,8 @@ use yii\db\ActiveRecord;
  * @property int $category_id [int(11)]
  *
  * @property Category $category
+ * @property ProductImage[] $images
+ * @property ProductImage $mainImage
  */
 class Product extends ActiveRecord
 {
@@ -51,9 +54,14 @@ class Product extends ActiveRecord
 
     public function behaviors()
     {
+
         return [
             TimestampBehavior::class,
             SlugBehavior::class,
+            [
+                'class' => SaveRelationsBehavior::class,
+                'relations' => ['images'],
+            ],
         ];
     }
     public function rules()
@@ -82,5 +90,43 @@ class Product extends ActiveRecord
     public function getCategory()
     {
         return $this->hasOne(Category::class, ['id' =>'category_id']);
+    }
+
+    public function getImages()
+    {
+        return $this->hasMany(ProductImage::class, ['product_id' => 'id']);
+    }
+
+    public function getMainImage()
+    {
+        return $this->hasOne(ProductImage::class, ['id' => 'image_id']);
+    }
+
+    public function addImage(ProductImage $image)
+    {
+        $images = $this->images;
+        $images[] = $image;
+        $this->updateImages($images);
+    }
+
+    /**
+     * @param ProductImage[] $images
+     */
+    public function updateImages(array $images)
+    {
+        foreach ($images as $i => $image) {
+            $image->setPosition($i + 1);
+        }
+        $this->images = $images;
+        $this->populateRelation('mainImage', reset($images));
+    }
+
+    public function afterSave($insert, $changedAttributes)
+    {
+        $related = $this->getRelatedRecords();
+        parent::afterSave($insert, $changedAttributes);
+        if (array_key_exists('mainImage', $related)) {
+            $this->updateAttributes(['image_id' => $related['mainImage'] ? $related['mainImage']->id : null]);
+        }
     }
 }

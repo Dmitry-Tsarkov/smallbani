@@ -63,7 +63,7 @@ class Category extends ActiveRecord
             [['alias'], 'match', 'pattern' => '/^[0-9a-z-]+$/','message'=>'Только латинские буквы и знак "-"'],
             ['status', 'integer'],
             ['status', 'in', 'range' => [0, 1], 'message' => 'Некоректный статус'],
-            ['image', 'image', 'extensions' => 'jpeg, gif, png, jpg'],
+            ['image', 'image', 'extensions' => 'jpeg, png, jpg'],
 
         ];
     }

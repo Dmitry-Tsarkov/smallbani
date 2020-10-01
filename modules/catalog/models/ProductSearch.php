@@ -41,4 +41,9 @@ class ProductSearch extends Model
             ],
         ]);
     }
+
+    public function categoriesDropDown()
+    {
+        return Category::find()->select('title')->indexBy('id')->column();
+    }
 }

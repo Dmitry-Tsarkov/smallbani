@@ -11,7 +11,6 @@ use yii\helpers\Html;
  *  * @var \yii\web\View $this
  * @var DataProviderInterface $dataProvider
  * @var \app\modules\catalog\models\ProductSearch $searchModel
- * @var array $categoriesDropDown
  */
 
 $this->title = 'Товары';
@@ -94,7 +93,7 @@ $this->params['breadcrumbs'] = [
             'class' => DataColumn::class,
 
             'attribute' => 'category_id',
-            'filter' => $categoriesDropDown,
+            'filter' => $searchModel->categoriesDropDown(),
             'value' => function(Product $product) {
                 return $product->category->title;
             },
@@ -102,11 +101,10 @@ $this->params['breadcrumbs'] = [
         ],
         [
             'class' => ActionColumn::className(),
-            'template' => '{update}',
+            'template' => '{view}',
             'buttons' => [
-                'update' => function ($url, $model, $key) {
-                    return Html::a('Редактировать', $url, ['class' => 'btn btn-primary btn-xs', 'data-pjax' => '0']);
-
+                'view' => function ($url, $model, $key) {
+                    return Html::a('Просмотр', $url, ['class' => 'btn btn-primary btn-xs', 'data-pjax' => '0']);
                 },
             ],
         ],

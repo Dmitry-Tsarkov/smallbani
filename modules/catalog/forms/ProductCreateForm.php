@@ -2,15 +2,24 @@
 
 namespace app\modules\catalog\forms;
 
+use app\modules\admin\forms\CompositeForm;
 use app\modules\catalog\models\Category;
-use yii\base\Model;
 
-class ProductCreateForm extends Model
+/**
+ * @property PhotosForm $photos
+ */
+class ProductCreateForm extends CompositeForm
 {
     public $title;
     public $alias;
     public $description;
     public $categoryId;
+
+    public function __construct()
+    {
+        $this->photos = new PhotosForm();
+        parent::__construct();
+    }
 
     public function rules()
     {
@@ -25,5 +34,10 @@ class ProductCreateForm extends Model
     public function getCategoriesDropDown()
     {
         return Category::find()->select('title')->indexBy('id')->column();
+    }
+
+    protected function internalForms(): array
+    {
+        return ['photos'];
     }
 }

@@ -18,6 +18,7 @@ class m200922_113726_create_catalog_products_table extends Migration
             'created_at'  => $this->integer()->notNull(),
             'updated_at'  => $this->integer()->notNull(),
             'category_id' => $this->integer()->defaultValue(null),
+            'image_id'    => $this->integer()->defaultValue(null),
         ]);
 
         $this->createIndex('idx-catalog_products-category_id', 'catalog_products', 'category_id');

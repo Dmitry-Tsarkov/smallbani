@@ -119,7 +119,6 @@ $this->params['breadcrumbs'] = [
             'buttons' => [
                 'update' => function ($url, $model, $key) {
                     return Html::a('Редактировать', $url, ['class' => 'btn btn-primary btn-xs', 'data-pjax' => '0']);
-
                 },
             ],
         ],

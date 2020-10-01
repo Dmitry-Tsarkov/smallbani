@@ -2,9 +2,11 @@
 
 namespace app\modules\catalog\services;
 
+use app\modules\catalog\forms\PhotosForm;
 use app\modules\catalog\forms\ProductCreateForm;
 use app\modules\catalog\forms\ProductUpdateForm;
 use app\modules\catalog\models\Product;
+use app\modules\catalog\models\ProductImage;
 use app\modules\catalog\repositories\ProductRepository;
 
 class ProductService
@@ -24,6 +26,10 @@ class ProductService
             $form->description,
             $form->categoryId
         );
+
+        foreach ($form->photos->files as $file) {
+            $product->addImage(ProductImage::create($file));
+        }
 
         $this->products->save($product);
 
@@ -57,7 +63,15 @@ class ProductService
 
     public function activate($id)
     {
+        $product = $this->products->getById($id);
 
+        if (empty($product->category)) {
+            throw new \DomainException('Не установлена категория');
+        }
+
+        $product->status = 1;
+
+        $this->products->save($product);
     }
 
     public function draft($id)
