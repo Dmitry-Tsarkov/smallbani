@@ -18,7 +18,6 @@ $this->params['breadcrumbs'] = [
 
 ?>
 
-
 <div class="box box-default">
     <div class="box-body">
         <?php $form = ActiveForm::begin() ?>
@@ -26,7 +25,7 @@ $this->params['breadcrumbs'] = [
             <?= $form->field($createForm, 'alias') ?>
             <?= $form->field($createForm, 'description')->textarea(['rows' => 7, 'cols' => 5]); ?>
             <?= $form->field($createForm, 'categoryId')->dropDownList($createForm->getCategoriesDropDown(), ['prompt' => '-- Выберете категорию --']) ?>
-            <?= $form->field($photosForm, 'files[]')->widget(FileInput::class, [
+            <?= $form->field($createForm->photos, 'files[]')->widget(FileInput::class, [
                 'options' => ['multiple' => true]
             ]) ?>
         <?= Html::submitButton('Сохранить', ['class' => 'btn btn-primary']) ?>

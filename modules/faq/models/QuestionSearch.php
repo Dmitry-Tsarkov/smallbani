@@ -3,7 +3,6 @@
 
 namespace app\modules\faq\models;
 
-
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 /**
@@ -32,7 +31,6 @@ class QuestionSearch extends Model
             ]);
             $query->andFilterWhere(['like', 'question', $this->question]);
         }
-
 
         return new ActiveDataProvider([
             'query' => $query,

@@ -9,7 +9,7 @@ class CategorySearch extends Model
 {
     public $id;
     public $title;
-    public  $alias;
+    public $alias;
     public $status;
 
     public function rules()

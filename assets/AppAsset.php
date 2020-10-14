@@ -7,7 +7,9 @@
 
 namespace app\assets;
 
+use Yii;
 use yii\web\AssetBundle;
+use yii\web\JqueryAsset;
 
 /**
  * Main application asset bundle.
@@ -19,13 +21,20 @@ class AppAsset extends AssetBundle
 {
     public $basePath = '@webroot';
     public $baseUrl = '@web';
+
+    public function init()
+    {
+        $jqueryBundle = Yii::$app->getAssetManager()->getBundle(JqueryAsset::class);
+        $jqueryBundle->js = [];
+        $jqueryBundle->depends = [AppAsset::class];
+
+        parent::init();
+    }
+
     public $css = [
-        'css/site.css',
+        'css/style.css',
     ];
     public $js = [
-    ];
-    public $depends = [
-        'yii\web\YiiAsset',
-        'yii\bootstrap\BootstrapAsset',
+        'js/app.js',
     ];
 }

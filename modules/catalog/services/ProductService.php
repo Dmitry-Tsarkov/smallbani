@@ -78,4 +78,22 @@ class ProductService
     {
 
     }
+
+    public function addImage($id, PhotosForm $form)
+    {
+        $product = $this->products->getById($id);
+
+        foreach ($form->files as $file) {
+            $product->addImage(ProductImage::create($file));
+        }
+
+        $this->products->save($product);
+    }
+
+    public function deleteImage($id, $photoId)
+    {
+        $product = $this->products->getById($id);
+        $product->deleteImage($photoId);
+        $this->products->save($product);
+    }
 }

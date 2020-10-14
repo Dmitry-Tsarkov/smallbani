@@ -2,7 +2,16 @@
 
 namespace app\modules\catalog;
 
-class Module extends \yii\base\Module
+use yii\base\BootstrapInterface;
+
+class Module extends \yii\base\Module implements BootstrapInterface
 {
 
+    public function bootstrap($app)
+    {
+        $app->urlManager->addRules([
+            '/catalog'  => '/catalog/frontend/index',
+            '/catalog/<alias>' => '/catalog/frontend/category'
+        ]);
+    }
 }

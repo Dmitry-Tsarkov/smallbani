@@ -46,6 +46,8 @@ class Category extends ActiveRecord
                 'createThumbsOnRequest' => true,
                 'thumbs' => [
                     'thumb' => ['width' => 50, 'height' => 50],
+                    'preview' => ['width' => 570, 'height' => 350],
+                    'preview_big' => ['width' => 1170, 'height' => 350],
                 ],
                 'filePath'  => '@webroot/uploads/category/[[pk]]_[[attribute_image_hash]].[[extension]]',
                 'fileUrl'   => '/uploads/category/[[pk]]_[[attribute_image_hash]].[[extension]]',

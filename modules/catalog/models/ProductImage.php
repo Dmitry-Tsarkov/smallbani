@@ -26,8 +26,10 @@ class ProductImage extends ActiveRecord
         return [
             [
                 'class' => ImageBehavior::class,
+                'attribute' => 'image',
                 'thumbs' => [
                     'thumb' => ['width' => 50, 'height' => 50],
+                    'preview' => ['width' => 270, 'height' => 210]
                 ],
                 'folder' => 'product',
             ],

@@ -48,6 +48,13 @@ use dmstr\widgets\Menu;
                         ],
                     ],
                     [
+                        'label' => 'Акции',
+                        'icon' => 'adjust',
+                        'url' => ['/actions/backend/actions/index'],
+                        'active' => Yii::$app->controller->module->id == 'actions',
+
+                    ],
+                    [
                         'label' => 'Настройки',
                         'icon' => 'cogs',
                         'items' => [

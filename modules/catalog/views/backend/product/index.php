@@ -75,6 +75,14 @@ $this->params['breadcrumbs'] = [
             'format' => 'raw',
             'width' => '70px',
         ],
+        [
+            'class' => DataColumn::class,
+            'attribute' => 'image',
+            'format' => 'raw',
+            'value' => function(Product $product) {
+                return $product->hasMainImage() ? '<img src="' . $product->getMainImagePreview() . '">' : '';
+            }
+        ],
         'title',
         'alias',
         [

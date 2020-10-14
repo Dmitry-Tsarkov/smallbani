@@ -5,8 +5,6 @@ namespace app\modules\catalog\controllers\backend;
 use app\modules\admin\components\BalletController;
 use app\modules\catalog\models\Category;
 use app\modules\catalog\models\CategorySearch;
-use yii\web\NotFoundHttpException;
-use yii\web\UploadedFile;
 
 class CategoryController extends BalletController
 {

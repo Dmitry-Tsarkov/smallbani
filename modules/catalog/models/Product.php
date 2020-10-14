@@ -8,6 +8,7 @@ use app\modules\admin\traits\QueryExceptions;
 use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
+use yiidreamteam\upload\ImageUploadBehavior;
 
 /**
  * @property string $id
@@ -18,6 +19,7 @@ use yii\db\ActiveRecord;
  * @property int $created_at [int(11)]
  * @property int $updated_at [int(11)]
  * @property int $category_id [int(11)]
+ * @property int $image_id [int(11)]
  *
  * @property Category $category
  * @property ProductImage[] $images
@@ -109,6 +111,19 @@ class Product extends ActiveRecord
         $this->updateImages($images);
     }
 
+    public function deleteImage($photoId)
+    {
+        $images = $this->images;
+        foreach ($images as $i => $image) {
+            if ($image->id == $photoId) {
+                unset($images[$i]);
+                $this->updateImages($images);
+                return;
+            }
+        }
+        throw new \DomainException('Картинка не найдена');
+    }
+
     /**
      * @param ProductImage[] $images
      */
@@ -128,5 +143,15 @@ class Product extends ActiveRecord
         if (array_key_exists('mainImage', $related)) {
             $this->updateAttributes(['image_id' => $related['mainImage'] ? $related['mainImage']->id : null]);
         }
+    }
+
+    public function hasMainImage(): bool
+    {
+        return !empty($this->image_id) && !empty($this->mainImage->getUploadedFilePath('image'));
+    }
+
+    public function getMainImagePreview()
+    {
+        return $this->hasMainImage() ? $this->mainImage->getThumbFileUrl('image', 'preview') : '';
     }
 }

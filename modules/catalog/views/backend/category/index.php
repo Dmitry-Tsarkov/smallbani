@@ -100,7 +100,6 @@ $this->params['breadcrumbs'] = [
                 return $category->hasImage() ? '<img src="' . $category->getThumbFileUrl('image', 'thumb') . '">' : '';
             }
         ],
-
         'title',
         'alias',
         [

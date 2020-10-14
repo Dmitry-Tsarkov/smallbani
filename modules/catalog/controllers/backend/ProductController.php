@@ -9,7 +9,8 @@ use app\modules\catalog\forms\ProductUpdateForm;
 use app\modules\catalog\models\Product;
 use app\modules\catalog\models\ProductSearch;
 use app\modules\catalog\services\ProductService;
-use yii\web\UploadedFile;
+use yii\filters\VerbFilter;
+use yii\web\Response;
 
 class ProductController extends BalletController
 {
@@ -19,6 +20,18 @@ class ProductController extends BalletController
     {
         $this->service = $service;
         parent::__construct($id, $module, $config);
+    }
+
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => VerbFilter::class,
+                'actions' => [
+                    'delete-image' => ['POST'],
+                ],
+            ]
+        ];
     }
 
     public function actionIndex()
@@ -32,12 +45,13 @@ class ProductController extends BalletController
     public function actionView($id)
     {
         $product = Product::getOrFail($id);
-        return $this->render('view', compact( 'product'));
+        return $this->render('view', compact('product'));
     }
 
     public function actionCreate()
     {
         $createForm = new ProductCreateForm();
+
 
         if ($createForm->load(\Yii::$app->request->post()) && $createForm->validate()) {
             try {
@@ -75,10 +89,49 @@ class ProductController extends BalletController
 
     public function actionDelete($id)
     {
+
         if (Product::getOrFail($id)->delete()) {
             \Yii::$app->session->setFlash('success', 'Товар удален');
             return $this->redirect(['index']);
         }
         return $this->redirect(\Yii::$app->request->referrer);
     }
+
+    public function actionUpload($id)
+    {
+        \Yii::$app->response->format = Response::FORMAT_JSON;
+
+        $product = Product::getOrFail($id);
+        $photosForm = new PhotosForm();
+
+        if ($photosForm->validate()) {
+            try {
+                $this->service->addImage($product->id, $photosForm);
+                return [];
+            } catch (\DomainException $e) {
+                return ['error' => $e->getMessage()];
+            } catch (\RuntimeException $e) {
+                \Yii::$app->errorHandler->logException($e);
+                return ['error' => 'Техническая ошибка'];
+            }
+        }
+
+        return ['error' => 'Не удалось'];
+    }
+
+    public function actionDeleteImage($id, $photoId)
+    {
+        \Yii::$app->response->format = Response::FORMAT_JSON;
+
+        try {
+            $this->service->deleteImage($id, $photoId);
+            return [];
+        } catch (\DomainException $e) {
+            return ['error' => $e->getMessage()];
+        } catch (\RuntimeException $e) {
+            \Yii::$app->errorHandler->logException($e);
+            return ['error' => 'Техническая ошибка'];
+        }
+    }
+
 }

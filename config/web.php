@@ -8,9 +8,12 @@ $config = [
     'language' => 'ru',
     'basePath' => dirname(__DIR__),
     'bootstrap' => [
+        \app\bootstrap\SetUp::class,
         \app\modules\user\Bootstrap::class,
         'log',
         'admin',
+        'catalog',
+        'actions',
     ],
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
@@ -22,6 +25,7 @@ $config = [
         'gridview' => \kartik\grid\Module::class,
         'catalog' => \app\modules\catalog\Module::class,
         'faq' => \app\modules\faq\Module::class,
+        'actions' =>\app\modules\actions\Module::class,
     ],
     'components' => [
         'authManager' => \yii\rbac\DbManager::class,

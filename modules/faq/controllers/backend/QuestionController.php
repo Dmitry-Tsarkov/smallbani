@@ -1,6 +1,5 @@
 <?php
 
-
 namespace app\modules\faq\controllers\backend;
 
 use app\modules\admin\components\BalletController;

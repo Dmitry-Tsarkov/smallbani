@@ -2,7 +2,14 @@
 
 namespace app\modules\seeder\commands;
 
+use app\modules\actions\models\Promo;
+use app\modules\catalog\models\Category;
+use app\modules\catalog\models\Product;
+use app\modules\catalog\models\ProductImage;
+use app\modules\faq\models\Question;
+use app\modules\seeder\components\CopyUploadedFile;
 use Yii;
+use yii\base\Action;
 use yii\console\Controller;
 use yii\helpers\Console;
 use yii\helpers\FileHelper;
@@ -13,7 +20,7 @@ class SeederController extends Controller
     {
         $faker = \Faker\Factory::create('ru_RU');
 
-        Console::stdout('categories..' . PHP_EOL);
+        Console::stdout(PHP_EOL . 'categories' );
         $images = [
             Yii::getAlias('@app/modules/seeder/images/category/parilka.jpg'),
             Yii::getAlias('@app/modules/seeder/images/category/test.png')
@@ -21,50 +28,88 @@ class SeederController extends Controller
         FileHelper::createDirectory(Yii::getAlias('@webroot/uploads/category/'));
 
         for ($i = 1; $i <= 10; $i++) {
-            Yii::$app->db->createCommand()->insert('catalog_categories', [
-                'title'      => $title = $faker->realText(20),
-                'alias'      => $faker->slug(2),
-                'status'     => (int)$faker->boolean(80),
-                'created_at' => $faker->unixTime('now'),
-                'updated_at' => $faker->unixTime('now'),
-                'position'   => $i,
-            ])->execute();
+            $category = new Category([
+                'title'  => $faker->realText(20),
+                'status' => (int)$faker->boolean(80),
+                'image'  => new CopyUploadedFile($faker->randomElement($images))
+            ]);
+            $category->save();
 
-            $id = Yii::$app->db->lastInsertID;
-
-            $image = $faker->randomElement($images);
-            $imageHash = uniqid();
-            copy($image, Yii::getAlias('@webroot/uploads/category/' . $id . '_' . $imageHash . '.' . pathinfo($image, PATHINFO_EXTENSION)));
-
-            Yii::$app->db->createCommand()->update('catalog_categories', [
-                'image'      => pathinfo($image, PATHINFO_BASENAME),
-                'image_hash' => $imageHash,
-            ], ['id' => $id])->execute();
+            $updatedAt = $faker->unixTime('now');
+            $category->updateAttributes([
+                'created_at' => $faker->unixTime($updatedAt),
+                'updated_at' => $updatedAt,
+            ]);
+            Console::stdout('.');
         }
 
-        Console::stdout('products..' . PHP_EOL);
-        for ($i = 1; $i <= 100; $i++) {
+        $images = [
+            Yii::getAlias('@app/modules/seeder/images/category/parilka.jpg'),
+            Yii::getAlias('@app/modules/seeder/images/category/test.png')
+        ];
+
+        Console::stdout( PHP_EOL . 'products' );
+        for ($i = 1; $i <= 10; $i++) {
             $categoryIds = Yii::$app->db->createCommand('SELECT id FROM catalog_categories')->queryColumn();
 
-            Yii::$app->db->createCommand()->insert('catalog_products', [
-                'title'       => $title = $faker->realText(20),
-                'alias'       => $faker->slug(2),
+            $product = new Product([
+                'title' => $faker->realText(20),
                 'description' => $faker->realText(500),
-                'status'      => (int)$faker->boolean(80),
-                'created_at'  => $faker->unixTime('now'),
-                'updated_at'  => $faker->unixTime('now'),
                 'category_id' => $faker->randomElement($categoryIds),
-            ])->execute();
+                'status' => (int)$faker->boolean(80)
+            ]);
+
+            $max = rand(2, 5);
+            for ($j = 1; $j <= $max; $j++) {
+                $product->addImage(ProductImage::create(new CopyUploadedFile($faker->randomElement($images))));
+            }
+
+            $product->save();
+
+            $updatedAt = $faker->unixTime('now');
+            $product->updateAttributes([
+                'created_at' => $faker->unixTime($updatedAt),
+                'updated_at' => $updatedAt,
+            ]);
+
+            Console::stdout('.');
         }
 
-        Console::stdout('question..' . PHP_EOL);
+        Console::stdout(PHP_EOL . 'question..successfully_updated');
         for ($i = 1; $i <= 10; $i++) {
-            Yii::$app->db->createCommand()->insert('faq_question', [
+
+            $question = new Question([
                 'question' => $title = $faker->realText(20),
                 'answer'   => $faker->realText(300),
                 'position' => $i,
-                'status'     => (int)$faker->boolean(80),
-            ])->execute();
+                'status'   => (int)$faker->boolean(80),
+            ]);
+            $question->save();
+        }
+
+        Console::stdout(PHP_EOL . 'actions..successfully_updated');
+
+        $images = [
+            Yii::getAlias('@app/modules/seeder/images/actions/ANOTHER_ACTION_NAME.jpg'),
+            Yii::getAlias('@app/modules/seeder/images/actions/aktciya.png')
+        ];
+        FileHelper::createDirectory(Yii::getAlias('@webroot/uploads/category/'));
+
+        for ($i = 1; $i <= 10; $i++) {
+
+            $actions = new Promo([
+                'title'       => $title = $faker->realText(20),
+                'description' => $faker->realText(300),
+                'status'      => (int)$faker->boolean(80),
+                'image'       => new CopyUploadedFile($faker->randomElement($images)),
+            ]);
+            $actions->save();
+
+            $updatedAt = $faker->unixTime('now');
+            $actions->updateAttributes([
+                'created_at' => $faker->unixTime($updatedAt),
+                'updated_at' => $updatedAt,
+            ]);
         }
 
     }
