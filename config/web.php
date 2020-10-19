@@ -25,7 +25,9 @@ $config = [
         'gridview' => \kartik\grid\Module::class,
         'catalog' => \app\modules\catalog\Module::class,
         'faq' => \app\modules\faq\Module::class,
-        'actions' =>\app\modules\actions\Module::class,
+        'actions' => \app\modules\actions\Module::class,
+        'reviews' => \app\modules\review\Module::class,
+        'slide' => \app\modules\slide\Module::class,
     ],
     'components' => [
         'authManager' => \yii\rbac\DbManager::class,

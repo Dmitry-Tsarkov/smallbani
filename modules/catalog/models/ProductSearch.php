@@ -12,11 +12,12 @@ class ProductSearch extends Model
     public $alias;
     public $status;
     public $category_id;
+    public $is_popular;
 
     public function rules()
     {
         return [
-            [['title',  'alias', 'status', 'category_id', 'id'], 'string'],
+            [['title',  'alias', 'status', 'category_id', 'id', 'is_popular'], 'string'],
         ];
     }
 
@@ -28,7 +29,8 @@ class ProductSearch extends Model
             $query->andFilterWhere([
                 'id' => $this->id,
                 'status' => $this->status,
-                'category_id' => $this->category_id
+                'category_id' => $this->category_id,
+                'is_popular' => $this->is_popular
             ]);
             $query->andFilterWhere(['like', 'title', $this->title]);
             $query->andFilterWhere(['like', 'alias', $this->alias]);
@@ -46,4 +48,5 @@ class ProductSearch extends Model
     {
         return Category::find()->select('title')->indexBy('id')->column();
     }
+
 }

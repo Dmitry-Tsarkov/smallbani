@@ -16,6 +16,12 @@ class PhotosForm extends Model
             ['files', 'each', 'rule' => ['image', 'extensions' => 'jpeg, png, jpg']]
         ];
     }
+    public function attributeLabels()
+    {
+        return [
+            'files' => 'Картинки',
+        ];
+    }
 
     public function beforeValidate()
     {

@@ -13,12 +13,14 @@ class ProductUpdateForm extends Model
     public $description;
     public $categoryId;
 
+
     public function __construct(Product $product)
     {
         $this->title = $product->title;
         $this->alias = $product->alias;
         $this->description = $product->description;
         $this->categoryId = $product->category_id;
+
 
         parent::__construct();
     }
@@ -33,8 +35,20 @@ class ProductUpdateForm extends Model
         ];
     }
 
+    public function attributeLabels()
+    {
+        return [
+            'title' => 'Заголовок',
+            'status' => 'Статус',
+            'alias' => 'Алиас',
+            'category_id' => 'Категория',
+            'description' => 'Описание',
+        ];
+    }
+
     public function getCategoriesDropDown()
     {
         return Category::find()->select('title')->indexBy('id')->column();
     }
+
 }

@@ -38,4 +38,5 @@ class CategorySearch extends Model
             'sort' => ['defaultOrder' => ['position' => SORT_ASC]],
         ]);
     }
+
 }

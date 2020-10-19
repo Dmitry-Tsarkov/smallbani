@@ -12,7 +12,7 @@ use yii\helpers\Html;
  *
  * @var \yii\web\View $this
  * @var DataProviderInterface $dataProvider
- * @var \app\modules\catalog\models\ProductSearch $searchModel
+ * @var \app\modules\faq\models\QuestionSearch $searchModel
  * * @property question $question
  */
 
@@ -94,13 +94,16 @@ $this->params['breadcrumbs'] = [
         'question',
         [
             'class' => DataColumn::class,
+            'vAlign' => GridView::ALIGN_MIDDLE,
+            'hAlign' => GridView::ALIGN_CENTER,
             'attribute' => 'status',
             'label' => 'Статус',
-            'filter' => [0 => 'Нет', 1 => 'Да'],
+            'filter' => $searchModel->StatusDropDown(),
             'format' => 'html',
             'value' => function(Question $question) {
-                return $question->status ? '<span class="label label-success">Да</span>' : '<span class="label label-danger">Нет</span>';
+                return $question->status ? '<span class="label label-success" data-test="123">Активный</span>' : '<span class="label label-danger">Неактивный</span>';
             },
+            'width' => '150px',
         ],
         [
             'class' => ActionColumn::className(),

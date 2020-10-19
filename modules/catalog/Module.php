@@ -11,7 +11,8 @@ class Module extends \yii\base\Module implements BootstrapInterface
     {
         $app->urlManager->addRules([
             '/catalog'  => '/catalog/frontend/index',
-            '/catalog/<alias>' => '/catalog/frontend/category'
+            '/catalog/<alias>' => '/catalog/frontend/category',
+            '/product/<alias>' => '/catalog/frontend/product',
         ]);
     }
 }

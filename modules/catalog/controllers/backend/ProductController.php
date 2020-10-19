@@ -3,6 +3,8 @@
 namespace app\modules\catalog\controllers\backend;
 
 use app\modules\admin\components\BalletController;
+use app\modules\catalog\forms\ClientPhotosForm;
+use app\modules\catalog\forms\DrawingsForm;
 use app\modules\catalog\forms\PhotosForm;
 use app\modules\catalog\forms\ProductCreateForm;
 use app\modules\catalog\forms\ProductUpdateForm;
@@ -28,8 +30,11 @@ class ProductController extends BalletController
             [
                 'class' => VerbFilter::class,
                 'actions' => [
+                    'delete' => ['POST'],
                     'delete-image' => ['POST'],
+                    'sort-images' => ['POST'],
                 ],
+
             ]
         ];
     }
@@ -89,11 +94,87 @@ class ProductController extends BalletController
 
     public function actionDelete($id)
     {
+        $product = Product::getOrFail($id);
 
-        if (Product::getOrFail($id)->delete()) {
+        try {
+            $this->service->delete($product->id);
             \Yii::$app->session->setFlash('success', 'Товар удален');
             return $this->redirect(['index']);
+        } catch (\DomainException $e) {
+            \Yii::$app->session->setFlash('error', $e->getMessage());
+        } catch (\RuntimeException $e) {
+            \Yii::$app->errorHandler->logException($e);
+            \Yii::$app->session->setFlash('error', 'Техническая ошибка');
         }
+
+        return $this->redirect(\Yii::$app->request->referrer);
+    }
+
+    public function actionActivate($id)
+    {
+        $product = Product::getOrFail($id);
+
+        try {
+            $this->service->activate($product->id);
+            \Yii::$app->session->setFlash('success', 'Товар активирован');
+        } catch (\DomainException $e) {
+            \Yii::$app->session->setFlash('error', $e->getMessage());
+        } catch (\RuntimeException $e) {
+            \Yii::$app->errorHandler->logException($e);
+            \Yii::$app->session->setFlash('error', 'Техническая ошибка');
+        }
+
+        return $this->redirect(\Yii::$app->request->referrer);
+    }
+
+    public function actionDraft($id)
+    {
+        $product = Product::getOrFail($id);
+
+        try {
+            $this->service->draft($product->id);
+            \Yii::$app->session->setFlash('success', 'Товар заблокирован');
+        } catch (\DomainException $e) {
+            \Yii::$app->session->setFlash('error', $e->getMessage());
+        } catch (\RuntimeException $e) {
+            \Yii::$app->errorHandler->logException($e);
+            \Yii::$app->session->setFlash('error', 'Техническая ошибка');
+        }
+
+        return $this->redirect(\Yii::$app->request->referrer);
+    }
+
+    public function actionPopular($id)
+    {
+        $product = Product::getOrFail($id);
+
+        try {
+            $this->service->popular($product->id);
+            \Yii::$app->session->setFlash('success', 'Товар сделан популярным');
+        } catch (\DomainException $e) {
+            \Yii::$app->session->setFlash('error', $e->getMessage());
+        } catch (\RuntimeException $e) {
+            \Yii::$app->errorHandler->logException($e);
+            \Yii::$app->session->setFlash('error', 'Техническая ошибка');
+        }
+
+        return $this->redirect(\Yii::$app->request->referrer);
+    }
+
+    public function actionUsual($id)
+    {
+        $product = Product::getOrFail($id);
+
+        try {
+            $this->service->usual($product->id);
+            \Yii::$app->session->setFlash('success', 'Товар больше не популярный');
+        } catch (\DomainException $e) {
+            \Yii::$app->session->setFlash('error', $e->getMessage());
+        } catch (\RuntimeException $e) {
+            \Yii::$app->errorHandler->logException($e);
+            \Yii::$app->session->setFlash('error', 'Техническая ошибка');
+        }
+
         return $this->redirect(\Yii::$app->request->referrer);
     }
 
@@ -134,4 +215,122 @@ class ProductController extends BalletController
         }
     }
 
+    public function actionSortImages($id)
+    {
+        \Yii::$app->response->format = Response::FORMAT_JSON;
+
+        try {
+            $this->service->sortImages($id, \Yii::$app->request->post('oldIndex'),  \Yii::$app->request->post('newIndex'));
+            return [];
+        } catch (\DomainException $e) {
+            return ['error' => $e->getMessage()];
+        } catch (\RuntimeException $e) {
+            \Yii::$app->errorHandler->logException($e);
+            return ['error' => 'Техническая ошибка'];
+        }
+    }
+
+    public function actionUploadClientPhoto($id)
+    {
+        \Yii::$app->response->format = Response::FORMAT_JSON;
+
+        $product = Product::getOrFail($id);
+        $photosForm = new ClientPhotosForm();
+
+        if ($photosForm->validate()) {
+            try {
+                $this->service->addClientPhoto($product->id, $photosForm);
+                return [];
+            } catch (\DomainException $e) {
+                return ['error' => $e->getMessage()];
+            } catch (\RuntimeException $e) {
+                \Yii::$app->errorHandler->logException($e);
+                return ['error' => 'Техническая ошибка'];
+            }
+        }
+
+        return ['error' => 'Не удалось'];
+    }
+
+    public function actionDeleteClientPhoto($id, $photoId)
+    {
+        \Yii::$app->response->format = Response::FORMAT_JSON;
+
+        try {
+            $this->service->removeClientPhoto($id, $photoId);
+            return [];
+        } catch (\DomainException $e) {
+            return ['error' => $e->getMessage()];
+        } catch (\RuntimeException $e) {
+            \Yii::$app->errorHandler->logException($e);
+            return ['error' => 'Техническая ошибка'];
+        }
+    }
+
+    public function actionSortClientPhotos($id)
+    {
+        \Yii::$app->response->format = Response::FORMAT_JSON;
+
+        try {
+            $this->service->sortClientPhotos($id, \Yii::$app->request->post('oldIndex'),  \Yii::$app->request->post('newIndex'));
+            return [];
+        } catch (\DomainException $e) {
+            return ['error' => $e->getMessage()];
+        } catch (\RuntimeException $e) {
+            \Yii::$app->errorHandler->logException($e);
+            return ['error' => 'Техническая ошибка'];
+        }
+    }
+
+    public function actionUploadDrawings($id)
+    {
+        \Yii::$app->response->format = Response::FORMAT_JSON;
+
+        $product = Product::getOrFail($id);
+        $drawingsForm = new DrawingsForm();
+
+        if ($drawingsForm->validate()) {
+            try {
+                $this->service->addDrawing($product->id, $drawingsForm);
+                return [];
+            } catch (\DomainException $e) {
+                return ['error' => $e->getMessage()];
+            } catch (\RuntimeException $e) {
+                \Yii::$app->errorHandler->logException($e);
+                return ['error' => 'Техническая ошибка'];
+            }
+        }
+
+        return ['error' => 'Не удалось'];
+    }
+
+    public function actionDeleteDrawing($id, $drawingId)
+    {
+        \Yii::$app->response->format = Response::FORMAT_JSON;
+
+        try {
+            $this->service->removeDrawing($id, $drawingId);
+            return [];
+        } catch (\DomainException $e) {
+            return ['error' => $e->getMessage()];
+        } catch (\RuntimeException $e) {
+            \Yii::$app->errorHandler->logException($e);
+            return ['error' => 'Техническая ошибка'];
+        }
+    }
+
+    public function actionSortDrawings($id)
+    {
+        \Yii::$app->response->format = Response::FORMAT_JSON;
+
+        try {
+            $this->service->sortDrawing($id, \Yii::$app->request->post('oldIndex'),  \Yii::$app->request->post('newIndex'));
+            return [];
+        } catch (\DomainException $e) {
+            return ['error' => $e->getMessage()];
+        } catch (\RuntimeException $e) {
+            \Yii::$app->errorHandler->logException($e);
+            return ['error' => 'Техническая ошибка'];
+        }
+    }
 }

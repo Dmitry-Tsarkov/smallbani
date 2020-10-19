@@ -85,6 +85,19 @@ $this->params['breadcrumbs'] = [
         ],
         'title',
         'alias',
+
+        [
+            'class' => DataColumn::class,
+            'vAlign' => GridView::ALIGN_MIDDLE,
+            'hAlign' => GridView::ALIGN_CENTER,
+            'attribute' => 'is_popular',
+            'filter' => [0 => 'Нет', 1 => 'Да'],
+            'value' => function(Product $product) {
+                return $product->is_popular ? '<span class="label label-success" data-test="123">Да</span>' : '<span class="label label-danger">Нет</span>';
+            },
+            'format' => 'raw',
+            'width' => '100px',
+        ],
         [
             'class' => DataColumn::class,
             'vAlign' => GridView::ALIGN_MIDDLE,
@@ -99,13 +112,14 @@ $this->params['breadcrumbs'] = [
         ],
         [
             'class' => DataColumn::class,
-
+            'vAlign' => GridView::ALIGN_MIDDLE,
+            'hAlign' => GridView::ALIGN_CENTER,
             'attribute' => 'category_id',
             'filter' => $searchModel->categoriesDropDown(),
             'value' => function(Product $product) {
                 return $product->category->title;
             },
-
+            'width' => '200px',
         ],
         [
             'class' => ActionColumn::className(),

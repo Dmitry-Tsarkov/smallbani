@@ -7,7 +7,7 @@ use app\modules\admin\behaviors\ImageBehavior;
 use yii\db\ActiveRecord;
 use yii\web\UploadedFile;
 use yii2tech\ar\position\PositionBehavior;
-use yiidreamteam\upload\ImageUploadBehavior;
+
 
 /**
  * @property int $id [int(11)]
@@ -29,7 +29,8 @@ class ProductImage extends ActiveRecord
                 'attribute' => 'image',
                 'thumbs' => [
                     'thumb' => ['width' => 50, 'height' => 50],
-                    'preview' => ['width' => 270, 'height' => 210]
+                    'preview' => ['width' => 270, 'height' => 210],
+                    'view' => ['width' => 1170, 'height' => 420],
                 ],
                 'folder' => 'product',
             ],

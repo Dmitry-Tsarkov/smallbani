@@ -45,6 +45,12 @@ use dmstr\widgets\Menu;
                                 'url' => ['/faq/backend/question/index'],
                                 'active' => Yii::$app->controller->module->id == 'faq',
                             ],
+                            [
+                                'label' => 'Слайдер',
+                                'icon' => 'users',
+                                'url' => ['/slide/backend/slide/index'],
+                                'active' => Yii::$app->controller->module->id == 'slide' && Yii::$app->controller->id == 'backend/slide',
+                            ],
                         ],
                     ],
                     [

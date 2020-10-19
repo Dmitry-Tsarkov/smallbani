@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\modules\slide\models\Slide;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -61,7 +62,7 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        return $this->render('index', compact('slides'));
     }
 
     /**
@@ -125,4 +126,5 @@ class SiteController extends Controller
     {
         return $this->render('about');
     }
+
 }

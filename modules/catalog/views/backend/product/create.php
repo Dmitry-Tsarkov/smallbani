@@ -28,6 +28,9 @@ $this->params['breadcrumbs'] = [
             <?= $form->field($createForm->photos, 'files[]')->widget(FileInput::class, [
                 'options' => ['multiple' => true]
             ]) ?>
+            <?= $form->field($createForm->drawings, 'files[]')->widget(FileInput::class, [
+                'options' => ['multiple' => true]
+            ]) ?>
         <?= Html::submitButton('Сохранить', ['class' => 'btn btn-primary']) ?>
         <?php ActiveForm::end() ?>
     </div>
