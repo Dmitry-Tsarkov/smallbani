@@ -6,6 +6,7 @@ namespace app\modules\catalog\models;
 use app\modules\admin\behaviors\ImageBehavior;
 use app\modules\admin\behaviors\SlugBehavior;
 use app\modules\admin\traits\QueryExceptions;
+use app\modules\review\models\Review;
 use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
@@ -302,5 +303,10 @@ class Product extends ActiveRecord
     public function getHref()
     {
         return Url::to(['/catalog/frontend/product', 'alias' => $this->alias]);
+    }
+
+    public function getReviews()
+    {
+        return $this->hasMany(Review::class, ['product_id' => 'id']);
     }
 }

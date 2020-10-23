@@ -15,8 +15,13 @@ use yii\bootstrap\Tabs;
         'items' => [
             [
                 'label' => 'Общее',
-                'url' => ['update', 'id' => $product->id],
-                'active' => Yii::$app->controller->action->id == 'update',
+                'url' => ['/catalog/backend/product/view', 'id' => $product->id],
+                'active' => Yii::$app->controller->action->id == 'view' && Yii::$app->controller->id == 'backend/product',
+            ],
+            [
+                'label' => 'Отзывы',
+                'url' => ['/catalog/backend/review/index', 'id' => $product->id],
+                'active' => Yii::$app->controller->id == 'backend/review',
             ],
             [
                 'label' => 'Действия',

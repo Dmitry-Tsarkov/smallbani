@@ -7,8 +7,12 @@
 use app\modules\actions\widgets\RelevantActionsWidget;
 use app\modules\catalog\widgets\PopularProductsWidget;
 use app\modules\faq\widgets\FaqWidget;
+use app\modules\review\widgets\ReviewWidget;
 use app\modules\slide\widgets\SliderWidget;
 
+/**
+ * @var \yii\data\DataProviderInterface $dataProvider
+ */
 $this->title = 'My Yii Application';
 ?>
 
@@ -39,11 +43,8 @@ $this->title = 'My Yii Application';
         </div>
     </div>
 </section>
-
 <?= PopularProductsWidget::widget() ?>
 <?= RelevantActionsWidget::widget() ?>
-
-
 <section class="section is-alt">
     <div class="container">
         <div class="section__body">
@@ -89,54 +90,15 @@ $this->title = 'My Yii Application';
             <p class="slider-done__headline">Успели сделать и поставить</p>
             <div class="slider-done__container" ref="container">
                 <div class="slider-done__wrapper">
-                    <div class="slider-done__slide">
-                        <div class="review">
-                            <div class="review__cover"><img class="review__image" src="img/avatar-1.svg" alt=""></div>
-                            <div class="review__content">
-                                <p class="review__title">Виктор Сергеев, беседка в Красногорске</p>
-                                <p class="review__text">В 2019 году я сдал ОГЭ по английскому языку на 5! Хочу выразить
-                                    большую благодарность Марине Леонидовне за помощь в подготовке к экзамену. На данный
-                                    момент я готовлюсь к ЕГЭ по английскому. Уверен, с такой опорой у меня всё
-                                    получится!</p>
+                    <?php foreach ($dataProvider->getModels() as $review): ?>
+                            <div class="slider-done__slide">
+                                <div class="review">
+                                    <div class="review__content">
+                                        <?= ReviewWidget::widget(compact('review')) ?>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="slider-done__slide">
-                        <div class="review">
-                            <div class="review__cover"><img class="review__image" src="img/avatar-1.svg" alt=""></div>
-                            <div class="review__content">
-                                <p class="review__title">Виктор Сергеев, беседка в Красногорске</p>
-                                <p class="review__text">В 2019 году я сдал ОГЭ по английскому языку на 5! Хочу выразить
-                                    большую благодарность Марине Леонидовне за помощь в подготовке к экзамену. На данный
-                                    момент я готовлюсь к ЕГЭ по английскому. Уверен, с такой опорой у меня всё
-                                    получится!</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="slider-done__slide">
-                        <div class="review">
-                            <div class="review__cover"><img class="review__image" src="img/avatar-1.svg" alt=""></div>
-                            <div class="review__content">
-                                <p class="review__title">Виктор Сергеев, беседка в Красногорске</p>
-                                <p class="review__text">В 2019 году я сдал ОГЭ по английскому языку на 5! Хочу выразить
-                                    большую благодарность Марине Леонидовне за помощь в подготовке к экзамену. На данный
-                                    момент я готовлюсь к ЕГЭ по английскому. Уверен, с такой опорой у меня всё
-                                    получится!</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="slider-done__slide">
-                        <div class="review">
-                            <div class="review__cover"><img class="review__image" src="img/avatar-1.svg" alt=""></div>
-                            <div class="review__content">
-                                <p class="review__title">Виктор Сергеев, беседка в Красногорске</p>
-                                <p class="review__text">В 2019 году я сдал ОГЭ по английскому языку на 5! Хочу выразить
-                                    большую благодарность Марине Леонидовне за помощь в подготовке к экзамену. На данный
-                                    момент я готовлюсь к ЕГЭ по английскому. Уверен, с такой опорой у меня всё
-                                    получится!</p>
-                            </div>
-                        </div>
-                    </div>
+                    <?php endforeach; ?>
                 </div>
                 <div class="slider-done__controls">
                     <button class="slider-done__control is-prev" ref="prev"></button>

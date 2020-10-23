@@ -3,7 +3,7 @@
 /**
  * @var \yii\web\View $this
  * @var \app\modules\catalog\models\Product $product
- * @var \app\modules\catalog\forms\ProductUpdateForm $updateForm
+ * @var \app\modules\catalog\forms\PortfolioUpdateForm $updateForm
  */
 
 use kartik\form\ActiveForm;

@@ -14,6 +14,8 @@ $config = [
         'admin',
         'catalog',
         'actions',
+        'review',
+        'portfolio',
     ],
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
@@ -26,8 +28,9 @@ $config = [
         'catalog' => \app\modules\catalog\Module::class,
         'faq' => \app\modules\faq\Module::class,
         'actions' => \app\modules\actions\Module::class,
-        'reviews' => \app\modules\review\Module::class,
+        'review' => \app\modules\review\Module::class,
         'slide' => \app\modules\slide\Module::class,
+        'portfolio' => \app\modules\portfolio\Module::class,
     ],
     'components' => [
         'authManager' => \yii\rbac\DbManager::class,

@@ -43,9 +43,9 @@ AppAsset::register($this);
               <nav class="nav">
                 <ul class="nav__list">
                   <li class="nav__item"><a class="nav__link" href="<?= \yii\helpers\Url::to(['/catalog/frontend/index']) ?>" title="Каталог">Каталог</a></li>
-                  <li class="nav__item"><a class="nav__link" href="/portfolio.html" title="Портфолио">Портфолио</a></li>
+                  <li class="nav__item"><a class="nav__link" href="<?= \yii\helpers\Url::to(['/portfolio/frontend/index']) ?>">Портфолио</a></li>
                   <li class="nav__item"><a class="nav__link" href="/delivery.html" title="Доставка и оплата">Доставка и оплата</a></li>
-                  <li class="nav__item"><a class="nav__link" href="/reviews.html" title="Отзывы">Отзывы</a></li>
+                  <li class="nav__item"><a class="nav__link" href="<?= \yii\helpers\Url::to(['/review/frontend/index']) ?>" title="Отзывы">Отзывы</a></li>
                   <li class="nav__item"><a class="nav__link" href="/about.html" title="Компания">Компания</a></li>
                   <li class="nav__item"><a class="nav__link" href="<?= \yii\helpers\Url::to(['/actions/frontend/index']) ?>" title="Акции">Акции</a></li>
                 </ul>
@@ -78,7 +78,8 @@ AppAsset::register($this);
       <div class="container">
         <div class="footer__inner">
           <div class="footer__copy">© 2020 Изготовление бань-бочек в Смоленске</div>
-          <div class="footer__social"><img class="footer__image" src="img/social-1.svg" alt=""><img class="footer__image" src="img/social-2.svg" alt=""><img class="footer__image" src="img/social-3.svg" alt=""></div>
+          <div class="footer__social">
+              <img class="footer__image" src="/img/social-1.svg" alt=""><img class="footer__image" src="/img/social-2.svg" alt=""><img class="footer__image" src="/img/social-3.svg" alt=""></div>
           <div class="footer__text"><a href="/policy.html" title="Политика конфиденциальности">Политика конфиденциальности</a><a href="https://dancecolor.ru/" title="Сделано в Dancecolor">Сделано в Dancecolor</a></div>
         </div>
       </div>
@@ -88,7 +89,8 @@ AppAsset::register($this);
     <div class="modal__body">
       <div class="modal__content">
         <div class="modal__container">
-          <p class="modal__title">Мы перезвоним</p><img class="modal__close" src="img/close.svg" alt="" @click="$modal.hide('order')">
+          <p class="modal__title">Мы перезвоним</p>
+            <img class="modal__close" src="/img/close.svg" alt="" @click="$modal.hide('order')">
         </div>
         <input class="modal__input" type="text" placeholder="Как вас зовут?">
         <input class="modal__input" type="text" placeholder="Ваш номер телефона"><a class="button js-button" area-label="Загрузить еще" href="/index.html">Загрузить еще</a>

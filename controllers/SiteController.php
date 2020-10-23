@@ -2,8 +2,10 @@
 
 namespace app\controllers;
 
+use app\modules\review\models\Review;
 use app\modules\slide\models\Slide;
 use Yii;
+use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Response;
@@ -62,7 +64,19 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index', compact('slides'));
+//        $reviews = Review::find()->andWhere(['status' => 1])->andWhere(['type' => 1])->orderBy(['created_at'=>SORT_DESC]);
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => Review::find()
+                       ->andWhere(['status' => 1])
+                       ->andWhere(['type' => 1])
+                       ->orderBy(['created_at'=>SORT_DESC]),
+            'pagination' => [
+                'pageSize' => '30',
+            ]
+        ]);
+
+        return $this->render('index', compact('slides','dataProvider'));
     }
 
     /**
@@ -126,5 +140,7 @@ class SiteController extends Controller
     {
         return $this->render('about');
     }
+
+
 
 }

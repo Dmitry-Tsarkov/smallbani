@@ -39,6 +39,10 @@ class ProductService
             $product->addDrawing(ProductDrawing::create($file));
         }
 
+        foreach ($form->client->files as $file) {
+            $product->addClientPhoto(ClientPhoto::create($file));
+        }
+
         $this->products->save($product);
         return $product;
     }

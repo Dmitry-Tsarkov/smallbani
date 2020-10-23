@@ -1,7 +1,9 @@
 <?php
 
+use app\modules\catalog\forms\ClientPhotosForm;
 use app\modules\catalog\forms\DrawingsForm;
 use app\modules\catalog\forms\PhotosForm;
+use app\modules\catalog\models\ClientPhoto;
 use app\modules\catalog\models\Product;
 use app\modules\catalog\models\ProductDrawing;
 use app\modules\catalog\models\ProductImage;
@@ -19,11 +21,13 @@ use yii\widgets\DetailView;
 
 $this->title = $product->title;
 $this->params['breadcrumbs'] = [
-    ['label' => 'Товар', 'url' => ['index']],
+    ['label' => 'Товары', 'url' => ['index']],
     $product->title,
 ];
 
 ?>
+<?php $this->beginContent('@app/modules/catalog/views/backend/product/layout.php', compact('product')) ?>
+
 
 <p>
     <?= Html::a('Редактировать', ['update', 'id' => $product->id], ['class' => 'btn btn-primary btn-sm']) ?>
@@ -42,7 +46,6 @@ $this->params['breadcrumbs'] = [
     <?php else: ?>
         <?= Html::a('Популярность', ['popular', 'id' => $product->id], ['class' => 'btn btn-default btn-xs']) ?>
     <?php endif ?>
-
 </p>
 
 <div class="row">
@@ -103,6 +106,8 @@ $this->params['breadcrumbs'] = [
         <?= $product->description ?>
     </div>
 </div>
+
+
 
 <div class="box box-default">
     <div class="box-header with-border">
@@ -192,3 +197,47 @@ $this->params['breadcrumbs'] = [
     </div>
 </div>
 
+<div class="box box-default">
+    <div class="box-header with-border">
+        <h3 class="box-title">Фотографии с клиентами</h3>
+    </div>
+    <div class="box-body">
+        <?= FileInput::widget([
+            'model' => new ClientPhotosForm(),
+            'attribute' => 'files[]',
+            'pluginOptions' => [
+                'uploadUrl' => Url::to(['/catalog/backend/product/upload-client-photo', 'id' => $product->id]),
+                'initialPreview' => array_map(function(ClientPhoto $client){
+                    return $client->getUploadedFileUrl('image');
+                }, $product->clientPhotos),
+                'initialPreviewConfig' => array_map(function(ClientPhoto $client){
+                    return [
+                        'key' => $client->id,
+                        'caption' => $client->image,
+                        'size' => filesize($client->getUploadedFilePath('image')),
+                        'downloadUrl' => $client->getImageFileUrl('image'),
+                        'url' => Url::to(['/catalog/backend/product/delete-client-photo', 'id' => $client->product_id, 'photoId' => $client->id]),
+                    ];
+                }, $product->clientPhotos),
+                'initialPreviewAsData' => true,
+                'overwriteInitial' => false,
+                'showClose' => false,
+                'browseClass' => 'btn btn-primary text-right',
+                'browseIcon' => '<i class="glyphicon glyphicon-download-alt"></i>',
+                'browseLabel' =>  'Выберите файл',
+            ],
+            'pluginEvents' => [
+                'filesorted' => 'function(event, params) {
+            console.log(params);
+            $.post("' . Url::to(['/catalog/backend/product/sort-client-photos', 'id' => $product->id]) . '",
+                params,
+            )
+        }',
+            ],
+            'options' => [
+                'multiple' => true,
+            ],
+        ]) ?>
+    </div>
+</div>
+<?php $this->endContent() ?>

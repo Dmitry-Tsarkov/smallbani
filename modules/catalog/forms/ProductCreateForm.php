@@ -8,7 +8,8 @@ use app\modules\catalog\models\Product;
 
 /**
  * @property PhotosForm $photos
- * @property PhotosForm $drawings
+ * @property DrawingsForm $drawings
+ * @property ClientPhotosForm $client
  */
 class ProductCreateForm extends CompositeForm
 {
@@ -18,10 +19,12 @@ class ProductCreateForm extends CompositeForm
     public $categoryId;
 
 
+
     public function __construct()
     {
         $this->photos = new PhotosForm();
         $this->drawings = new DrawingsForm();
+        $this->client = new ClientPhotosForm();
         parent::__construct();
     }
 
@@ -52,6 +55,6 @@ class ProductCreateForm extends CompositeForm
 
     protected function internalForms(): array
     {
-        return ['photos', 'drawings'];
+        return ['photos', 'drawings', 'client'];
     }
 }

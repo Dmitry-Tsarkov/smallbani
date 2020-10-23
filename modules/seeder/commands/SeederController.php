@@ -9,6 +9,9 @@ use app\modules\catalog\models\Product;
 use app\modules\catalog\models\ProductDrawing;
 use app\modules\catalog\models\ProductImage;
 use app\modules\faq\models\Question;
+use app\modules\portfolio\models\Portfolio;
+use app\modules\portfolio\models\PortfolioCategory;
+use app\modules\portfolio\models\PortfolioImage;
 use app\modules\review\models\Review;
 use app\modules\seeder\components\CopyUploadedFile;
 use app\modules\slide\models\Slide;
@@ -64,6 +67,7 @@ class SeederController extends Controller
 
         Console::stdout( PHP_EOL . 'products..' );
 
+        $productIds = [];
         for ($i = 1; $i <= 10; $i++) {
 
             $product = new Product([
@@ -80,7 +84,7 @@ class SeederController extends Controller
                 $product->addImage(ProductImage::create(new CopyUploadedFile($faker->randomElement($images))));
             }
 
-            $max = rand(1, 3);
+            $max = rand(1, 4);
             for ($j = 1; $j <= $max; $j++) {
                 $product->addDrawing(ProductDrawing::create(new CopyUploadedFile($faker->randomElement($drawings))));
             }
@@ -91,6 +95,7 @@ class SeederController extends Controller
             }
 
             $product->save();
+            $productIds[] = $product->id;
 
             $updatedAt = $faker->unixTime('now');
             $product->updateAttributes([
@@ -145,33 +150,6 @@ class SeederController extends Controller
             Console::stdout('.');
         }
 
-        Console::stdout(PHP_EOL . 'reviews..');
-
-        $images = [
-            Yii::getAlias('@app/modules/seeder/images/people/First.jpg'),
-            Yii::getAlias('@app/modules/seeder/images/people/Second.jpg'),
-            Yii::getAlias('@app/modules/seeder/images/people/Third.png')
-        ];
-
-        for ($i = 1; $i <= 10; $i++) {
-
-            $actions = new Review([
-                'name'   => $faker->realText(10),
-                'place'  => $faker->realText(20),
-                'review' => $faker->realText(300),
-                'status' => (int)$faker->boolean(80),
-                'image'  => new CopyUploadedFile($faker->randomElement($images)),
-            ]);
-            $actions->save();
-
-            $updatedAt = $faker->unixTime('now');
-            $actions->updateAttributes([
-                'created_at' => $faker->unixTime($updatedAt),
-                'updated_at' => $updatedAt,
-            ]);
-            Console::stdout('.');
-        }
-
         Console::stdout(PHP_EOL . 'slide');
 
         $images = [
@@ -199,6 +177,148 @@ class SeederController extends Controller
             $slide->save();
             Console::stdout('.');
         }
+
+        Console::stdout(PHP_EOL . 'portfolio_category..');
+        $catIds = [];
+        for ($i = 1; $i <= 5; $i++) {
+
+            $portfolio_category = new PortfolioCategory([
+                'title' => $faker->realText(20),
+
+            ]);
+            $portfolio_category->save();
+            $catIds[] = $portfolio_category->id;
+
+            Console::stdout('.');
+        }
+
+
+        Console::stdout(PHP_EOL . 'portfolio..');
+
+        $utubeurls = [
+          'https://www.youtube.com/watch?v=Fip2ISJxFTI',
+          'https://www.youtube.com/watch?v=VMS30oV8ApE'
+        ];
+        $portfolioIds = [];
+        for ($i = 1; $i <= 10; $i++) {
+
+            $portfolio= new Portfolio([
+                'title' => $faker->realText(20),
+                'status' => (int)$faker->boolean(80),
+                'description' => $faker->realText(500),
+                'youtube_url' => $faker->randomElement($utubeurls),
+                'category_id' => $faker->randomElement($catIds),
+            ]);
+
+            $portfolio->save();
+            $portfolioIds[] = $portfolio->id;
+
+            $updatedAt = $faker->unixTime('now');
+            $portfolio->updateAttributes([
+                'created_at' => $faker->unixTime($updatedAt),
+                'updated_at' => $updatedAt,
+            ]);
+
+            Console::stdout('.');
+        }
+
+        $images = [
+            Yii::getAlias('@app/modules/seeder/images/portfolio/first.jpg'),
+            Yii::getAlias('@app/modules/seeder/images/portfolio/second.jpg')
+        ];
+
+        Console::stdout( PHP_EOL . 'portfolio_images..' );
+
+        for ($i = 1; $i <= 25; $i++) {
+
+            $pImage = new PortfolioImage([
+                'position'     => $i,
+                'portfolio_id' => $faker->randomElement($portfolioIds),
+                'image'        => new CopyUploadedFile($faker->randomElement($images)),
+            ]);
+
+            $pImage->save();
+        }
+
+        Console::stdout(PHP_EOL . 'reviews');
+
+        $images = [
+            Yii::getAlias('@app/modules/seeder/images/people/First.jpg'),
+            Yii::getAlias('@app/modules/seeder/images/people/Second.jpg'),
+            Yii::getAlias('@app/modules/seeder/images/people/Third.png')
+        ];
+
+        foreach ($productIds as $productId) {
+
+            for ($i = 1; $i <= 3; $i++) {
+
+                $review = new Review([
+                    'name'   => $faker->name(),
+                    'place'  => $faker->city,
+                    'review' => $faker->realText(300),
+                    'status' => (int)$faker->boolean(80),
+                    'image'  => new CopyUploadedFile($faker->randomElement($images)),
+                    'type' => Review::TYPE_PRODUCT,
+                    'product_id' => $productId
+                ]);
+
+                $review->save();
+
+                $updatedAt = $faker->unixTime('now');
+                $review->updateAttributes([
+                    'created_at' => $faker->unixTime($updatedAt),
+                    'updated_at' => $updatedAt,
+                ]);
+                Console::stdout('.');
+            }
+        }
+
+        foreach ($portfolioIds as $portfolioId) {
+
+            for ($i = 1; $i <= 3; $i++) {
+
+                $review = new Review([
+                    'name'   => $faker->name(),
+                    'place'  => $faker->city,
+                    'review' => $faker->realText(300),
+                    'status' => (int)$faker->boolean(80),
+                    'image'  => new CopyUploadedFile($faker->randomElement($images)),
+                    'type' => Review::TYPE_PORTFOLIO,
+                    'portfolio_id' => $portfolioId
+                ]);
+
+                $review->save();
+
+                $updatedAt = $faker->unixTime('now');
+                $review->updateAttributes([
+                    'created_at' => $faker->unixTime($updatedAt),
+                    'updated_at' => $updatedAt,
+                ]);
+                Console::stdout('.');
+            }
+        }
+
+        for ($i = 1; $i <= 3; $i++) {
+
+            $review = new Review([
+                'name'   => $faker->name(),
+                'place'  => $faker->city,
+                'review' => $faker->realText(300),
+                'status' => (int)$faker->boolean(80),
+                'image'  => new CopyUploadedFile($faker->randomElement($images)),
+                'type' => Review::TYPE_COMMON,
+            ]);
+
+            $review->save();
+
+            $updatedAt = $faker->unixTime('now');
+            $review->updateAttributes([
+                'created_at' => $faker->unixTime($updatedAt),
+                'updated_at' => $updatedAt,
+            ]);
+            Console::stdout('.');
+        }
+
     }
 
     public function actionRefresh()

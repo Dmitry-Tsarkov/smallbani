@@ -51,6 +51,18 @@ use dmstr\widgets\Menu;
                                 'url' => ['/slide/backend/slide/index'],
                                 'active' => Yii::$app->controller->module->id == 'slide' && Yii::$app->controller->id == 'backend/slide',
                             ],
+                            [
+                                'label' => 'Портфолио',
+                                'icon' => 'edit',
+                                'url' => ['/portfolio/backend/portfolio/index'],
+                                'active' => Yii::$app->controller->module->id == 'portfolio' && Yii::$app->controller->id == 'backend/portfolio',
+                            ],
+                            [
+                                'label' => 'Отзывы',
+                                'icon' => 'edit',
+                                'url' => ['/review/backend/review/index'],
+                                'active' => Yii::$app->controller->module->id == 'review' && Yii::$app->controller->id == 'backend/review',
+                            ],
                         ],
                     ],
                     [

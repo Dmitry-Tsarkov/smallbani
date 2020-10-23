@@ -53,10 +53,10 @@ class ProductController extends BalletController
         return $this->render('view', compact('product'));
     }
 
+
     public function actionCreate()
     {
         $createForm = new ProductCreateForm();
-
 
         if ($createForm->load(\Yii::$app->request->post()) && $createForm->validate()) {
             try {

@@ -15,8 +15,8 @@ use yii\data\ActiveDataProvider;
 class QuestionSearch extends Model
 {
     public $id;
-    public $question;
     public $status;
+    public $question;
 
     public function rules()
     {
