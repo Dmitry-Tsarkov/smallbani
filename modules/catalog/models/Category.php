@@ -3,10 +3,12 @@
 
 namespace app\modules\catalog\models;
 
+use app\modules\seo\behaviors\SeoBehavior;
 use app\modules\admin\behaviors\SlugBehavior;
 use app\modules\admin\traits\QueryExceptions;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
+use yii\helpers\Url;
 use yii\web\UploadedFile;
 use yii2tech\ar\position\PositionBehavior;
 use yiidreamteam\upload\ImageUploadBehavior;
@@ -21,9 +23,14 @@ use yiidreamteam\upload\ImageUploadBehavior;
  * @property int $created_at [int(11)]
  * @property int $updated_at [int(11)]
  * @property int $position [int(11)]
+ * @property string $meta_t [varchar(255)]
+ * @property string $meta_d [varchar(255)]
+ * @property string $meta_k [varchar(255)]
+ * @property string $h1 [varchar(255)]
  *
  * @mixin ImageUploadBehavior
  * @mixin PositionBehavior
+ * @mixin SeoBehavior
  */
 class Category extends ActiveRecord
 {
@@ -39,6 +46,7 @@ class Category extends ActiveRecord
         return [
             TimestampBehavior::class,
             SlugBehavior::class,
+            SeoBehavior::class,
             PositionBehavior::class,
             'image' => [
                 'class' => ImageUploadBehavior::class,
@@ -66,15 +74,21 @@ class Category extends ActiveRecord
             ['status', 'integer'],
             ['status', 'in', 'range' => [0, 1], 'message' => 'Некоректный статус'],
             ['image', 'image', 'extensions' => 'jpeg, png, jpg'],
-
+            [['meta_d', 'meta_k', 'meta_t', 'h1'], 'string'],
         ];
     }
+
     public function attributeLabels()
     {
         return [
             'title' => 'Заголовок',
             'status' => 'Статус',
             'alias' => 'Алиас',
+            'meta_t' => 'Заголовок страницы',
+            'meta_d' => 'Описание страницы',
+            'meta_k' => 'Ключевые слова',
+            'image' => 'Картинка',
+
         ];
     }
 
@@ -105,5 +119,10 @@ class Category extends ActiveRecord
     public function getProducts()
     {
         return $this->hasMany(Product::className(), ['category_id' => 'id']);
+    }
+
+    public function getHref()
+    {
+        return Url::to(['/catalog/frontend/category', 'alias' => $this->alias]);
     }
 }

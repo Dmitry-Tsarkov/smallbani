@@ -64,18 +64,6 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-//        $reviews = Review::find()->andWhere(['status' => 1])->andWhere(['type' => 1])->orderBy(['created_at'=>SORT_DESC]);
-
-        $dataProvider = new ActiveDataProvider([
-            'query' => Review::find()
-                       ->andWhere(['status' => 1])
-                       ->andWhere(['type' => 1])
-                       ->orderBy(['created_at'=>SORT_DESC]),
-            'pagination' => [
-                'pageSize' => '30',
-            ]
-        ]);
-
         return $this->render('index', compact('slides','dataProvider'));
     }
 
@@ -139,6 +127,11 @@ class SiteController extends Controller
     public function actionAbout()
     {
         return $this->render('about');
+    }
+
+    public function actionDelivery()
+    {
+        return $this->render('delivery');
     }
 
 

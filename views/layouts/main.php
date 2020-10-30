@@ -1,7 +1,14 @@
 <?php
 
 use app\assets\AppAsset;
+use app\modules\page\components\Pages;
+use app\widgets\BreadcrumbWidget;
 use yii\helpers\Html;
+use yii\widgets\Breadcrumbs;
+
+/**
+ * @var string $content
+ */
 
 AppAsset::register($this);
 
@@ -14,8 +21,6 @@ AppAsset::register($this);
   <meta charset="<?= Yii::$app->charset ?>">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <?php $this->registerCsrfMetaTags() ?>
-  <meta name="description" content="">
-  <meta name="keywords" content="">
   <meta name="format-detection" content="telephone=no">
   <meta property="og:type" content="website">
   <meta property="og:url" content="">
@@ -44,9 +49,9 @@ AppAsset::register($this);
                 <ul class="nav__list">
                   <li class="nav__item"><a class="nav__link" href="<?= \yii\helpers\Url::to(['/catalog/frontend/index']) ?>" title="Каталог">Каталог</a></li>
                   <li class="nav__item"><a class="nav__link" href="<?= \yii\helpers\Url::to(['/portfolio/frontend/index']) ?>">Портфолио</a></li>
-                  <li class="nav__item"><a class="nav__link" href="/delivery.html" title="Доставка и оплата">Доставка и оплата</a></li>
+                  <li class="nav__item"><a class="nav__link" href="<?= Pages::getHref('delivery') ?>" title="Доставка и оплата">Доставка и оплата</a></li>
                   <li class="nav__item"><a class="nav__link" href="<?= \yii\helpers\Url::to(['/review/frontend/index']) ?>" title="Отзывы">Отзывы</a></li>
-                  <li class="nav__item"><a class="nav__link" href="/about.html" title="Компания">Компания</a></li>
+                  <li class="nav__item"><a class="nav__link" href="<?= Pages::getHref('about') ?>" title="Компания">Компания</a></li>
                   <li class="nav__item"><a class="nav__link" href="<?= \yii\helpers\Url::to(['/actions/frontend/index']) ?>" title="Акции">Акции</a></li>
                 </ul>
               </nav>
@@ -71,6 +76,19 @@ AppAsset::register($this);
     </v-header>
   </header>
   <main class="page__content">
+      <?php if (!empty($this->params['breadcrumbs'])): ?>
+          <div class="container">
+              <?= BreadcrumbWidget::widget(['links' => $this->params['breadcrumbs']]) ?>
+          </div>
+      <?php endif ?>
+
+      <?php if (!empty($this->params['h1'])): ?>
+          <div class="container">
+              <h1 class="section__title"><?= Html::encode($this->params['h1']) ?></h1>
+          </div>
+      <?php endif ?>
+
+
     <?= $content ?>
   </main>
   <footer class="page__footer">
@@ -80,7 +98,9 @@ AppAsset::register($this);
           <div class="footer__copy">© 2020 Изготовление бань-бочек в Смоленске</div>
           <div class="footer__social">
               <img class="footer__image" src="/img/social-1.svg" alt=""><img class="footer__image" src="/img/social-2.svg" alt=""><img class="footer__image" src="/img/social-3.svg" alt=""></div>
-          <div class="footer__text"><a href="/policy.html" title="Политика конфиденциальности">Политика конфиденциальности</a><a href="https://dancecolor.ru/" title="Сделано в Dancecolor">Сделано в Dancecolor</a></div>
+          <div class="footer__text">
+              <a href="<?= Pages::getHref('policy') ?>" title="Политика конфиденциальности">Политика конфиденциальности</a>
+              <a href="https://dancecolor.ru/" title="Сделано в Dancecolor">Сделано в Dancecolor</a></div>
         </div>
       </div>
     </div>

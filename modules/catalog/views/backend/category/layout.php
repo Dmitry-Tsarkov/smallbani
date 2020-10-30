@@ -19,6 +19,11 @@ use yii\bootstrap\Tabs;
                 'active' => Yii::$app->controller->action->id == 'update',
             ],
             [
+                'label' => 'SEO',
+                'url' => ['seo', 'id' => $category->id],
+                'active' => Yii::$app->controller->action->id == 'seo',
+            ],
+            [
                 'label' => 'Действия',
                 'headerOptions' => ['class' => 'pull-right'],
                 'items' => [

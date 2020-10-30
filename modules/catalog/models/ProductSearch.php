@@ -4,6 +4,7 @@ namespace app\modules\catalog\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
+use yii\data\DataProviderInterface;
 
 class ProductSearch extends Model
 {
@@ -21,7 +22,7 @@ class ProductSearch extends Model
         ];
     }
 
-    public function search(array $params): ActiveDataProvider
+    public function search(array $params): DataProviderInterface
     {
         $query = Product::find()->with('category');
 

@@ -85,7 +85,6 @@ $this->params['breadcrumbs'] = [
         ],
         'title',
         'alias',
-
         [
             'class' => DataColumn::class,
             'vAlign' => GridView::ALIGN_MIDDLE,

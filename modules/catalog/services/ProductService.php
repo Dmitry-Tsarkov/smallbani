@@ -2,6 +2,9 @@
 
 namespace app\modules\catalog\services;
 
+use app\modules\catalog\forms\ColourGroupForm;
+use app\modules\catalog\models\ColourGroup;
+use app\modules\seo\valueObjects\Seo;
 use app\modules\catalog\forms\ClientPhotosForm;
 use app\modules\catalog\forms\DrawingsForm;
 use app\modules\catalog\forms\PhotosForm;
@@ -12,6 +15,7 @@ use app\modules\catalog\models\Product;
 use app\modules\catalog\models\ProductDrawing;
 use app\modules\catalog\models\ProductImage;
 use app\modules\catalog\repositories\ProductRepository;
+use yii\db\Exception;
 
 class ProductService
 {
@@ -28,7 +32,14 @@ class ProductService
             $form->title,
             $form->alias,
             $form->description,
-            $form->categoryId
+            $form->categoryId,
+            $form->gift,
+            new Seo(
+                $form->seo->title,
+                $form->seo->description,
+                $form->seo->keywords,
+                $form->seo->h1
+            )
         );
 
         foreach ($form->photos->files as $file) {
@@ -47,15 +58,28 @@ class ProductService
         return $product;
     }
 
-    public function update($id, ProductUpdateForm $form): void
+    public function update($email, $id, ProductUpdateForm $form): void
     {
+        $email = mb_strtolower($email);
+
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            throw new Exception();
+        }
+
         $product = $this->products->getById($id);
 
         $product->edit(
             $form->title,
             $form->alias,
             $form->description,
-            $form->categoryId
+            $form->categoryId,
+            $form->gift,
+            new Seo(
+                $form->seo->title,
+                $form->seo->description,
+                $form->seo->keywords,
+                $form->seo->h1
+            )
         );
 
         $this->products->save($product);
@@ -170,4 +194,37 @@ class ProductService
         $product->sortClientPhotos($oldIndex, $newIndex);
         $this->products->save($product);
     }
+
+
+    public function addColourGroup($product_id, ColourGroupForm $form)
+    {
+        $product = $this->products->getById($product_id);
+        $product->addColourGroup(
+            ColourGroup::create(
+                $form->title,
+                $form->colourIds
+            )
+        );
+        $this->products->save($product);
+    }
+
+    public function updateColourGroup($product_id, $group_id, ColourGroupForm $form)
+    {
+        $product = $this->products->getById($product_id);
+        $product->updateColourGroup(
+            $group_id,
+            $form->title,
+            $form->colourIds
+        );
+        $this->products->save($product);
+    }
+
+    public function deleteColourGroup($product_id, $group_id)
+    {
+        $product = $this->products->getById($product_id);
+        $product->deleteColourGroup($group_id);
+        $this->products->save($product);
+    }
+
+
 }

@@ -4,13 +4,19 @@ namespace app\modules\catalog\controllers\backend;
 
 use app\modules\admin\components\BalletController;
 use app\modules\catalog\forms\ClientPhotosForm;
+use app\modules\catalog\forms\ColourGroupForm;
 use app\modules\catalog\forms\DrawingsForm;
 use app\modules\catalog\forms\PhotosForm;
 use app\modules\catalog\forms\ProductCreateForm;
 use app\modules\catalog\forms\ProductUpdateForm;
+use app\modules\catalog\models\ColourGroup;
 use app\modules\catalog\models\Product;
 use app\modules\catalog\models\ProductSearch;
 use app\modules\catalog\services\ProductService;
+use app\modules\colour\models\Colour;
+use app\modules\colour\models\ColourSearch;
+use yii\data\ActiveDataProvider;
+use yii\data\ArrayDataProvider;
 use yii\filters\VerbFilter;
 use yii\web\Response;
 
@@ -34,7 +40,6 @@ class ProductController extends BalletController
                     'delete-image' => ['POST'],
                     'sort-images' => ['POST'],
                 ],
-
             ]
         ];
     }
@@ -50,9 +55,9 @@ class ProductController extends BalletController
     public function actionView($id)
     {
         $product = Product::getOrFail($id);
+
         return $this->render('view', compact('product'));
     }
-
 
     public function actionCreate()
     {
@@ -80,7 +85,7 @@ class ProductController extends BalletController
             try {
                 $this->service->update($product->id, $updateForm);
                 \Yii::$app->session->setFlash('success', 'Товар обновлен');
-                return $this->refresh();
+                return $this->redirect(['view', 'id' => $product->id]);
             } catch (\DomainException $e) {
                 \Yii::$app->session->setFlash('error', $e->getMessage());
             } catch (\RuntimeException $e) {
@@ -333,4 +338,45 @@ class ProductController extends BalletController
             return ['error' => 'Техническая ошибка'];
         }
     }
+
+    public function actionAddColourGroup($product_id)
+    {
+        $product = Product::getOrFail($product_id);
+        $groupForm = new ColourGroupForm();
+
+        if ($groupForm->load(\Yii::$app->request->post()) && $groupForm->validate()) {
+            try {
+                $this->service->addColourGroup($product->id, $groupForm);
+                \Yii::$app->session->setFlash('success', 'Группа цветов добавлена');
+                return $this->redirect(['view', 'id' => $product->id]);
+            } catch (\DomainException $e) {
+                \Yii::$app->session->setFlash('error', $e->getMessage());
+            }
+        }
+
+        return $this->render('add-colour-group', compact('product', 'groupForm'));
+    }
+
+    public function actionUpdateColourGroup()
+    {
+        $product = Product::getOrFail($id);
+
+        $updateForm = new ProductUpdateForm($product);
+
+        if ($updateForm->load(\Yii::$app->request->post()) && $updateForm->validate()) {
+            try {
+                $this->service->update($product->id, $updateForm);
+                \Yii::$app->session->setFlash('success', 'Товар обновлен');
+                return $this->redirect(['view', 'id' => $product->id]);
+            } catch (\DomainException $e) {
+                \Yii::$app->session->setFlash('error', $e->getMessage());
+            } catch (\RuntimeException $e) {
+                \Yii::$app->errorHandler->logException($e);
+                \Yii::$app->session->setFlash('error', 'Техническая ошибка');
+            }
+        }
+
+        return $this->render('update', compact('product', 'updateForm'));
+    }
+
 }

@@ -5,15 +5,12 @@ namespace app\modules\catalog\controllers\backend;
 use app\modules\admin\components\BalletController;
 use app\modules\catalog\models\Category;
 use app\modules\catalog\models\CategorySearch;
+use Yii;
 
 class CategoryController extends BalletController
 {
     public function actionIndex()
     {
-        //метод find() вернет объект класса ActiveQuery,
-        //ActiveQuery - запрос к базе данных, в нем хранится вся необходимая
-        //итнформация о запросе, который нужно выполнить
-
         $searchModel = new CategorySearch();
         $dataProvider = $searchModel->search(\Yii::$app->request->get());
 
@@ -68,5 +65,18 @@ class CategoryController extends BalletController
     public function actionMoveDown($id)
     {
         Category::getOrFail($id)->moveNext();
+    }
+
+    public function actionSeo($id)
+    {
+        $category = Category::getOrFail($id);
+
+        if ($category->load(Yii::$app->request->post()) && $category->save()) {
+            \Yii::$app->session->setFlash('success', 'SEO обновлена');
+            return $this->refresh();
+        }
+
+        return $this->render('seo', compact('category'));
+
     }
 }

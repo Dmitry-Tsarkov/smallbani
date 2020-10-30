@@ -1,29 +1,35 @@
 <?php
 
-namespace app\modules\admin\behaviors;
+namespace app\modules\seo\behaviors;
 
+use app\modules\seo\valueObjects\Seo;
 use Yii;
 use yii\base\Behavior;
 
 class SeoBehavior extends Behavior
 {
+    /** @var Seo */
+    public $seo;
+
+    public $titleAttribute = 'title';
+
     public function getMetaTag($tag)
     {
         switch ($tag) {
             case 'meta_t':
                 return $this->owner->meta_t
                     ? $this->owner->meta_t
-                    : $this->owner->title;
+                    : $this->owner->{$this->titleAttribute};
             case 'meta_d':
                 return $this->owner->meta_d
                     ? $this->owner->meta_d
-                    : $this->owner->title;
+                    : $this->owner->{$this->titleAttribute};
             case 'meta_k':
                 return $this->owner->meta_k
                     ? $this->owner->meta_k
-                    : $this->owner->title;
+                    : $this->owner->{$this->titleAttribute};
             default:
-                return $this->owner->title;
+                return $this->owner->{$this->titleAttribute};
         }
     }
 
@@ -37,8 +43,9 @@ class SeoBehavior extends Behavior
     /**
      * @return string
      */
+
     public function getH1()
     {
-        return $this->owner->h1 ? $this->owner->h1 : $this->owner->getTitle();
+        return $this->owner->h1 ? $this->owner->h1 : $this->owner->{$this->titleAttribute};
     }
 }

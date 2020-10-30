@@ -4,6 +4,9 @@
 namespace app\modules\catalog\models;
 
 use app\modules\admin\behaviors\ImageBehavior;
+use app\modules\catalog\models\ColourGroup;
+use app\modules\seo\behaviors\SeoBehavior;
+use app\modules\seo\valueObjects\Seo;
 use app\modules\admin\behaviors\SlugBehavior;
 use app\modules\admin\traits\QueryExceptions;
 use app\modules\review\models\Review;
@@ -25,12 +28,20 @@ use yii\helpers\Url;
  * @property int $image_id [int(11)]
  * @property int $gift [int(11)]
  * @property bool $is_popular [tinyint(1)]
+ * @property string $meta_t [varchar(255)]
+ * @property string $meta_d [varchar(255)]
+ * @property string $meta_k [varchar(255)]
+ * @property string $h1 [varchar(255)]
  *
  * @property Category $category
  * @property ProductImage[] $images
  * @property ProductImage $mainImage
  * @property ProductDrawing[] $drawings
  * @property ClientPhoto[] $clientPhotos
+ * @property ColourGroup[] $colourGroups
+ *
+ * @mixin SeoBehavior
+ * @mixin SaveRelationsBehavior
  */
 class Product extends ActiveRecord
 {
@@ -39,37 +50,57 @@ class Product extends ActiveRecord
     const STATUS_ACTIVE = 1;
     const STATUS_DRAFT = 0;
 
+    public function getFullName()
+    {
+
+    }
+
+    /**
+     * @var Seo
+     */
+    private $seo;
+
     public function behaviors()
     {
         return [
             TimestampBehavior::class,
             SlugBehavior::class,
+            SeoBehavior::class,
             [
                 'class' => SaveRelationsBehavior::class,
-                'relations' => ['images', 'drawings', 'clientPhotos'],
+                'relations' => ['images', 'drawings', 'clientPhotos', 'colourGroups'],
             ],
         ];
     }
 
-    public static function create($title, $alias, $description, $categoryId): Product
+    public static function create($title, $alias, $description, $categoryId, $gift, ?Seo $seo = null): Product
     {
         $product = new Product();
         $product->title = $title;
         $product->alias = $alias;
         $product->description = $description;
         $product->category_id = $categoryId;
+        $product->gift = $gift;
         $product->status = self::STATUS_DRAFT;
         $product->is_popular = false;
+        $product->seo = $seo ?? Seo::blank();
 
         return $product;
     }
 
-    public function edit($title, $alias, $description, $categoryId)
+    public function changeSeo(Seo $seo)
+    {
+        $this->seo = $seo;
+    }
+
+    public function edit($title, $alias, $description, $categoryId, $gift, Seo $seo)
     {
         $this->title = $title;
         $this->alias = $alias;
         $this->description = $description;
         $this->category_id = $categoryId;
+        $this->gift = $gift;
+        $this->seo = $seo;
     }
 
     public function addImage(ProductImage $image)
@@ -170,6 +201,11 @@ class Product extends ActiveRecord
         $this->updateClientPhotos($photos);
     }
 
+    public function getSeo(): Seo
+    {
+        return $this->seo;
+    }
+
 
 
     /**
@@ -247,7 +283,7 @@ class Product extends ActiveRecord
             'category_id' => 'Категория',
             'description' => 'Описание',
             'gift' => 'Входит в подарок',
-            'is_popular' => 'Популярный товар'
+            'is_popular' => 'Популярный товар',
         ];
     }
 
@@ -308,5 +344,65 @@ class Product extends ActiveRecord
     public function getReviews()
     {
         return $this->hasMany(Review::class, ['product_id' => 'id']);
+    }
+
+    public function beforeSave($insert)
+    {
+        $this->setAttribute('meta_t', $this->seo->getTitle());
+        $this->setAttribute('meta_d', $this->seo->getDescription());
+        $this->setAttribute('meta_k', $this->seo->getKeywords());
+        $this->setAttribute('h1', $this->seo->getH1());
+        return parent::beforeSave($insert);
+    }
+
+    public function afterFind()
+    {
+        $this->seo = new Seo(
+            $this->getAttribute('meta_t'),
+            $this->getAttribute('meta_d'),
+            $this->getAttribute('meta_k'),
+            $this->getAttribute('h1')
+        );
+        parent::afterFind();
+    }
+
+    public function addColourGroup(ColourGroup $group)
+    {
+        $groups = $this->colourGroups;
+        $groups[] = $group;
+        $this->colourGroups = $groups;
+    }
+
+    public function getColourGroups()
+    {
+        return $this->hasMany(ColourGroup::class, ['product_id' =>'id']);
+    }
+
+    public function updateColourGroup($group_id, $title, $colourIds)
+    {
+        $groups = $this->colourGroups;
+
+        foreach($groups as $colourGroup){
+            if ($colourGroup->id == $group_id){
+                $colourGroup->edit($title, $colourIds);
+                $this->colourGroups = $groups;
+                return;
+            }
+        }
+
+        throw new \DomainException('Группа цветов не найдена');
+    }
+
+    public function deleteColourGroup($group_id)
+    {
+        $groups = $this->colourGroups;
+        foreach($groups as $i => $group){
+            if($group->id == $group_id){
+                unset($groups[$i]);
+                $this->colourGroups = $groups;
+                return;
+            }
+        }
+        throw new \DomainException('Группа цветов не найдена');
     }
 }

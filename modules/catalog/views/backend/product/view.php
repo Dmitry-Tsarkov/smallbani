@@ -8,6 +8,10 @@ use app\modules\catalog\models\Product;
 use app\modules\catalog\models\ProductDrawing;
 use app\modules\catalog\models\ProductImage;
 use kartik\file\FileInput;
+use kartik\grid\ActionColumn;
+use kartik\grid\GridView;
+use kartik\icons\Icon;
+use yii\data\ArrayDataProvider;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\web\View;
@@ -17,6 +21,7 @@ use yii\widgets\DetailView;
  * @var View $this
  * @var Product $product
  * @var PhotosForm $photosForm
+ * @var
  */
 
 $this->title = $product->title;
@@ -50,7 +55,7 @@ $this->params['breadcrumbs'] = [
 
 <div class="row">
     <div class="col-lg-6">
-        <div class="box box-default">
+        <div class="box box-default box-solid">
             <div class="box-header with-border">
                 <h3 class="box-title">Общее</h3>
             </div>
@@ -71,7 +76,7 @@ $this->params['breadcrumbs'] = [
 
                     'title',
                     'alias',
-
+                    'gift:ntext',
                     [
                         'label' => 'Категория',
                         'value' => $product->category->title ?? '-',
@@ -87,18 +92,56 @@ $this->params['breadcrumbs'] = [
                 ],
             ]); ?>
         </div>
-
     </div>
     <div class="col-lg-6">
-        <div class="box box-default">
+        <div class="box box-default box-solid">
             <div class="box-header with-border">
-                <h3 class="box-title">Характеристики</h3>
+                <h3 class="box-title">Цвета</h3>
+            </div>
+            <div class="box-body">
+                <p>
+                    <?= Html::a('Добавить категорию цвета', ['/catalog/backend/product/add-colour-group', 'product_id' => $product->id], ['class' => 'btn btn-success', 'data-pjax' => '0']) ?>
+                </p>
+                <?= GridView::widget([
+                    'dataProvider' => new ArrayDataProvider(['models' => $product->colourGroups]),
+                    'summaryOptions' => ['class' => 'text-right'],
+                    'bordered' => false,
+                    'pjax' => true,
+                    'layout' => "{items}",
+                    'pjaxSettings' => [
+                        'options' => [
+                            'id' => 'pjax-widget'
+                        ],
+                    ],
+                    'striped' => false,
+                    'hover' => true,
+                    'panel' => false,
+                    'export' => false,
+                    'columns' => [
+                        'title',
+                        [
+                            'class' => ActionColumn::className(),
+                            'template' => '{update} {delete}',
+                            'buttons' => [
+                                'update' => function ($url, $model, $key) {;
+                                    return Html::a('<i class="fa fa-pencil-square-o" aria-hidden="true"></i> Редактировать',
+                                        [
+                                            '/catalog/backend/product/update-colour-group', 'id' => $model->id
+                                        ],
+                                        [
+                                            'class' => 'btn btn-primary btn-xs', 'data-pjax' => '0'
+                                        ]);
+                                },
+                            ],
+                        ],
+                    ]
+                ]) ?>
             </div>
         </div>
     </div>
 </div>
 
-<div class="box box-default">
+<div class="box box-default box-solid">
     <div class="box-header with-border">
         <h3 class="box-title">Описание</h3>
     </div>
@@ -107,9 +150,7 @@ $this->params['breadcrumbs'] = [
     </div>
 </div>
 
-
-
-<div class="box box-default">
+<div class="box box-default box-solid">
     <div class="box-header with-border">
         <h3 class="box-title">Фото</h3>
     </div>
@@ -153,7 +194,7 @@ $this->params['breadcrumbs'] = [
     </div>
 </div>
 
-<div class="box box-default">
+<div class="box box-default box-solid">
     <div class="box-header with-border">
         <h3 class="box-title">Чертежи</h3>
     </div>
@@ -197,7 +238,7 @@ $this->params['breadcrumbs'] = [
     </div>
 </div>
 
-<div class="box box-default">
+<div class="box box-default box-solid">
     <div class="box-header with-border">
         <h3 class="box-title">Фотографии с клиентами</h3>
     </div>
@@ -238,6 +279,35 @@ $this->params['breadcrumbs'] = [
                 'multiple' => true,
             ],
         ]) ?>
+    </div>
+</div>
+
+<div class="box box-default box-solid">
+    <div class="box-header with-border">
+        <h3 class="box-title">SEO</h3>
+    </div>
+    <div class="box-body">
+        <?= DetailView::widget([
+            'model' => $product,
+            'attributes' => [
+                [
+                    'label' => 'H1',
+                    'value' => $product->getSeo()->getH1(),
+                ],
+                [
+                    'label' => 'Заголовок',
+                    'value' => $product->getSeo()->getTitle(),
+                ],
+                [
+                    'label' => 'Описание',
+                    'value' => $product->getSeo()->getDescription(),
+                ],
+                [
+                    'label' => 'Ключевые слова',
+                    'value' => $product->getSeo()->getKeywords(),
+                ],
+            ],
+        ]); ?>
     </div>
 </div>
 <?php $this->endContent() ?>

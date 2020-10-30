@@ -19,25 +19,9 @@ use yii\bootstrap\Tabs;
                 'active' => Yii::$app->controller->action->id == 'view' && Yii::$app->controller->id == 'backend/product',
             ],
             [
-                'label' => 'Отзывы',
+                'label' => 'Отзывы (' . $product->getReviews()->count('id') . ')',
                 'url' => ['/catalog/backend/review/index', 'id' => $product->id],
                 'active' => Yii::$app->controller->id == 'backend/review',
-            ],
-            [
-                'label' => 'Действия',
-                'headerOptions' => ['class' => 'pull-right'],
-                'items' => [
-                    [
-                        'encode' => false,
-                        'label' => '<i class="fa fa-remove text-danger" aria-hidden="true"></i>Удалить товар',
-                        'url' => ['/catalog/backend/product/delete', 'id' => $product->id],
-                        'linkOptions' => [
-                            'class' => 'text-danger',
-                            'data-method' => 'post',
-                            'data-confirm' => 'Вы уверены?',
-                        ],
-                    ],
-                ],
             ],
         ]
     ]) ?>

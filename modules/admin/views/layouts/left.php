@@ -17,6 +17,11 @@ use dmstr\widgets\Menu;
                         'url' => Yii::$app->getHomeUrl(),
                     ],
                     [
+                        'label' => 'Страницы',
+                        'icon' => 'home',
+                        'url' => ['/page/backend/default/index'],
+                    ],
+                    [
                         'label' => 'Каталог',
                         'icon' => 'cogs',
                         'items' => [
@@ -32,6 +37,31 @@ use dmstr\widgets\Menu;
                                 'url' => ['/catalog/backend/category/index'],
                                 'active' => Yii::$app->controller->module->id == 'catalog' && Yii::$app->controller->id == 'backend/category',
 
+                            ],
+                            [
+                                'label' => 'Цвета',
+                                'icon' => 'user',
+                                'url' => ['/colour/backend/colour/index'],
+                                'active' => Yii::$app->controller->module->id == 'colour' && Yii::$app->controller->id == 'backend/colour',
+
+                            ],
+                        ],
+                    ],
+                    [
+                        'label' => 'Портфолио',
+                        'icon' => 'cogs',
+                        'items' => [
+                            [
+                                'label' => 'Портфолио',
+                                'icon' => 'users',
+                                'url' => ['/portfolio/backend/portfolio/index'],
+                                'active' => Yii::$app->controller->module->id == 'portfolio' && Yii::$app->controller->id == 'backend/portfolio',
+                            ],
+                            [
+                                'label' => 'Категории',
+                                'icon' => 'edit',
+                                'url' => ['/portfolio/backend/category/index'],
+                                'active' => Yii::$app->controller->module->id == 'portfolio' && Yii::$app->controller->id == 'backend/category',
                             ],
                         ],
                     ],
@@ -51,19 +81,13 @@ use dmstr\widgets\Menu;
                                 'url' => ['/slide/backend/slide/index'],
                                 'active' => Yii::$app->controller->module->id == 'slide' && Yii::$app->controller->id == 'backend/slide',
                             ],
-                            [
-                                'label' => 'Портфолио',
-                                'icon' => 'edit',
-                                'url' => ['/portfolio/backend/portfolio/index'],
-                                'active' => Yii::$app->controller->module->id == 'portfolio' && Yii::$app->controller->id == 'backend/portfolio',
-                            ],
-                            [
-                                'label' => 'Отзывы',
-                                'icon' => 'edit',
-                                'url' => ['/review/backend/review/index'],
-                                'active' => Yii::$app->controller->module->id == 'review' && Yii::$app->controller->id == 'backend/review',
-                            ],
                         ],
+                    ],
+                    [
+                        'label' => 'Отзывы',
+                        'icon' => 'edit',
+                        'url' => ['/review/backend/review/index'],
+                        'active' => Yii::$app->controller->module->id == 'review' && Yii::$app->controller->id == 'backend/review',
                     ],
                     [
                         'label' => 'Акции',

@@ -4,12 +4,13 @@ namespace app\modules\catalog\forms;
 
 use app\modules\admin\forms\CompositeForm;
 use app\modules\catalog\models\Category;
-use app\modules\catalog\models\Product;
+use app\modules\seo\forms\SeoForm;
 
 /**
  * @property PhotosForm $photos
  * @property DrawingsForm $drawings
  * @property ClientPhotosForm $client
+ * @property SeoForm $seo
  */
 class ProductCreateForm extends CompositeForm
 {
@@ -17,7 +18,7 @@ class ProductCreateForm extends CompositeForm
     public $alias;
     public $description;
     public $categoryId;
-
+    public $gift;
 
 
     public function __construct()
@@ -25,6 +26,7 @@ class ProductCreateForm extends CompositeForm
         $this->photos = new PhotosForm();
         $this->drawings = new DrawingsForm();
         $this->client = new ClientPhotosForm();
+        $this->seo = new SeoForm();
         parent::__construct();
     }
 
@@ -32,7 +34,7 @@ class ProductCreateForm extends CompositeForm
     {
         return [
             [['title'], 'required'],
-            [['title', 'alias', 'description'], 'string'],
+            [['title', 'alias', 'description', 'gift'], 'string'],
             [['alias'], 'match', 'pattern' => '/^[0-9a-z-]+$/','message'=>'Только латинские буквы и знак "-"'],
             [['categoryId'], 'integer'],
         ];
@@ -45,6 +47,7 @@ class ProductCreateForm extends CompositeForm
             'alias' => 'Алиас',
             'categoryId' => 'Категория',
             'description' => 'Описание',
+            'gift' => 'Подарок',
         ];
     }
 
@@ -55,6 +58,6 @@ class ProductCreateForm extends CompositeForm
 
     protected function internalForms(): array
     {
-        return ['photos', 'drawings', 'client'];
+        return ['photos', 'drawings', 'client', 'seo'];
     }
 }

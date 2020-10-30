@@ -1,19 +1,20 @@
 <?php
 
-/* @var $this yii\web\View
- * @var \app\controllers\SiteController[] $slides
- */
 
 use app\modules\actions\widgets\RelevantActionsWidget;
 use app\modules\catalog\widgets\PopularProductsWidget;
 use app\modules\faq\widgets\FaqWidget;
-use app\modules\review\widgets\ReviewWidget;
+use app\modules\page\components\Pages;
+use app\modules\review\widgets\ReviewsSliderWidget;
 use app\modules\slide\widgets\SliderWidget;
 
 /**
- * @var \yii\data\DataProviderInterface $dataProvider
+ * @var $this yii\web\View
+ * @var \app\controllers\SiteController[] $slides
  */
-$this->title = 'My Yii Application';
+
+Pages::getCurrentPage()->generateMetaTags();
+
 ?>
 
 <?= SliderWidget::widget() ?>
@@ -84,35 +85,8 @@ $this->title = 'My Yii Application';
         </div>
     </div>
 </section>
-<slider-done inline-template>
-    <div class="container">
-        <div class="slider-done">
-            <p class="slider-done__headline">Успели сделать и поставить</p>
-            <div class="slider-done__container" ref="container">
-                <div class="slider-done__wrapper">
-                    <?php foreach ($dataProvider->getModels() as $review): ?>
-                            <div class="slider-done__slide">
-                                <div class="review">
-                                    <div class="review__content">
-                                        <?= ReviewWidget::widget(compact('review')) ?>
-                                    </div>
-                                </div>
-                            </div>
-                    <?php endforeach; ?>
-                </div>
-                <div class="slider-done__controls">
-                    <button class="slider-done__control is-prev" ref="prev"></button>
-                    <button class="slider-done__control is-last" ref="next"></button>
-                </div>
-            </div>
-            <div class="slider-done__buttons">
-                <button class="button">Попасть на просмотр</button>
-                <button class="button unfill">Смотреть все отзывы</button>
-            </div>
-        </div>
-    </div>
-</slider-done>
 
+<?= ReviewsSliderWidget::widget() ?>
 <?= FaqWidget::widget() ?>
 
 <section class="section">

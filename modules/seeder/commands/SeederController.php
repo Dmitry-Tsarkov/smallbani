@@ -8,12 +8,16 @@ use app\modules\catalog\models\ClientPhoto;
 use app\modules\catalog\models\Product;
 use app\modules\catalog\models\ProductDrawing;
 use app\modules\catalog\models\ProductImage;
+use app\modules\colour\models\Colour;
+use app\modules\catalog\models\ColourGroup;
 use app\modules\faq\models\Question;
+use app\modules\page\models\Page;
 use app\modules\portfolio\models\Portfolio;
 use app\modules\portfolio\models\PortfolioCategory;
 use app\modules\portfolio\models\PortfolioImage;
 use app\modules\review\models\Review;
 use app\modules\seeder\components\CopyUploadedFile;
+use app\modules\seo\valueObjects\Seo;
 use app\modules\slide\models\Slide;
 use Yii;
 use yii\console\Controller;
@@ -25,6 +29,22 @@ class SeederController extends Controller
     public function actionSeed()
     {
         $faker = \Faker\Factory::create('ru_RU');
+
+        Console::stdout(PHP_EOL . 'colours..');
+
+        $colourIds = [];
+        for ($i = 1; $i <= 5; $i++) {
+
+            $colour = new Colour([
+                'title' => $faker->realText(20),
+                'hex'   => $faker->hexColor,
+            ]);
+
+            $colour->save();
+            $colourIds[] = $colour->id;
+
+            Console::stdout('.');
+        }
 
         Console::stdout(PHP_EOL . 'categories..' );
         $images = [
@@ -68,16 +88,23 @@ class SeederController extends Controller
         Console::stdout( PHP_EOL . 'products..' );
 
         $productIds = [];
-        for ($i = 1; $i <= 10; $i++) {
+        for ($i = 1; $i <= 5; $i++) {
 
-            $product = new Product([
-                'title' => $faker->realText(20),
-                'description' => $faker->realText(500),
-                'gift' => implode(PHP_EOL, $faker->words($nb = 3, $asText = false)),
-                'category_id' => $faker->randomElement($categoryIds),
-                'status' => (int)$faker->boolean(80),
-                'is_popular' => (int)$faker->boolean(20),
-            ]);
+            $product = Product::create(
+                $faker->realText(20),
+                null,
+                $faker->realText(500),
+                $faker->randomElement($categoryIds),
+                implode(PHP_EOL, $faker->words($nb = 3, $asText = false))
+            );
+
+            if ((int)$faker->boolean(80)) {
+                $product->activate();
+            }
+
+            if ((int)$faker->boolean(20)) {
+                $product->popular();
+            }
 
             $max = rand(2, 5);
             for ($j = 1; $j <= $max; $j++) {
@@ -94,6 +121,16 @@ class SeederController extends Controller
                 $product->addClientPhoto(ClientPhoto::create(new CopyUploadedFile($faker->randomElement($photos))));
             }
 
+            for ($j = 1; $j <= 3; $j++) {
+
+                $product->addColourGroup(
+                    ColourGroup::create(
+                        'Группа ' . $j,
+                        $faker->randomElements($colourIds, 3)
+                    )
+                );
+            }
+
             $product->save();
             $productIds[] = $product->id;
 
@@ -105,8 +142,6 @@ class SeederController extends Controller
 
             Console::stdout('.');
         }
-
-
 
         Console::stdout(PHP_EOL . 'question..');
         for ($i = 1; $i <= 10; $i++) {
@@ -202,13 +237,15 @@ class SeederController extends Controller
         $portfolioIds = [];
         for ($i = 1; $i <= 10; $i++) {
 
-            $portfolio= new Portfolio([
-                'title' => $faker->realText(20),
-                'status' => (int)$faker->boolean(80),
-                'description' => $faker->realText(500),
-                'youtube_url' => $faker->randomElement($utubeurls),
-                'category_id' => $faker->randomElement($catIds),
-            ]);
+            $portfolio = Portfolio::create(
+                $faker->realText(20),
+                null,
+                $faker->realText(500),
+                $faker->randomElement($catIds),
+                $faker->randomElement($utubeurls),
+                Seo::blank()
+            );
+            $portfolio->status = (int)$faker->boolean(80);
 
             $portfolio->save();
             $portfolioIds[] = $portfolio->id;
@@ -252,23 +289,20 @@ class SeederController extends Controller
 
             for ($i = 1; $i <= 3; $i++) {
 
-                $review = new Review([
-                    'name'   => $faker->name(),
-                    'place'  => $faker->city,
-                    'review' => $faker->realText(300),
-                    'status' => (int)$faker->boolean(80),
-                    'image'  => new CopyUploadedFile($faker->randomElement($images)),
-                    'type' => Review::TYPE_PRODUCT,
-                    'product_id' => $productId
-                ]);
-
-                $review->save();
+                $review = Review::createForProduct(
+                    $productId,
+                    $faker->name(),
+                    $faker->city,
+                    $faker->realText(300),
+                    (int)$faker->boolean(80)
+                );
+                $review->changePhoto(new CopyUploadedFile($faker->randomElement($images)));
 
                 $updatedAt = $faker->unixTime('now');
-                $review->updateAttributes([
-                    'created_at' => $faker->unixTime($updatedAt),
-                    'updated_at' => $updatedAt,
-                ]);
+                $review->created_at = $faker->unixTime($updatedAt);
+                $review->updated_at = $updatedAt;
+
+                $review->save();
                 Console::stdout('.');
             }
         }
@@ -277,47 +311,107 @@ class SeederController extends Controller
 
             for ($i = 1; $i <= 3; $i++) {
 
-                $review = new Review([
-                    'name'   => $faker->name(),
-                    'place'  => $faker->city,
-                    'review' => $faker->realText(300),
-                    'status' => (int)$faker->boolean(80),
-                    'image'  => new CopyUploadedFile($faker->randomElement($images)),
-                    'type' => Review::TYPE_PORTFOLIO,
-                    'portfolio_id' => $portfolioId
-                ]);
+                $review = Review::createForPortfolio(
+                    $portfolioId,
+                    $faker->name(),
+                    $faker->city,
+                    $faker->realText(300),
+                    (int)$faker->boolean(80)
+                );
+                $review->changePhoto(new CopyUploadedFile($faker->randomElement($images)));
+
+                $updatedAt = $faker->unixTime('now');
+                $review->created_at = $faker->unixTime($updatedAt);
+                $review->updated_at = $updatedAt;
 
                 $review->save();
 
-                $updatedAt = $faker->unixTime('now');
-                $review->updateAttributes([
-                    'created_at' => $faker->unixTime($updatedAt),
-                    'updated_at' => $updatedAt,
-                ]);
                 Console::stdout('.');
             }
         }
 
         for ($i = 1; $i <= 3; $i++) {
 
-            $review = new Review([
-                'name'   => $faker->name(),
-                'place'  => $faker->city,
-                'review' => $faker->realText(300),
-                'status' => (int)$faker->boolean(80),
-                'image'  => new CopyUploadedFile($faker->randomElement($images)),
-                'type' => Review::TYPE_COMMON,
-            ]);
-
-            $review->save();
+            $review = Review::create(
+                $faker->name(),
+                $faker->city,
+                $faker->realText(300),
+                (int)$faker->boolean(80)
+            );
+            $review->changePhoto(new CopyUploadedFile($faker->randomElement($images)));
 
             $updatedAt = $faker->unixTime('now');
-            $review->updateAttributes([
-                'created_at' => $faker->unixTime($updatedAt),
-                'updated_at' => $updatedAt,
-            ]);
+            $review->created_at = $faker->unixTime($updatedAt);
+            $review->updated_at = $updatedAt;
+
+            $review->save();
             Console::stdout('.');
         }
+
+        Console::stdout(PHP_EOL . 'pages');
+        $root = Page::findOne(['depth' => 0]);
+        Page::create(
+            'index',
+            'Главная страница',
+             '/',
+            '/site/index'
+        )->appendTo($root);
+        Console::stdout('.');
+
+        Page::create(
+            'policy',
+            'Политика конфиденциальности',
+            'policy'
+        )->appendTo($root);
+        Console::stdout('.');
+
+        Page::create(
+            'catalog',
+            'Каталог',
+            'catalog',
+            '/catalog/frontend/index'
+        )->appendTo($root);
+        Console::stdout('.');
+
+        Page::create(
+            'portfolio',
+            'Портфолио',
+            'portfolio',
+            '/portfolio/frontend/index'
+        )->appendTo($root);
+        Console::stdout('.');
+
+        Page::create(
+            'delivery',
+            'Доставка и оплата',
+            'delivery'
+        )->appendTo($root);
+        Console::stdout('.');
+
+        Page::create(
+            'reviews',
+            'Отзывы',
+            'reviews',
+            '/review/frontend/index'
+        )->appendTo($root);
+        Console::stdout('.');
+
+        Page::create(
+            'about',
+            'Компания',
+            'about',
+            '/site/about'
+        )->appendTo($root);
+        Console::stdout('.');
+
+        Page::create(
+            'stocks',
+            'Акции',
+            'stocks',
+            '/actions/frontend/index'
+        )->appendTo($root);
+        Console::stdout('.');
+
 
     }
 
