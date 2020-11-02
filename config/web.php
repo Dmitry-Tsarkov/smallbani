@@ -18,6 +18,7 @@ $config = [
         'portfolio',
         'page',
         'colour',
+        'order',
     ],
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
@@ -35,6 +36,7 @@ $config = [
         'portfolio' => \app\modules\portfolio\Module::class,
         'page' => \app\modules\page\Module::class,
         'colour' => \app\modules\colour\Module::class,
+        'order' => \app\modules\order\Module::class,
     ],
     'components' => [
         'authManager' => \yii\rbac\DbManager::class,

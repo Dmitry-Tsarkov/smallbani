@@ -11,6 +11,7 @@ use app\modules\catalog\models\ProductImage;
 use app\modules\colour\models\Colour;
 use app\modules\catalog\models\ColourGroup;
 use app\modules\faq\models\Question;
+use app\modules\order\models\Order;
 use app\modules\page\models\Page;
 use app\modules\portfolio\models\Portfolio;
 use app\modules\portfolio\models\PortfolioCategory;
@@ -19,6 +20,7 @@ use app\modules\review\models\Review;
 use app\modules\seeder\components\CopyUploadedFile;
 use app\modules\seo\valueObjects\Seo;
 use app\modules\slide\models\Slide;
+use phpDocumentor\Reflection\Types\Boolean;
 use Yii;
 use yii\console\Controller;
 use yii\helpers\Console;
@@ -85,6 +87,9 @@ class SeederController extends Controller
             Yii::getAlias('@app/modules/seeder/images/client_photos/third.jpg'),
         ];
 
+
+
+
         Console::stdout( PHP_EOL . 'products..' );
 
         $productIds = [];
@@ -142,6 +147,31 @@ class SeederController extends Controller
 
             Console::stdout('.');
         }
+
+        Console::stdout(PHP_EOL . 'order..');
+
+        for ($i = 1; $i <= 5; $i++) {
+            $id = $faker->randomElement($productIds);
+            $product = Product::findOne($id);
+            $modificationIds = [];
+            foreach ($product->colourGroups as $group) {
+                $modificationIds[] = $faker->randomElement($group->modifications)->id;
+            }
+            $order = Order::create(
+                $faker->name,
+                $faker->phoneNumber,
+                $product,
+                $modificationIds
+            );
+
+            if ($faker->boolean(80)) {
+                $order->changeStatus(Order::STATUS_PROCESS);
+            }
+            $order->save();
+
+            Console::stdout('.');
+        }
+
 
         Console::stdout(PHP_EOL . 'question..');
         for ($i = 1; $i <= 10; $i++) {
@@ -411,6 +441,7 @@ class SeederController extends Controller
             '/actions/frontend/index'
         )->appendTo($root);
         Console::stdout('.');
+
 
 
     }

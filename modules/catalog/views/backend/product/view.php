@@ -132,6 +132,19 @@ $this->params['breadcrumbs'] = [
                                             'class' => 'btn btn-primary btn-xs', 'data-pjax' => '0'
                                         ]);
                                 },
+                                'delete' => function ($url, $model, $key) {;
+                                    return Html::a('<i class="fa fa-pencil-square-o" aria-hidden="true"></i> Удалить',
+                                        [
+                                            '/catalog/backend/product/delete-colour-group',
+                                            'id' => $model->id
+                                        ],
+                                        [
+                                            'class' => 'btn btn-primary btn-xs',
+                                            'data-pjax' => '0',
+                                            'data-method' => 'post',
+                                            'data-confirm' => 'Вы уверены?'
+                                        ]);
+                                },
                             ],
                         ],
                     ]

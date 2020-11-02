@@ -39,6 +39,7 @@ use yii\helpers\Url;
  * @property ProductDrawing[] $drawings
  * @property ClientPhoto[] $clientPhotos
  * @property ColourGroup[] $colourGroups
+ * @property Modification[] $modifications
  *
  * @mixin SeoBehavior
  * @mixin SaveRelationsBehavior
@@ -49,11 +50,6 @@ class Product extends ActiveRecord
 
     const STATUS_ACTIVE = 1;
     const STATUS_DRAFT = 0;
-
-    public function getFullName()
-    {
-
-    }
 
     /**
      * @var Seo
@@ -378,6 +374,11 @@ class Product extends ActiveRecord
         return $this->hasMany(ColourGroup::class, ['product_id' =>'id']);
     }
 
+    public function getModifications()
+    {
+        return $this->hasMany(Modification::class, ['group_id' => 'id'])->via('colourGroups');
+    }
+
     public function updateColourGroup($group_id, $title, $colourIds)
     {
         $groups = $this->colourGroups;
@@ -404,5 +405,16 @@ class Product extends ActiveRecord
             }
         }
         throw new \DomainException('Группа цветов не найдена');
+    }
+
+    public function getModificationById($id)
+    {
+        foreach ($this->modifications as $modification) {
+            if ($modification->id == $id) {
+                return $modification;
+            }
+        }
+
+        throw new \DomainException('Модификация не найдена');
     }
 }

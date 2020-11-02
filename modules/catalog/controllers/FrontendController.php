@@ -3,6 +3,7 @@
 namespace app\modules\catalog\controllers;
 
 use app\modules\catalog\models\Category;
+use app\modules\catalog\models\ColourGroup;
 use app\modules\catalog\models\Product;
 use app\modules\catalog\readModels\CategoryReadRepository;
 use app\modules\catalog\readModels\ProductReadRepository;

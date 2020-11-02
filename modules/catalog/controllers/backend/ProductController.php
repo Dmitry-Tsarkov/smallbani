@@ -342,6 +342,14 @@ class ProductController extends BalletController
     public function actionAddColourGroup($product_id)
     {
         $product = Product::getOrFail($product_id);
+
+//        $groups = $product->colourGroups;
+//        foreach ($groups as $group) {
+//            var_dump($group->colours);
+//        } die();
+
+//        var_dump($groups);die();
+
         $groupForm = new ColourGroupForm();
 
         if ($groupForm->load(\Yii::$app->request->post()) && $groupForm->validate()) {
@@ -354,20 +362,22 @@ class ProductController extends BalletController
             }
         }
 
-        return $this->render('add-colour-group', compact('product', 'groupForm'));
+        return $this->render('colorGroup/add', compact('product', 'groupForm'));
     }
 
-    public function actionUpdateColourGroup()
+    public function actionUpdateColourGroup($id)
     {
-        $product = Product::getOrFail($id);
+        $group = ColourGroup::getOrFail($id);
 
-        $updateForm = new ProductUpdateForm($product);
+        $product = Product::getOrFail($group->product_id);
 
-        if ($updateForm->load(\Yii::$app->request->post()) && $updateForm->validate()) {
+        $groupForm = new ColourGroupForm($group);
+
+        if ($groupForm->load(\Yii::$app->request->post()) && $groupForm->validate()) {
             try {
-                $this->service->update($product->id, $updateForm);
-                \Yii::$app->session->setFlash('success', 'Товар обновлен');
-                return $this->redirect(['view', 'id' => $product->id]);
+                $this->service->updateColourGroup($group->product_id, $group->id, $groupForm);
+                \Yii::$app->session->setFlash('success', 'Группа цветов обновлена');
+                return $this->redirect(['view', 'id' => $group->product_id]);
             } catch (\DomainException $e) {
                 \Yii::$app->session->setFlash('error', $e->getMessage());
             } catch (\RuntimeException $e) {
@@ -376,7 +386,26 @@ class ProductController extends BalletController
             }
         }
 
-        return $this->render('update', compact('product', 'updateForm'));
+        return $this->render('colorGroup/update', compact('product', 'group', 'groupForm'));
+    }
+
+    public function actionDeleteColourGroup($id)
+    {
+        $group = ColourGroup::getOrFail($id);
+        $product = Product::getOrFail($group->product_id);
+
+        try {
+            $this->service->deleteColourGroup($product->id, $group->id);
+            \Yii::$app->session->setFlash('success', 'Группа удалена');
+            return $this->redirect(['view', 'id' => $product->id]);
+        } catch (\DomainException $e) {
+            \Yii::$app->session->setFlash('error', $e->getMessage());
+        } catch (\RuntimeException $e) {
+            \Yii::$app->errorHandler->logException($e);
+            \Yii::$app->session->setFlash('error', 'Техническая ошибка');
+        }
+
+        return $this->redirect(\Yii::$app->request->referrer);
     }
 
 }
