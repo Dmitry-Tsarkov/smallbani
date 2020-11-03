@@ -9,11 +9,11 @@ use yii\data\DataProviderInterface;
 class ProductSearch extends Model
 {
     public $id;
+    public $is_popular;
     public $title;
     public $alias;
     public $status;
     public $category_id;
-    public $is_popular;
 
     public function rules()
     {

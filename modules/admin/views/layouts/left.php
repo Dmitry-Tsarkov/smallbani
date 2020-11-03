@@ -48,6 +48,12 @@ use dmstr\widgets\Menu;
                         ],
                     ],
                     [
+                        'label' => 'Заказы',
+                        'icon' => 'users',
+                        'url' => ['/order/backend/order/index'],
+                        'active' => Yii::$app->controller->module->id == 'order',
+                    ],
+                    [
                         'label' => 'Портфолио',
                         'icon' => 'cogs',
                         'items' => [
@@ -94,7 +100,6 @@ use dmstr\widgets\Menu;
                         'icon' => 'adjust',
                         'url' => ['/actions/backend/actions/index'],
                         'active' => Yii::$app->controller->module->id == 'actions',
-
                     ],
                     [
                         'label' => 'Настройки',

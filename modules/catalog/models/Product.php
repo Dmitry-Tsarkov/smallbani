@@ -202,8 +202,6 @@ class Product extends ActiveRecord
         return $this->seo;
     }
 
-
-
     /**
      * @param ClientPhoto[] $photos
      */

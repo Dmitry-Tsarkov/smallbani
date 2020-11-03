@@ -88,8 +88,6 @@ class SeederController extends Controller
         ];
 
 
-
-
         Console::stdout( PHP_EOL . 'products..' );
 
         $productIds = [];
@@ -152,8 +150,9 @@ class SeederController extends Controller
 
         for ($i = 1; $i <= 5; $i++) {
             $id = $faker->randomElement($productIds);
-            $product = Product::findOne($id);
             $modificationIds = [];
+            $product = Product::findOne($id);
+
             foreach ($product->colourGroups as $group) {
                 $modificationIds[] = $faker->randomElement($group->modifications)->id;
             }
@@ -167,11 +166,15 @@ class SeederController extends Controller
             if ($faker->boolean(80)) {
                 $order->changeStatus(Order::STATUS_PROCESS);
             }
+
+            $updatedAt = $faker->unixTime('now');
+            $order->created_at = $faker->unixTime($updatedAt);
+            $order->updated_at = $updatedAt;
+
             $order->save();
 
             Console::stdout('.');
         }
-
 
         Console::stdout(PHP_EOL . 'question..');
         for ($i = 1; $i <= 10; $i++) {
@@ -441,7 +444,6 @@ class SeederController extends Controller
             '/actions/frontend/index'
         )->appendTo($root);
         Console::stdout('.');
-
 
 
     }
