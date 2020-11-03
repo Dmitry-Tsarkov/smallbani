@@ -1,0 +1,16 @@
+//- barrel
+include /components/button/button
+mixin product(options = {})
+  .product
+    .product__cover
+      img(src="/img/product.jpg", alt="").product__image
+    h2.product__title Дачный домик "Викинг"
+    .product__footer
+      +button({
+        label: 'Заказать за 178 000 ₽',
+        type: 'link'
+      })(
+        class="is-product"
+        href="/product-detailed.html" 
+      )
+        

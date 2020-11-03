@@ -1,0 +1,23 @@
+//- slider-product
+
+mixin slider-product(options = {})
+  slider-product( 
+    inline-template 
+  )  
+    .slider-product
+      .slider-product__container(ref="container")
+        .slider-product__wrapper
+          .slider-product__slide
+            .slider-product__cover
+            img(src="img/slider-product-1.jpg", alt="" ).slider-product__image 
+          .slider-product__slide
+            .slider-product__cover
+            img(src="img/slider-product-1.jpg", alt="" ).slider-product__image 
+          .slider-product__slide
+            .slider-product__cover
+            img(src="img/slider-product-1.jpg", alt="" ).slider-product__image 
+        .slider-product__bullets(ref="pagination")
+        .slider-product__controls
+          .container
+            button.slider-product__control.is-prev(ref="prev")              
+            button.slider-product__control.is-last(ref="next") 

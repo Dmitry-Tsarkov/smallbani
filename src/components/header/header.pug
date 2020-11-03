@@ -1,0 +1,38 @@
+//- header
+
+include /components/logo/logo
+include /components/nav/nav
+include /components/phone/phone
+include /components/button/button
+
+mixin header(params)
+  v-header(inline-template)
+    .header
+      .container
+        .header__inner
+          .header__logo
+            +logo(params)
+          .header__nav
+            +nav({
+              items: [
+                { url: '/catalog.html', title: 'Каталог' },
+                { url: '/portfolio.html', title: 'Портфолио' },
+                { url: '/delivery.html', title: 'Доставка и оплата' },
+                { url: '/reviews.html', title: 'Отзывы' },
+                { url: '/about.html', title: 'Компания' },
+                { url: '/stocks.html', title: 'Акции' },
+              ]
+            })
+          +phone({
+            items: [
+              { title: '+8 (800) 201 42 91' },
+              { title: '+8 (920) 338 91 69' },
+              { title: '510-110' },              
+            ]
+          })
+          +button({
+            label: 'Заказать звонок' 
+          })(
+            class="is-call"
+            @click="show"
+          )

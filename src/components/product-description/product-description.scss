@@ -1,0 +1,97 @@
+/**
+* product-description
+*/
+
+.product-description {
+  $this: &;
+
+  margin-top: 30px;
+
+  &__header {
+    display: flex;
+  }
+
+  &__body {
+    margin-bottom: 50px;
+  }
+
+  &__description {
+    width: 670px;
+  }
+
+  &__text {
+    font-size: 20px;
+    line-height: 28px;
+    color: $dark;
+    border-bottom: 1px solid #e6e6e6;
+    padding-bottom: 30px;
+  }
+
+  &__order {
+    width: 370px;
+    height: 285px;
+    border-radius: 10px;
+    background-color: $second;
+    padding-left: 23px;
+    padding-top: 49px;
+  }
+
+  &__select {
+    display: flex;
+    align-items: center;
+    margin-bottom: 27px;
+  }
+
+  &__color-text {
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 20px;
+    color: $black;
+    margin-right: 41px;
+  }
+
+  &__color {
+    width: 40px;
+    height: 40px;
+  }
+
+  &__title {
+    font-weight: bold;
+    font-size: 20px;
+    line-height: 23px;
+    color: $black;
+    margin-bottom: 20px;
+  }
+
+  &__complectation {
+    margin-top: 40px;
+  }
+
+  &__option {
+    background-color: $second;
+    display: flex;
+    padding: 15px 20px;
+    justify-content: space-between;
+
+    &:nth-child(odd) {
+      background-color: $white;
+    }
+  }
+
+  &__subtitle {
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 21px;
+    color: $black;
+    margin: 0;
+  }
+
+  &__gifts {
+    border-top: 1px solid #e6e6e6;
+    padding-top: 30px;
+  }
+
+  &__item {
+    margin-bottom: 10px;
+  }
+}

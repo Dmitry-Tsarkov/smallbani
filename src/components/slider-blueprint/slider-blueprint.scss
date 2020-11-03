@@ -1,0 +1,83 @@
+/**
+* slider-blueprint
+*/
+
+.slider-blueprint {
+  $this: &;
+
+  position: relative;
+  margin-top: 30px;
+  border-top: 1px solid #e6e6e6;
+  padding: 10px 0 30px 0;
+  overflow: hidden;
+
+  &__headline {
+    font-weight: bold;
+    font-size: 25px;
+    line-height: 29px;
+    color: $dark;
+  }
+
+  &__wrapper {
+    display: flex;
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__slide {
+    position: relative;
+    display: flex;
+    flex-shrink: 0;
+    width: 170px;
+    height: 170px;
+  }
+
+  &__image {
+    width: 170px;
+    height: 170px;
+    object-fit: cover;
+    position: absolute;
+  }
+
+  &__content {
+    width: 492px;
+    margin-left: 115px;
+    margin-top: 30px;
+  }
+
+  &__controls {
+    width: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__control {
+    background-color: $white;
+    height: 54px;
+    width: 54px;
+    border: none;
+    border-radius: 50%;
+    color: white;
+    font-size: 36px;
+    background-image: url("/img/arrow.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+
+    &.is-prev {
+      transform: rotate(180deg);
+    }
+  }
+
+  &__headline {
+    font-weight: bold;
+    font-size: 20px;
+    line-height: 23px;
+    color: $black;
+  }
+}

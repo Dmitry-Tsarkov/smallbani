@@ -1,0 +1,125 @@
+/**
+* slider-photos
+*/
+
+.slider-photos {
+  $this: &;
+
+  overflow: hidden;
+  position: relative;
+  margin-top: 30px;
+  border-top: 1px solid #e6e6e6;
+  border-bottom: 1px solid #e6e6e6;
+  padding-bottom: 30px;
+
+  &__headline {
+    font-weight: bold;
+    font-size: 25px;
+    line-height: 29px;
+    color: $dark;
+  }
+
+  &__wrapper {
+    display: flex;
+  }
+
+  &__slide {
+    position: relative;
+    flex-shrink: 0;
+    height: 420px;
+  }
+
+  &__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+
+  &__content {
+    position: relative;
+    z-index: 3;
+  }
+
+  &__cover {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0.8;
+    z-index: 1;
+  }
+
+  &__controls {
+    position: absolute;
+    left: 17px;
+    bottom: 110px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__control {
+    background-color: $white;
+    height: 42px;
+    width: 42px;
+    border: none;
+    border-radius: 50%;
+    color: white;
+    font-size: 36px;
+    background-image: url("/img/arrow.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+    transition: ease opacity 0.3s;
+
+    &.is-prev {
+      transform: rotate(180deg);
+    }
+
+    &.swiper-button-disabled {
+      opacity: 0.3;
+      pointer-events: none;
+    }
+  }
+
+  &__text {
+    font-weight: 900;
+    font-size: 64px;
+    line-height: 72px;
+    color: $white;
+    font-family: $ff;
+    margin-top: 162px;
+  }
+
+  &__button {
+    margin-top: 30px;
+  }
+
+  &__bullets {
+    position: absolute;
+    left: 50%;
+    bottom: 50px;
+    display: flex;
+
+    span {
+      display: block;
+      flex-direction: column;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background-color: $white;
+      margin-right: 7px;
+      opacity: 0.3;
+      &.swiper-pagination-bullet-active {
+        opacity: 1;
+      }
+    }
+  }
+
+}

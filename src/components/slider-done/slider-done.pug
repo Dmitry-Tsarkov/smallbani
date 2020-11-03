@@ -1,0 +1,27 @@
+//- slider-done
+
+include /components/review/review
+
+mixin slider-done(options = {})
+  slider-done( 
+    inline-template 
+  )  
+    .container
+      .slider-done
+        p.slider-done__headline Успели сделать и поставить
+        .slider-done__container(ref="container")
+          .slider-done__wrapper
+            .slider-done__slide
+              +review
+            .slider-done__slide
+              +review
+            .slider-done__slide
+              +review
+            .slider-done__slide
+              +review
+          .slider-done__controls
+            button.slider-done__control.is-prev(ref="prev")              
+            button.slider-done__control.is-last(ref="next") 
+        .slider-done__buttons
+          button.button Попасть на просмотр
+          button.button.unfill Смотреть все отзывы

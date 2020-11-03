@@ -1,0 +1,9 @@
+mixin breadcrumb(options = {})
+  .container
+    ul.breadcrumb          
+      each item in options.items
+        li.breadcrumb__item
+          if item.url
+            a.breadcrumb__link(href=item.url, title=item.title)=item.title
+          else
+            span.breadcrumb__span=item.title    

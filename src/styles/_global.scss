@@ -1,0 +1,66 @@
+/* Body */
+.body {
+  margin: 0;
+  padding: 0;
+  background-color: $grey;
+  color: $dark;
+  font-family: $ff;
+  font-size: $font-size;
+  font-weight: $regular;
+  line-height: $line-height;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  &.is-overflow {
+    overflow: hidden;
+  }
+
+  ::selection {
+    color: #fff;
+    background-color: $accent;
+  }
+}
+
+/* Reset */
+html {
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+img {
+  max-width: 100%;
+  border: none;
+}
+
+/* Titles */
+@each $size, $index in $font-sizes {
+  .is-size-#{$index} {
+    font-size: $size;
+  }
+
+  h#{$index} {
+    @include title($size);
+  }
+}
+
+/* Focus */
+a:focus,
+button:focus,
+input:focus,
+textarea:focus,
+select:focus {
+  outline: 1px dotted #86d3ff;
+}
+
+[v-cloak] {
+  opacity: 0;
+}
+ul {
+  padding-inline-start: 0;
+}

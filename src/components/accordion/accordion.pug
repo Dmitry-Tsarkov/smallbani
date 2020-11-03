@@ -1,0 +1,15 @@
+//- accordion
+
+mixin accordion(options = {})
+  accordion( 
+    inline-template 
+  )
+    .accordion(class=options.className)
+      .accordion__item
+        .accordion__header(@click = 'toogle')
+          img(src="img/triangle.svg", alt=""  :class="{'is-active' : open}").accordion__image
+          p.accordion__title Сколько времени занимает установка бани
+        transition(name="fade")
+          .accordion__body( v-if = 'open' )
+            p.accordion__text В зависимости от поставленной задачи - поможем их организовать с различным уровнем проработки, будь это помощь в подготовке оформления презентации или же полная организация всего мероприятия с трансфером и организацией посадки гостей
+    

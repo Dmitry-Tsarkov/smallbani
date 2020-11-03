@@ -1,0 +1,13 @@
+.fade-enter-active,
+.fade-leave-active {
+  transition: transform 0.5s, opacity 0.5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active до версии 2.1.8 */ {
+  transform: translateY(20px);
+  opacity: 0;
+}
+
+
+.vm--modal {
+  background: none;
+}

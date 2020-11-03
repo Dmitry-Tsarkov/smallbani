@@ -1,0 +1,122 @@
+.select {
+  $this: &;
+
+  display: block;
+  width: 100%;
+  color: $black;
+  font-weight: $regular;
+  font-size: 18px;
+  font-family: $ff;
+  line-height: 1;
+  outline: none !important;
+  transition: color 200ms $ease, border 200ms $ease,
+    background-color 200ms $ease;
+
+  &.is-time {
+    &::after {
+      content: "";
+      display: block;
+      width: 18px;
+      height: 18px;
+      position: absolute;
+      right: 12px;
+      top: calc(50% - 9px);
+      z-index: $layer-10;
+      background-repeat: no-repeat;
+      background-position: 50% 50%;
+      background-size: contain;
+      background-image: url("/img/i-time.svg");
+    }
+
+    .ss-arrow {
+      display: none;
+    }
+  }
+
+  &:focus {
+    color: $black;
+    background-color: $white;
+    border-color: $accent;
+  }
+
+  .ss-single-selected {
+    height: 100%;
+    padding: 13px 16px;
+    color: $black;
+    background-color: #f3f6f8;
+    border: 1px solid #dfeaf2;
+    border-radius: 3px;
+
+    // .placeholder {
+    //   color: #8a969e;
+    //   font-family: $ff2;
+    //   font-weight: $medium;
+    //   font-size: 11px;
+    //   line-height: 1;
+    //   letter-spacing: 0.24em;
+    //   text-transform: uppercase;
+    // }
+
+    &.ss-open-below {
+      position: relative;
+      z-index: $layer-10;
+      background-color: $white;
+      box-shadow: 0 0 8px rgba(16, 105, 117, 0.08);
+    }
+
+    .ss-arrow {
+      margin: 0;
+      position: absolute;
+      right: 14px;
+      top: calc(50% - 7px);
+
+      span {
+        margin: 2px 0 0 !important;
+        padding: 0 !important;
+        width: 10px;
+        height: 10px;
+        background-image: url("/img/i-arrow-select.svg");
+        background-repeat: no-repeat;
+        background-position: 50% 50%;
+        background-size: contain;
+        border: none !important;
+        transform: rotate(0deg) !important;
+
+        &.arrow-up {
+          transform: rotate(180deg) !important;
+        }
+      }
+    }
+  }
+
+  .ss-content {
+    left: 0;
+    top: calc(100% - 1px);
+    width: 100%;
+    padding: 8px 0;
+    background-color: #f3f6f8;
+    border-radius: 0 0 3px 3px;
+    border: 1px solid #dfeaf2;
+    box-shadow: 0 0 8px rgba(16, 105, 117, 0.08);
+    border-top: none;
+    overflow: hidden;
+
+    .ss-option {
+      padding: 8px 16px !important;
+      color: #5b6365;
+      font-size: 16px;
+      transition: ease color 300ms;
+    }
+
+    .ss-option:hover,
+    .ss-option.ss-highlighted {
+      color: $accent !important;
+      background-color: transparent !important;
+    }
+
+    .ss-option.ss-disabled {
+      color: $second !important;
+      background-color: transparent !important;
+    }
+  }
+}

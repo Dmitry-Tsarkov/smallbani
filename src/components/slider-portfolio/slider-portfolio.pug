@@ -1,0 +1,37 @@
+//- slider-portfolio
+include /components/button/button
+
+mixin slider-portfolio(options = {})
+  slider-portfolio( 
+    inline-template 
+  )  
+    .slider-portfolio(class=options.className)
+      p.slider-portfolio__headline Беседка в Красногорске
+      .slider-portfolio__container(ref="container")
+        .slider-portfolio__wrapper
+          .slider-portfolio__slide
+            .slider-portfolio__cover
+            img(src="img/slider-portfolio-1.jpg", alt="" ).slider-portfolio__image 
+          .slider-portfolio__slide
+            .slider-portfolio__cover
+            img(src="img/slider-portfolio-2.jpg", alt="" ).slider-portfolio__image 
+          .slider-portfolio__slide
+            .slider-portfolio__cover
+            img(src="img/slider-portfolio-1.jpg", alt="" ).slider-portfolio__image         
+        .slider-portfolio__controls
+          .container
+            button.slider-portfolio__control.is-prev(ref="prev")              
+            button.slider-portfolio__control.is-last(ref="next") 
+      .slider-portfolio__buttons.is-description
+        +button({
+          label: 'Узнать больше',
+          type: 'link'
+          })(       
+            href="/portfolio-detailed.html" 
+          ).is-main         
+        +button({
+          label: 'Попасть на просмотр',
+          type: 'link'
+          })(       
+            href="/index.html" 
+          ).unfill

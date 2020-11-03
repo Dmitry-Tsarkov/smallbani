@@ -1,0 +1,66 @@
+/**
+* section
+*/
+
+.section {
+  $this: &;
+  margin: 130px 0 0 0;
+  position: relative;
+
+  &__title {
+    font-weight: bold;
+    font-size: 40px;
+    line-height: 46px;
+    color: $black;
+    margin-bottom: -5px;
+  }
+
+  &__caption {
+    margin: 0;
+    color: $dark;
+    font-size: 12px;
+    font-weight: $semibold;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  &__header + &__body {
+    margin-top: 30px;
+  }
+
+  &.is-alt {
+    margin: 130px 0 0 0;
+    background-color: $second;
+    padding: 70px 0;
+  }
+
+  &.is-bcground {
+    background-image: url("/img/bcground.jpg");
+    padding: 70px 0;
+  }
+
+  &.is-products {
+    padding: 0;
+    margin: 0;
+  }
+
+  &.is-reviews {
+    #{$this}__title {
+      margin-bottom: 10px;
+    }
+
+    #{$this}__body {
+      margin: 0;
+    }
+  }
+
+  &.error {
+    #{$this}__body {
+      padding-left: 250px;
+    }
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}

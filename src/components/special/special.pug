@@ -1,0 +1,24 @@
+//- special
+
+mixin special(options = {})
+  .special
+    .grid.is-row
+      .col-12
+        img(src="img/special-1.jpg", alt="").special__image
+      .col-6
+        p.special__text Данную баню предлагаем в трех вариантах исполнения, дополнительно может иметь козырёк или крыльцо. Данная модель прекрасно зарекомендовала себя в качестве мобильной версии.Небольшой вес и габарит позволяет установить ее на лодочный прицеп и перевозить на легковом автомобиле без открытия дополнительной категории ВЕ.
+        .special__buttons
+          +button({
+            label: 'Перезвоните мне',
+            type: 'link'
+          })(
+            class="is-product"
+            href="/product-detailed.html" 
+          )
+          +button({
+            label: 'Смотреть все акции',
+            type: 'link'
+          })(
+            class="unfill"
+            href="/product-detailed.html" 
+          )

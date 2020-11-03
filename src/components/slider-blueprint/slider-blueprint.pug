@@ -1,0 +1,33 @@
+//- slider-blueprint
+
+mixin slider-blueprint(options = {})
+  slider-blueprint( 
+    inline-template 
+  )  
+    .slider-blueprint
+      .slider-blueprint__header
+        p.slider-blueprint__headline Чертежи
+        .slider-blueprint__controls
+          button.slider-blueprint__control.is-prev(ref="prev")              
+          button.slider-blueprint__control.is-last(ref="next")         
+      .slider-blueprint__container(ref="container")
+        .slider-blueprint__wrapper
+          .slider-blueprint__slide
+            .slider-blueprint__cover
+              img(src="img/blueprint-1.jpg", alt="" ).slider-blueprint__image                    
+          .slider-blueprint__slide
+            .slider-blueprint__cover
+              img(src="img/blueprint-2.jpg", alt="" ).slider-blueprint__image                    
+          .slider-blueprint__slide
+            .slider-blueprint__cover
+              img(src="img/blueprint-3.jpg", alt="" ).slider-blueprint__image                    
+          .slider-blueprint__slide
+            .slider-blueprint__cover
+              img(src="img/blueprint-1.jpg", alt="" ).slider-blueprint__image                    
+          .slider-blueprint__slide
+            .slider-blueprint__cover
+              img(src="img/blueprint-2.jpg", alt="" ).slider-blueprint__image                    
+          .slider-blueprint__slide
+            .slider-blueprint__cover
+              img(src="img/blueprint-3.jpg", alt="" ).slider-blueprint__image                    
+        

@@ -1,0 +1,95 @@
+//- tabs
+include /components/stock-small/stock-small
+include /components/product/product
+
+mixin tabs(options = {})
+  tabs( 
+    inline-template 
+  )
+    .tabs
+      .tabs__header
+        button.tabs__tab(
+          @click='toogle(1)'
+          :class="{'is-active': tabId == 1}"      
+        ) Все бани
+        button.tabs__tab(
+          @click='toogle(2)'
+          :class="{'is-active': tabId == 2}"      
+        )  Баня-бочка круглая
+        button.tabs__tab(
+          @click='toogle(3)'
+          :class="{'is-active': tabId == 3}"      
+        ) Квадробочка
+        button.tabs__tab(
+          @click='toogle(4)'
+          :class="{'is-active': tabId == 4}"      
+        ) Овальные бани-бочки
+      .tabs__body
+        .tabs__item(v-if="tabId == 1") 
+          .grid.is-row
+            .col-3
+              +product
+            .col-3
+              +product
+            .col-3
+              +product
+            .col-3
+              +product
+            .col-3
+              +product
+            .col-3
+              +product
+            .col-3
+              +product
+            .col-3
+              +stock-small
+            .col-3
+              +product
+            .col-3
+              +product
+            .col-3
+              +product
+            .col-3
+              +product
+            .col-3
+              +stock-small
+            .col-3
+              +product
+            .col-3
+              +product
+            .col-3
+              +product            
+        .tabs__item(v-if="tabId == 2")
+          .grid.is-row
+            .col-3
+              +stock-small
+            .col-3
+              +product
+            .col-3
+              +product
+            .col-3
+              +product
+            .col-3
+              +product
+            .col-3
+              +product
+            .col-3
+              +product
+            .col-3
+              +product
+        .tabs__item(v-if="tabId == 3")
+          .grid.is-row
+            .col-3
+              +product
+            .col-3
+              +stock-small
+            .col-3
+              +product 
+        .tabs__item(v-if="tabId == 4")
+          .grid.is-row
+            .col-3
+              +product
+            .col-3
+              +product
+            .col-3
+              +product

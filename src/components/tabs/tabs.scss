@@ -1,0 +1,35 @@
+/**
+* tabs
+*/
+
+.tabs {
+  $this: &;
+
+  &__header {
+    display: flex;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+    padding: 0;
+  }
+
+  &__tab {
+    margin-right: 15px;   
+    border: none;
+    background: none;
+    font-size: 18px;
+    line-height: 21px;
+    color: rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    padding-bottom: 10px;
+    transition: color 0.3s ease;
+    &:hover {
+      color: $dark;
+    }
+
+    &.is-active {
+      border-bottom: 2px solid $accent;
+      color: $dark;
+    }
+  }
+  
+}

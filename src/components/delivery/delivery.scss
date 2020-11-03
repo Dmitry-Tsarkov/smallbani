@@ -1,0 +1,21 @@
+/**
+* delivery
+*/
+
+.delivery {
+  $this: &;
+
+  background-image: url('/img/map-regions.png');
+  background-repeat: no-repeat;
+
+  &__text {
+    font-size: 20px;
+    line-height: 26px;
+
+    &:nth-child(1) {      
+      margin-bottom: 320px;
+    }
+  }
+
+
+}

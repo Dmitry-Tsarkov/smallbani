@@ -1,0 +1,36 @@
+//- portfolio
+include /components/portfolio-item/portfolio-item
+include /components/pagination/pagination
+
+mixin portfolio(options = {})
+  portfolio( 
+    inline-template 
+  )
+    .portfolio
+      .portfolio__header
+        button.portfolio__tab(
+          @click='toogle(1)'
+          :class="{'is-active': tabId == 1}"      
+        ) Все 
+        button.portfolio__tab(
+          @click='toogle(2)'
+          :class="{'is-active': tabId == 2}"      
+        )  Беседки
+        button.portfolio__tab(
+          @click='toogle(3)'
+          :class="{'is-active': tabId == 3}"      
+        ) Квадробочка
+        button.portfolio__tab(
+          @click='toogle(4)'
+          :class="{'is-active': tabId == 4}"      
+        ) Овальные бани-бочки
+      .portfolio__body
+        .portfolio__item(v-if="tabId == 1") 
+          +portfolio-item              
+        .portfolio__item(v-if="tabId == 2")
+          +portfolio-item              
+        .portfolio__item(v-if="tabId == 3")
+          +portfolio-item
+        .portfolio__item(v-if="tabId == 4")
+          +portfolio-item
+      +pagination

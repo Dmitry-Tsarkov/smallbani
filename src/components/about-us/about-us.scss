@@ -1,0 +1,56 @@
+/**
+* about-us
+*/
+
+.about-us {
+  $this: &;
+
+  &__box {
+    align-items: center;
+    text-align: center;
+  }
+
+  &__description {
+    font-size: 20px;
+    line-height: 26px;
+    color: $dark;
+    margin: 0;
+  }
+
+  &__text {
+    font-size: 18px;
+    line-height: 24px;
+    color: $dark;
+    margin: 0;
+  }
+
+  &__container {
+    text-align: center;
+    background: #FFEED5;
+    border-radius: 10px;
+    padding: 20px 25px 32px 29px;
+    margin-top: 70px;
+  }
+
+  
+  &__list {
+    margin: 0;
+    margin-top: 70px;
+  }
+
+  &__item {
+    margin-bottom: 10px;
+  }
+
+  &__image {
+    margin-bottom: 20px;
+    
+    &.is-big {
+      margin-bottom: 10px;
+      background-color: $white;
+      border-radius: 100px;
+    }
+  }
+
+
+}

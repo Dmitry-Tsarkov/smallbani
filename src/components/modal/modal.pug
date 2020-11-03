@@ -1,0 +1,24 @@
+//- modal
+
+mixin modal(options = {})
+  modal( 
+    inline-template 
+  )
+  .modal
+    .modal__area(
+      @click='show'
+      :class="{'is-active': tabId == 1}"    
+    )
+    .modal__body
+      .modal__content
+        .modal__container      
+          p.modal__title Мы перезвоним
+          img(src="img/close.svg", alt="").modal__close
+        input(type="text" placeholder="Как вас зовут?").modal__input
+        input(type="text" placeholder="Ваш номер телефона").modal__input
+        +button({
+          label: 'Загрузить еще',
+          type: 'link'
+          })(       
+            href="/index.html" 
+          )

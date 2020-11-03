@@ -1,0 +1,57 @@
+/**
+* footer
+*/
+
+.footer {
+  $this: &;
+  margin-top: 30px;
+
+  &__inner {
+    padding: 30px 0;
+    display: flex;
+    border-top: 1px solid #c4c4c4;
+  }
+
+  &__links {
+    margin-left: 80px;
+    flex-grow: 1;
+  }
+
+  &__social {
+    margin-right: 130px;
+  }
+
+  &__image {
+    margin-right: 10px;
+    transition: transform ease 0.3s;
+
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+
+  &__copy {
+    color: $dark;
+    font-size: 14px;
+    line-height: 16px;
+    margin-right: 214px;
+  }
+
+  &__text {
+    flex-grow: 1;
+    color: $dark;
+    font-size: 14px;
+    line-height: 16px;
+
+    a {
+      color: $dark;
+      text-decoration: none;
+      transition: ease color 300ms;
+      margin-right: 15px;
+
+      &:hover {
+        color: $accent;
+      }
+    }
+  }
+}

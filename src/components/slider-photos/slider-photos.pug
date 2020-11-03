@@ -1,0 +1,26 @@
+//- slider-photos
+
+mixin slider-photos(options = {})
+  slider-photos( 
+    inline-template 
+  )  
+    .slider-photos(class=options.className)
+      p.slider-photos__headline Фотографии и отзывы
+      .slider-photos__container(ref="container")
+        .slider-photos__wrapper
+          .slider-photos__slide
+            .slider-photos__cover
+            img(src="img/photo-1.jpg", alt="" ).slider-photos__image 
+          .slider-photos__slide
+            .slider-photos__cover
+            img(src="img/photo-1.jpg", alt="" ).slider-photos__image 
+          .slider-photos__slide
+            .slider-photos__cover
+            img(src="img/photo-1.jpg", alt="" ).slider-photos__image         
+        .slider-photos__controls
+          .container
+            button.slider-photos__control.is-prev(ref="prev")              
+            button.slider-photos__control.is-last(ref="next") 
+      .slider-done__buttons.is-description
+          button.button Попасть на просмотр
+          button.button.unfill Смотреть все отзывы

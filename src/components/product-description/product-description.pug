@@ -1,0 +1,85 @@
+//- product-description
+
+include /components/button/button
+include /components/slider-blueprint/slider-blueprint
+include /components/slider-photos/slider-photos
+include /components/answers/answers
+
+mixin product-description(options = {})
+  .product-description
+    .grid.is-row
+      .col-7
+        .product-description__header
+          .product-description__description
+            p.product-description__headline Описание
+            p.product-description__text Данную баню предлагаем в трех вариантах исполнения, дополнительно может иметь козырёк или крыльцо. Данная модель прекрасно зарекомендовала себя в качестве мобильной версии.Небольшой вес и габарит позволяет установить ее на лодочный прицеп и перевозить на легковом автомобиле без открытия дополнительной категории ВЕ.                    
+        .product-description__body
+          .product-description__params
+            .product-description__complectation 
+              p.product-description__title Базовая комплектация
+            .product-description__option          
+              p.product-description__subtitle <b>Печь модели:</b>
+              p.product-description__subtitle Печь модели
+            .product-description__option          
+              p.product-description__subtitle <b>Печь модели:</b>
+              p.product-description__subtitle 380 см
+            .product-description__option          
+              p.product-description__subtitle <b>Печь модели:</b>
+              p.product-description__subtitle Печь модели
+            .product-description__option          
+              p.product-description__subtitle <b>Печь модели:</b>
+              p.product-description__subtitle Печь модели
+            .product-description__option          
+              p.product-description__subtitle <b>Печь модели:</b>
+              p.product-description__subtitle Печь модели
+          .product-description__params
+            .product-description__complectation 
+              p.product-description__title Дополнительная комплектация
+            .product-description__option          
+              p.product-description__subtitle <b>Печь модели:</b>
+              p.product-description__subtitle Печь модели
+            .product-description__option          
+              p.product-description__subtitle <b>Печь модели:</b>
+              p.product-description__subtitle 380 см
+            .product-description__option          
+              p.product-description__subtitle <b>Печь модели:</b>
+              p.product-description__subtitle Печь модели
+            .product-description__option          
+              p.product-description__subtitle <b>Печь модели:</b>
+              p.product-description__subtitle Печь модели
+            .product-description__option          
+              p.product-description__subtitle <b>Печь модели:</b>
+              p.product-description__subtitle Печь модели
+        .product-description__gifts
+          p.product-description__title Входит в подарок
+          ul.product-description__list
+            li.product-description__item
+              p.product-description__subtitle Веник
+            li.product-description__item
+              p.product-description__subtitle Упаковка камней
+            li.product-description__item
+              p.product-description__subtitle Термометр
+            li.product-description__item
+              p.product-description__subtitle Подголовник
+          +slider-blueprint
+          +slider-photos 
+          +answers({
+            className: 'is-left'
+          })       
+      .col-4.shift-1
+        .product-description__order
+          .product-description__select
+            p.product-description__color-text Цвет бани: 
+            input(type="radio").product-description__color
+            input(type="radio").product-description__color
+            input(type="radio").product-description__color
+          .product-description__select
+            p.product-description__color-text Цвет бани: 
+            input(type="radio").product-description__color
+            input(type="radio").product-description__color
+            input(type="radio").product-description__color
+          +button({
+            label: 'Заказать за 178 000 ₽'
+          })(
+            class="is-order"
+          )

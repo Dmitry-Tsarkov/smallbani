@@ -1,0 +1,16 @@
+//- headline
+
+include /components/breadcrumb/breadcrumb
+
+mixin headline(options)
+  .headline.js-headline(
+    class=options.className ? options.className : ''
+  )
+    .container
+      if options.breadcrumb
+        .headline__breadcrumb
+          +breadcrumb(options.breadcrumb)
+      if options.caption
+        p.headline__caption!=options.caption
+      if options.title
+        h1.headline__title!=options.title

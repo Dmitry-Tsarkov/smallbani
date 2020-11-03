@@ -1,0 +1,34 @@
+//- video
+include /components/button/button
+
+mixin video(options = {})
+  .video
+    p.video__headline Что входит в установку “под ключ”
+    .grid.is-row
+      .col-3
+        .video__container
+          img(src="img/option-1.svg", alt="").video__circle
+          p.video__text Доставка по Смоленской обл. <br> и России
+        .video__container
+          img(src="img/option-3.svg", alt="").video__circle
+          p.video__text Установка с помощью крана-манипулятора
+      .col-6
+        .video__cover
+          img(src="img/video.jpg", alt="").video__image
+          a(href="https://www.youtube.com/watch?v=COTnn-VAGdg&t=62s" target="_blank")
+            button.video__button
+              img(src="img/play.svg", alt="")
+      .col-3
+        .video__container
+          img(src="img/option-2.svg", alt="").video__circle
+          p.video__text Доставка по смоленской обл. и России
+        .video__container
+          img(src="img/option-4.svg", alt="").video__circle
+          p.video__text Установка с помощью крана-манипулятора
+    .video__excursion
+      p.video__title Соверши виртуальную <br> 3D экскурсию по бане бочке
+      +button({
+        label: 'Перейти к обзору панорамы'
+      })(
+        class="is-product"
+      )

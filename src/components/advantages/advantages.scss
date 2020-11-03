@@ -1,0 +1,87 @@
+/**
+* advantages
+*/
+
+.advantages {
+  $this: &;
+  padding-top: 13px;
+
+  &__section {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+    justify-content: space-between;
+  }
+
+  &__item {
+    position: relative;
+    width: 470px;
+    height: 300px;
+    background-color: #ffe4c1;
+    border-radius: 0px 0px 100px 0px;
+    margin-bottom: 20px;
+
+    &:nth-child(1) {
+      width: 680px;
+      background-color: #9eb3ba;
+      border-radius: 0px 100px 0px 0px;
+
+      #{$this}__text {
+        left: 35px;
+        bottom: 24px;
+        padding: 22px 29px;
+      }
+    }
+
+    &:nth-child(2) {
+      background-color: #c0ccdc;
+      border-radius: 0px 0px 0px 100px;
+      #{$this}__text {
+        left: 35px;
+        bottom: 194px;
+        padding: 6px 22px;
+      }
+      #{$this}__image {
+        left: 170px;
+        bottom: 0px;
+      }
+    }
+
+    &:last-child {
+      width: 680px;
+      background-color: #c7b3b3;
+      border-radius: 0px 0px 100px 0px;
+
+      #{$this}__text {
+        left: 35px;
+        bottom: 28px;
+      }
+
+      #{$this}__image {
+        left: 278px;
+        bottom: 33px;
+      }
+    }
+  }
+
+  &__text {
+    position: absolute;
+    margin: 0;
+    left: 33px;
+    bottom: 186px;
+    font-size: 25px;
+    line-height: 31px;
+    border-radius: 15px;
+    padding: 7px 26px;
+    background-color: $white;
+    color: $black;
+    max-width: 100%;
+    font-family: $ff;
+  }
+
+  &__image {
+    position: absolute;
+    left: 24px;
+    bottom: 18px;
+  }
+}

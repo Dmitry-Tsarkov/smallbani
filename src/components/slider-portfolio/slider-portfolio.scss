@@ -1,0 +1,111 @@
+/**
+* slider-portfolio
+*/
+
+.slider-portfolio {
+  $this: &;
+
+  overflow: hidden;
+  position: relative;
+  margin-top: 25px;  
+  padding-bottom: 25px;
+
+  &__headline {
+    font-weight: bold;
+    font-size: 25px;
+    line-height: 29px;
+    color: $dark;
+    margin: 0;
+    margin-bottom: 20px;
+  }
+
+  &__wrapper {
+    display: flex;
+  }
+
+  &__slide {
+    position: relative;
+    flex-shrink: 0;
+    height: 482px;
+  }
+
+  &__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+
+  &__content {
+    position: relative;
+    z-index: 3;
+  }
+
+  &__cover {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0.8;
+    z-index: 1;
+  }
+
+  &__controls {
+    position: absolute;
+    left: 30px;
+    bottom: 120px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__control {
+    background-color: $white;
+    height: 42px;
+    width: 42px;
+    border: none;
+    border-radius: 50%;
+    color: white;
+    font-size: 36px;
+    background-image: url("/img/arrow.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+    transition: ease opacity 0.3s;
+
+    &.is-prev {
+      transform: rotate(180deg);
+    }
+
+    &.swiper-button-disabled {
+      opacity: 0.3;
+      pointer-events: none;
+    }
+  }
+
+  &__text {
+    font-weight: 900;
+    font-size: 64px;
+    line-height: 72px;
+    color: $white;
+    font-family: $ff;
+    margin-top: 162px;
+  }
+
+  &__buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+
+    &.is-description {
+      margin-top: 17px;
+      justify-content: start;
+    }
+  }
+
+}

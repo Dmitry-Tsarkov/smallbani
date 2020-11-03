@@ -1,0 +1,23 @@
+//- answers
+include /components/accordion/accordion
+include /components/form/form
+
+mixin answers(options = {})
+  .answers(class=options.className)
+    p.answers__headline Вопросы и ответы
+    .answers__item(class=options.className)
+      +accordion({
+        className: options.className
+      })   
+    .answers__item
+      +accordion({
+        className: options.className
+      })   
+    .answers__item
+      +accordion({
+        className: options.className
+      })   
+    +form({
+      type:"answers",
+      className: options.className
+    })

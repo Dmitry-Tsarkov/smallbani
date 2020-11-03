@@ -1,0 +1,10 @@
+//- products
+include /components/product/product
+include /components/tabs/tabs
+include /components/stock/stock
+include /components/pagination/pagination
+
+mixin products(options = {}) 
+  .products
+    +tabs
+    +pagination

@@ -1,0 +1,22 @@
+//- footer
+
+include /components/logo/logo
+
+mixin footer(params)
+  .footer
+    .container
+      .footer__inner
+        .footer__copy © 2020 Изготовление бань-бочек в Смоленске
+        .footer__social
+          img(src="img/social-1.svg", alt="").footer__image
+          img(src="img/social-2.svg", alt="").footer__image
+          img(src="img/social-3.svg", alt="").footer__image
+        .footer__text
+          a(
+            href='/policy.html'
+            title='Политика конфиденциальности'
+          ) Политика конфиденциальности
+          a(
+            href='https://dancecolor.ru/'
+            title='Сделано в Dancecolor'
+          ) Сделано в Dancecolor

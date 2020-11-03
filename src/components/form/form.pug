@@ -1,0 +1,85 @@
+//- form
+
+include /components/input/input
+include /components/button/button
+
+mixin form(options)
+  form.form(
+    role='form'
+    action=options.action ? options.action : 'response.html'
+    class=options.className ? options.className : ''
+    class=options.type ? 'is-' + options.type : ''
+  )
+
+    case options.type
+      when 'answers'
+        .form__body
+          .answers__container
+            p.answers__title Если вопросы еще остались
+            .answers__info
+              input.answers__input(type='text' placeholder='Как вас зовут?')
+              input.answers__input.email(type='text' placeholder='Электронный адрес')
+            textarea.answers__textarea
+            .answers__send    
+              +button({
+                label: 'Отправить',
+              })(
+                class='is-send'
+              )
+              input.shipment__checkbox(type='checkbox')
+              |  Отправляя сообщение, вы соглашаетесь на Обработку персональных данных
+      when 'info'
+        .form__body
+          .form__container
+            p.form__title Узнать подробнее
+            .form__info
+              input.form__input(type='text' placeholder='Ваше имя')
+              input.form__input.email(type='text' placeholder='Ваша почта')
+            textarea.form__textarea(placeholder='Что необходимо узнать?')
+            .form__send    
+              +button({
+                label: 'Отправить',
+              })(
+                class='is-send'
+              )
+              input.shipment__checkbox(type='checkbox')
+              |  Отправляя сообщение, вы соглашаетесь на Обработку персональных данных
+      when 'callback'
+        .form__body
+          .grid.is-columns.is-wide
+            .col-12
+              label.form__control.is-required
+                span.form__label Ваш телефон
+                span.form__field
+                  +input()(
+                    name='tel',
+                    type='tel',
+                    placeholder='+7',
+                    required
+                  )
+            .col-12
+              label.form__control
+                span.form__label Имя
+                span.form__field
+                  +input()(
+                    name='name',
+                    type='text',
+                  )
+
+        .form__footer
+          .form__agreement
+            span.form__field
+              +checkbox({
+                label:'Оформляя запись, соглашаюсь с условиями я<a href="#" class="link"> политики конфиденциальности</a>'
+              })(
+                name='policy'
+                required
+                class='is-agreement'
+              )
+
+          .form__button
+            +button({
+              label: 'Заказать обратный звонок',
+            })(
+              class='is-wide'
+            )

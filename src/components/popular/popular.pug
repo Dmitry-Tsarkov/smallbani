@@ -1,0 +1,17 @@
+//- popular
+
+include /components/barrel/barrel
+
+mixin popular(options = {})
+  .popular
+    p.popular__title Самые популярные модели
+  +barrel({
+    items: [
+      { url: '/about.html', title: 'Каталог' },
+      { url: '/news.html', title: 'Портфолио' },
+      { url: '/single.html', title: 'Доставка и оплата' },
+      { url: '/contacts.html', title: 'Отзывы' },
+      { url: '/contacts.html', title: 'Компания' },
+      { url: '/contacts.html', title: 'Акции' },
+    ]
+  })

@@ -1,0 +1,39 @@
+//- slider-main
+
+mixin slider-main(options = {})
+  slider-main( 
+    inline-template 
+  )  
+    .slider-main
+      .slider-main__container(ref="container")
+        .slider-main__wrapper
+          .slider-main__slide
+            .slider-main__cover
+            img(src="img/main-slider-1.jpg", alt="" ).slider-main__image
+            .container
+              .slider-main__content
+                p.slider-main__text( data-swiper-parallax="-100") Производство <br> и продажа бань-бочек <br> по доступным ценам, <br> в кратчайшие сроки
+                .slider-main__button( data-swiper-parallax="-50")
+                  button.button.is-detailed Узнать подробнее
+          .slider-main__slide
+            .slider-main__cover
+            img(src="img/main-slider-1.jpg", alt="" ).slider-main__image
+            .container
+              .slider-main__content
+                p.slider-main__text( data-swiper-parallax="-100") Производство <br> и продажа бань-бочек 
+                .slider-main__button( data-swiper-parallax="-50")
+                  button.button.is-detailed Узнать подробнее 
+          .slider-main__slide
+            .slider-main__cover
+            img(src="img/main-slider-1.jpg", alt="" ).slider-main__image
+            .container
+              .slider-main__content
+                p.slider-main__text( data-swiper-parallax="-100") Производство <br> и продажа бань-бочек 
+                .slider-main__button( data-swiper-parallax="-50")
+                  button.button.is-detailed Узнать подробнее        
+        .slider-main__bullets(ref="pagination")
+        .slider-main__controls
+          .container
+            button.slider-main__control.is-prev(ref="prev")              
+            button.slider-main__control.is-last(ref="next") 
+              

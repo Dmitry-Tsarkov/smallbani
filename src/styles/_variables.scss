@@ -1,0 +1,68 @@
+$accent: #ffb351;
+$second: #ffedd6;
+$black: #303030;
+$dark: #000000;
+$grey: #efefef;
+$white: #ffffff;
+$green: #50c4a1;
+$cyan: #1b47b6;
+
+$isResponsive: false;
+$hasGuides: false;
+
+$font-size: 16px;
+$font-sizes: (
+  1: 52px,
+  2: 40px,
+  3: 28px,
+  4: 20px,
+  5: 20px,
+  6: 20px,
+);
+
+$ff: "GTWalsheimPro", sans-serif;
+$line-height: 1.68;
+
+$light: 300;
+$regular: 400;
+$medium: 500;
+$semibold: 600;
+$bold: 700;
+$heavy: 800;
+
+$lg: 1599px;
+$xl: 1439px;
+$l: 1179px;
+$md: 959px;
+$m: 767px;
+$s: 559px;
+$xs: 320px;
+
+$breakpoints: (
+  "lg": $lg,
+  "xl": $xl,
+  "l": $l,
+  "md": $md,
+  "m": $m,
+  "s": $s,
+  "xs": $xs,
+);
+
+$gap: 30px;
+$width: 100%;
+$minwidth: 1170px;
+$maxwidth: 1170px;
+
+$layer-1: 100;
+$layer-2: 200;
+$layer-3: 300;
+$layer-4: 400;
+$layer-5: 500;
+$layer-6: 600;
+$layer-7: 700;
+$layer-8: 800;
+$layer-9: 900;
+$layer-9: 900;
+$layer-10: 1000;
+
+$ease: cubic-bezier(0.455, 0.03, 0.515, 0.955);

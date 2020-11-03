@@ -1,0 +1,44 @@
+/**
+* video-portfolio
+*/
+
+.video-portfolio {
+  $this: &;
+
+  margin-top: 50px;
+
+  &__cover {
+    position: relative;
+  }
+
+  &__buttons {
+    margin-top: 20px;
+    margin-bottom: 40px;
+  }
+
+  
+
+  &__button {
+    border: none;
+    position: absolute;    
+    border-radius: 50%;
+    left: 308px;
+    top: 173px;
+    width: 61px;
+    height: 61px;
+    text-align: center;
+    background-color: $accent;
+    transition: ease background-color 300ms;
+    cursor: pointer;
+    z-index: 2;
+    &:hover {
+      background-color: darken($accent, 20);
+    }
+  }
+
+  &__play {
+    width: 15px;
+    height: 15px;
+  }
+
+}

@@ -1,0 +1,10 @@
+//- logo
+
+mixin logo(params)
+  if params.id == 1
+    .logo&attributes(attributes)
+  else
+    a.logo(
+      href='/'
+      title='Главная страница'
+    )&attributes(attributes)

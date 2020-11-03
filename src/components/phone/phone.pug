@@ -1,0 +1,8 @@
+//- phone
+
+mixin phone(options = {})
+  nav.phone
+    ul.phone__list
+      each item in options.items
+        li.phone__item
+          p.phone__number=item.title

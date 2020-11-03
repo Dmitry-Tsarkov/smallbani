@@ -1,0 +1,60 @@
+/**
+* accordion
+*/
+
+.accordion {
+  $this: &;
+
+  &__item {
+    background-color: $white;
+    border-radius: 15px;
+    padding: 40px 50px;
+    margin-bottom: 20px;
+    position: relative;
+  }
+
+  &__header {
+    display: flex;
+    transition: 0.3s;
+    cursor: pointer;
+  }
+
+  &__image {
+    transition: ease transform 0.3s;
+    user-select: none;
+    margin-right: 10px;
+
+    &.is-active {
+      transform: rotate(180deg);
+    }
+  }
+
+  &__title {
+    font-weight: bold;
+    font-size: 25px;
+    line-height: 29px;
+    color: $dark;
+    margin: 0;
+  }
+
+  &__text {
+    font-size: 20px;
+    line-height: 28px;
+    color: $dark;
+  }
+
+  &__body {
+    overflow: hidden;
+  }
+
+  &.is-left {
+    #{$this}__item {
+      padding: 40px 0;
+    }
+
+    #{$this}__title {
+      font-size: 20px;
+      line-height: 23px;
+    }
+  }
+}

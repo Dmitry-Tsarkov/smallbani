@@ -1,0 +1,26 @@
+//- video-portfolio
+
+include /components/button/button
+
+mixin video-portfolio(options = {})
+  .video-portfolio
+    .video-portfolio__cover
+      img(src="img/video-portfolio.jpg", alt="").video-portfolio__image
+      a(href="https://www.youtube.com/watch?v=COTnn-VAGdg&t=62s" target="_blank")
+        button.video-portfolio__button
+          img(src="img/play.svg", alt="").video-portfolio__play
+    .video-portfolio__buttons
+      +button({
+        label: 'Заказать такую же',
+        type: 'link'
+        })(
+          class="is-product"
+          href="/product-detailed.html" 
+        )
+      +button({
+        label: 'Попасть на просмотр',
+        type: 'link'
+        })(
+          class="unfill"
+          href="/product-detailed.html" 
+        )
