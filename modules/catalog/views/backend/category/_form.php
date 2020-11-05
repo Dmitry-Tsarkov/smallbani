@@ -1,5 +1,6 @@
 <?php
 
+use app\modules\catalog\helpers\CategoryHelper;
 use kartik\form\ActiveForm;
 use yii\helpers\Html;
 use kartik\file\FileInput;
@@ -17,6 +18,7 @@ use yii\helpers\Url;
                 <?= $form->field($category, 'title') ?>
                 <?= $form->field($category, 'alias') ?>
                 <?= $form->field($category, 'status')->dropDownList([0 => 'Нет', 1 => 'Да']) ?>
+                <?= $form->field($category, 'parent_id')->dropDownList(CategoryHelper::categoriesDropDown($category->id)) ?>
             </div>
             <div class="col-xs-4">
                 <div class="single-kartik-image">

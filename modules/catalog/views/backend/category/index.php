@@ -1,5 +1,6 @@
 <?php
 
+use app\modules\admin\helpers\NestedSetsHelper;
 use app\modules\catalog\models\Category;
 use kartik\grid\DataColumn;
 use kartik\grid\GridView;
@@ -100,7 +101,14 @@ $this->params['breadcrumbs'] = [
                 return $category->hasImage() ? '<img src="' . $category->getThumbFileUrl('image', 'thumb') . '">' : '';
             }
         ],
-        'title',
+        [
+            'class' => DataColumn::class,
+            'attribute' => 'title',
+            'format' => 'raw',
+            'value' => function(Category $category) {
+                return NestedSetsHelper::depthTitle($category->title, $category->depth);
+            }
+        ],
         'alias',
         [
             'class' => DataColumn::class,

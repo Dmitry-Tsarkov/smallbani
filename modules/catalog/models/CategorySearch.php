@@ -21,7 +21,7 @@ class CategorySearch extends Model
 
     public function search(array $params): ActiveDataProvider
     {
-        $query = Category::find();
+        $query = Category::find()->andWhere(['>', 'depth', 0]);
 
         if ($this->load($params) && $this->validate()) {
             $query->andFilterWhere([
@@ -35,7 +35,7 @@ class CategorySearch extends Model
 
         return new ActiveDataProvider([
             'query' => $query,
-            'sort' => ['defaultOrder' => ['position' => SORT_ASC]],
+            'sort' => ['defaultOrder' => ['lft' => SORT_ASC]],
         ]);
     }
 

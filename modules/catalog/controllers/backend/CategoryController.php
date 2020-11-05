@@ -21,7 +21,16 @@ class CategoryController extends BalletController
     {
         $category = Category::getOrFail($id);
 
-        if ($category->load(\Yii::$app->request->post()) && $category->save()) {
+        if ($category->load(\Yii::$app->request->post()) && $category->validate()) {
+            $currentParent = $category->parents(1)->one();
+
+            if ($category->parent_id != $currentParent->id) {
+                $parent = Category::getOrFail($category->parent_id);
+                $category->appendTo($parent);
+            } else {
+                $category->save();
+            }
+
             \Yii::$app->session->setFlash('success', 'Категория обновлена');
             return $this->refresh();
         }
@@ -33,7 +42,11 @@ class CategoryController extends BalletController
     {
         $category = new Category();
 
-        if ($category->load(\Yii::$app->request->post()) && $category->save()) {
+        if ($category->load(\Yii::$app->request->post()) && $category->validate()) {
+
+            $parent = Category::getOrFail($category->parent_id);
+            $category->appendTo($parent);
+
             \Yii::$app->session->setFlash('success', 'Категория добавлена');
             return $this->redirect(['update', 'id' => $category->id]);
         }
@@ -59,12 +72,18 @@ class CategoryController extends BalletController
 
     public function actionMoveUp($id)
     {
-        Category::getOrFail($id)->movePrev();
+        $category = Category::getOrFail($id);
+        if($prev = $category->prev()->one()) {
+            $category->insertBefore($prev);
+        }
     }
 
     public function actionMoveDown($id)
     {
-        Category::getOrFail($id)->moveNext();
+        $category = Category::getOrFail($id);
+        if($next = $category->next()->one()) {
+            $category->insertAfter($next);
+        }
     }
 
     public function actionSeo($id)
@@ -77,6 +96,5 @@ class CategoryController extends BalletController
         }
 
         return $this->render('seo', compact('category'));
-
     }
 }

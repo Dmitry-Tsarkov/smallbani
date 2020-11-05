@@ -4,6 +4,8 @@
  * @var $this \yii\web\View
  * @var \app\modules\catalog\models\Category $category
  * @var \yii\data\DataProviderInterface $dataProvider
+ * @var \app\modules\catalog\models\Category[] $categories
+ * @var \app\modules\catalog\models\Category $parent
  */
 
 use app\modules\catalog\widgets\ProductWidget;
@@ -12,8 +14,8 @@ use app\widgets\PaginationWidget;
 
 $category->generateMetaTags();
 $this->params['breadcrumbs'] = Pages::getParentBreadcrumbs('catalog');
-$this->params['breadcrumbs'][] = $category->title;
-$this->params['h1'] = $category->getH1();
+$this->params['breadcrumbs'][] = $parent->title;
+$this->params['h1'] = $parent->getH1();
 
 
 ?>
@@ -24,10 +26,10 @@ $this->params['h1'] = $category->getH1();
                 <tabs inline-template>
                     <div class="tabs">
                         <div class="tabs__header">
-                            <button class="tabs__tab" @click="toogle(1)" :class="{'is-active': tabId == 1}">Все бани</button>
-                            <button class="tabs__tab" @click="toogle(2)" :class="{'is-active': tabId == 2}"> Баня-бочка круглая</button>
-                            <button class="tabs__tab" @click="toogle(3)" :class="{'is-active': tabId == 3}">Квадробочка</button>
-                            <button class="tabs__tab" @click="toogle(4)" :class="{'is-active': tabId == 4}">Овальные бани-бочки</button>
+                            <a href="<?= $parent->getHref() ?>" class="tabs__tab <?= $parent->id == $category->id? 'is-active' : '' ?>">Все бани</a>
+                            <?php foreach ($categories as $c): ?>
+                                <a href="<?= $c->getHref() ?>" class="tabs__tab <?= $c->id == $category->id? 'is-active' : '' ?>"><?= $c->title ?></a>
+                            <?php endforeach ?>
                         </div>
                         <div class="tabs__body">
                             <div class="tabs__item" v-if="tabId == 1">

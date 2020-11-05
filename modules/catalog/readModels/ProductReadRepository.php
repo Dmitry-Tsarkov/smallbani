@@ -12,8 +12,11 @@ class ProductReadRepository
 {
     public function inCategory(Category $category): DataProviderInterface
     {
-        $query = $category
-            ->getProducts()
+        $categoryIds = $category->children()->select('id')->column();
+        $categoryIds[] = $category->id;
+
+        $query = Product::find()
+            ->andWhere(['category_id' => $categoryIds])
             ->andWhere(['status' => Product::STATUS_ACTIVE]);
 
         return new ActiveDataProvider([

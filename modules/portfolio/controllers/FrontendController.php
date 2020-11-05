@@ -40,7 +40,6 @@ class FrontendController extends Controller
         $categories = $this->categories->getCategories();
 
         return $this->render('index', compact('dataProvider', 'categories'));
-
     }
 
     public function actionCategory($alias)

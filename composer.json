@@ -36,7 +36,8 @@
         "kartik-v/yii2-field-range": "^1.3",
         "fzaninotto/faker": "^1.9",
         "2amigos/yii2-transliterator-helper": "^1.0",
-        "kartik-v/yii2-widget-colorinput": "dev-master"
+        "kartik-v/yii2-widget-colorinput": "dev-master",
+      "ext-http": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",

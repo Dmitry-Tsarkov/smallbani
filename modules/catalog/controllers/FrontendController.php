@@ -25,7 +25,7 @@ class FrontendController extends Controller
 
     public function actionIndex()
     {
-        $categories = Category::find()->all();
+        $categories = $this->categories->getList();
         return $this->render('index', compact('categories'));
     }
 
@@ -35,8 +35,10 @@ class FrontendController extends Controller
             throw new NotFoundHttpException();
         }
         $dataProvider = $this->products->inCategory($category);
+        $parent = $category->depth == 1 ? $category : $category->parents(1)->one();
+        $categories = $this->categories->getTabs($parent);
 
-        return $this->render('category', compact('category', 'dataProvider'));
+        return $this->render('category', compact('category', 'dataProvider', 'categories', 'parent'));
     }
 
     public function actionProduct($alias)

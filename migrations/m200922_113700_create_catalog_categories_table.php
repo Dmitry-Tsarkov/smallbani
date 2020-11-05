@@ -18,14 +18,28 @@ class m200922_113700_create_catalog_categories_table extends Migration
             'alias'      => $this->string()->notNull(),
             'status'     => $this->integer()->notNull(),
             'image'      => $this->string(500),
-            'image_hash' => $this->string(),
+            'image_hash' => $this->string()->defaultValue(null),
             'created_at' => $this->integer()->notNull(),
             'updated_at' => $this->integer()->notNull(),
-            'position'   => $this->integer()->notNull(),
-            'meta_t'     => $this->string(),
-            'meta_d'     => $this->string(),
-            'meta_k'     => $this->string(),
-            'h1'         => $this->string(),
+            'meta_t'     => $this->string()->defaultValue(null),
+            'meta_d'     => $this->string()->defaultValue(null),
+            'meta_k'     => $this->string()->defaultValue(null),
+            'h1'         => $this->string()->defaultValue(null),
+            'lft'        => $this->integer()->notNull(),
+            'rgt'        => $this->integer()->notNull(),
+            'depth'      => $this->integer()->notNull(),
+            'parent_id'  => $this->integer()->defaultValue(null)
+        ]);
+
+        $this->insert('catalog_categories', [
+            'title' => '',
+            'alias' => '',
+            'status' => 1,
+            'created_at' => time(),
+            'updated_at' => time(),
+            'lft' => 1,
+            'rgt' => 2,
+            'depth' => 0,
         ]);
     }
 

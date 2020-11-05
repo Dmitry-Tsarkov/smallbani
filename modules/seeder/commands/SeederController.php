@@ -55,13 +55,15 @@ class SeederController extends Controller
         ];
 
         $categoryIds = [];
+        $root = Category::find()->andWhere(['depth' => 0])->one();
         for ($i = 1; $i <= 10; $i++) {
             $category = new Category([
-                'title'  => $faker->realText(20),
+                'title'  => "Категория_" . $i,
                 'status' => (int)$faker->boolean(80),
-                'image'  => new CopyUploadedFile($faker->randomElement($images))
+                'image'  => new CopyUploadedFile($faker->randomElement($images)),
+                'parent_id' => $root->id
             ]);
-            $category->save();
+            $category->appendTo($root);
             $categoryIds[] = $category->id;
 
             $updatedAt = $faker->unixTime('now');

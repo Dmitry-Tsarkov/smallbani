@@ -6,6 +6,7 @@ namespace app\modules\catalog\models;
 use app\modules\seo\behaviors\SeoBehavior;
 use app\modules\admin\behaviors\SlugBehavior;
 use app\modules\admin\traits\QueryExceptions;
+use creocoder\nestedsets\NestedSetsBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\helpers\Url;
@@ -22,14 +23,17 @@ use yiidreamteam\upload\ImageUploadBehavior;
  * @property int $image_hash [int(11)]
  * @property int $created_at [int(11)]
  * @property int $updated_at [int(11)]
- * @property int $position [int(11)]
  * @property string $meta_t [varchar(255)]
  * @property string $meta_d [varchar(255)]
  * @property string $meta_k [varchar(255)]
  * @property string $h1 [varchar(255)]
+ * @property int $lft [int(11)]
+ * @property int $rgt [int(11)]
+ * @property int $depth [int(11)]
+ * @property int $parent_id [int(11)]
  *
  * @mixin ImageUploadBehavior
- * @mixin PositionBehavior
+ * @mixin NestedSetsBehavior
  * @mixin SeoBehavior
  */
 class Category extends ActiveRecord
@@ -41,13 +45,20 @@ class Category extends ActiveRecord
         return '{{catalog_categories}}';
     }
 
+    public function transactions()
+    {
+        return [
+            self::SCENARIO_DEFAULT => self::OP_ALL,
+        ];
+    }
+
     public function behaviors()
     {
         return [
             TimestampBehavior::class,
             SlugBehavior::class,
             SeoBehavior::class,
-            PositionBehavior::class,
+            NestedSetsBehavior::class,
             'image' => [
                 'class' => ImageUploadBehavior::class,
                 'attribute' => 'image',
@@ -71,7 +82,7 @@ class Category extends ActiveRecord
             [['title'], 'required'],
             [['title', 'alias'], 'string'],
             [['alias'], 'match', 'pattern' => '/^[0-9a-z-]+$/','message'=>'Только латинские буквы и знак "-"'],
-            ['status', 'integer'],
+            [['status', 'parent_id'], 'integer'],
             ['status', 'in', 'range' => [0, 1], 'message' => 'Некоректный статус'],
             ['image', 'image', 'extensions' => 'jpeg, png, jpg'],
             [['meta_d', 'meta_k', 'meta_t', 'h1'], 'string'],
@@ -124,5 +135,10 @@ class Category extends ActiveRecord
     public function getHref()
     {
         return Url::to(['/catalog/frontend/category', 'alias' => $this->alias]);
+    }
+
+    public static function find()
+    {
+        return new CategoryQuery(self::class);
     }
 }
