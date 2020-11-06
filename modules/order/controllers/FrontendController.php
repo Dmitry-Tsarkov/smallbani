@@ -1,6 +1,7 @@
 <?php
 
 namespace app\modules\order\controllers;
+use app\modules\catalog\models\Product;
 use app\modules\order\forms\OrderForm;
 use app\modules\order\models\Order;
 use app\modules\order\services\OrderService;
@@ -17,6 +18,15 @@ class FrontendController extends Controller
     {
         $this->orderService = $orderService;
         parent::__construct($id, $module, $config);
+    }
+
+    public function actionTest($id)
+    {
+        $product = Product::getOrFail($id);
+        $orderForm = new OrderForm();
+        $orderForm->productId = $product->id;
+
+        return $this->render('test', compact('orderForm', 'product'));
     }
 
     public function actionOrder()
@@ -43,7 +53,7 @@ class FrontendController extends Controller
 
     public function actionSuccess()
     {
-        if(!$orderId = Yii::$app->session->getFlash('orderId')) {
+        if(!$orderId = Yii::$app->session->getFlash('order_id')) {
             return $this->goHome();
         }
 

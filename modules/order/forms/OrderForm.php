@@ -3,8 +3,6 @@
 
 namespace app\modules\order\forms;
 
-
-use app\modules\order\helpers\OrderHelper;
 use yii\base\Model;
 
 class OrderForm extends Model
@@ -23,5 +21,4 @@ class OrderForm extends Model
             ['modificationIds', 'each', 'rule' =>  ['integer']],
         ];
     }
-
 }

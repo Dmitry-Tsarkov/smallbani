@@ -2,11 +2,8 @@
 
 namespace app\bootstrap;
 
-
-use app\modules\catalog\repositories\ProductRepository;
-use app\modules\catalog\services\ProductRepositoryInterface;
 use yii\base\BootstrapInterface;
-use yii\di\Container;
+use yii\mail\MailerInterface;
 
 class SetUp implements BootstrapInterface
 {
@@ -14,6 +11,8 @@ class SetUp implements BootstrapInterface
     {
         $container = \Yii::$container;
 
-        $container->set(ProductRepositoryInterface::class, ProductRepository::class);
+        $container->set(MailerInterface::class, function () {
+            return \Yii::$app->mailer;
+        });
     }
 }

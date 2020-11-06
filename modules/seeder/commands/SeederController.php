@@ -4,10 +4,13 @@ namespace app\modules\seeder\commands;
 
 use app\modules\actions\models\Promo;
 use app\modules\catalog\models\Category;
+use app\modules\characteristic\models\Value;
+use app\modules\characteristic\models\Characteristic;
 use app\modules\catalog\models\ClientPhoto;
 use app\modules\catalog\models\Product;
 use app\modules\catalog\models\ProductDrawing;
 use app\modules\catalog\models\ProductImage;
+use app\modules\characteristic\models\Variant;
 use app\modules\colour\models\Colour;
 use app\modules\catalog\models\ColourGroup;
 use app\modules\faq\models\Question;
@@ -34,12 +37,19 @@ class SeederController extends Controller
 
         Console::stdout(PHP_EOL . 'colours..');
 
+        $colourHexes = [
+            '#000000' => 'Черный',
+            '#555555' => 'Серый',
+            '#005500' => 'Зеленый',
+            '#ff0000' => 'Красный',
+            '#00008b' => 'Тёмный ультрамариновый',
+        ];
         $colourIds = [];
-        for ($i = 1; $i <= 5; $i++) {
+        foreach ($colourHexes as $hex => $title) {
 
             $colour = new Colour([
-                'title' => $faker->realText(20),
-                'hex'   => $faker->hexColor,
+                'title' => $title,
+                'hex'   => $hex,
             ]);
 
             $colour->save();
@@ -47,6 +57,32 @@ class SeederController extends Controller
 
             Console::stdout('.');
         }
+
+        Console::stdout(PHP_EOL . 'characteristics..');
+
+        /** @var Characteristic[] $characteristics */
+        $characteristics = [];
+        $units = [
+            '',
+            'см',
+            'руб.',
+            'м3'
+        ];
+
+        for ($i = 1; $i <= 10; $i++) {
+
+            $characteristic = new Characteristic([
+                'title' => 'Характеристика_' . $i,
+                'unit'  => $faker->randomElement($units),
+                'type'  => $faker-> randomElement([Characteristic::TYPE_TEXT, Characteristic::TYPE_DROP_DOWN]),
+            ]);
+
+            $characteristic->save();
+            $characteristics[] = $characteristic;
+
+            Console::stdout('.');
+        }
+
 
         Console::stdout(PHP_EOL . 'categories..' );
         $images = [
@@ -78,6 +114,7 @@ class SeederController extends Controller
             Yii::getAlias('@app/modules/seeder/images/category/parilka.jpg'),
             Yii::getAlias('@app/modules/seeder/images/category/test.png')
         ];
+
         $drawings = [
             Yii::getAlias('@app/modules/seeder/images/drawings/first_drawing.jpg'),
             Yii::getAlias('@app/modules/seeder/images/drawings/second_drawing.jpg'),
@@ -91,6 +128,8 @@ class SeederController extends Controller
 
 
         Console::stdout( PHP_EOL . 'products..' );
+
+        $values = range(0, 100, 10);
 
         $productIds = [];
         for ($i = 1; $i <= 5; $i++) {
@@ -136,6 +175,17 @@ class SeederController extends Controller
                 );
             }
 
+            foreach ($characteristics as $characteristic) {
+                if ($faker->boolean(80)) {
+                    $product->setValue(
+                        $characteristic->createValue(
+                            $faker->randomElement($values),
+                            $faker->boolean(50)
+                        )
+                    );
+                }
+            }
+
             $product->save();
             $productIds[] = $product->id;
 
@@ -144,6 +194,22 @@ class SeederController extends Controller
                 'created_at' => $faker->unixTime($updatedAt),
                 'updated_at' => $updatedAt,
             ]);
+
+            Console::stdout('.');
+        }
+        Console::stdout(PHP_EOL . 'characteristicValue..');
+
+        for ($i = 1; $i <= 5; $i++) {
+
+            $characteristicValue = new Value([
+                'value'             => $faker->realText(20),
+                'is_basic_set'      => $faker->realText(20),
+                'characteristic_id' => $faker->randomElement($characteristicIds),
+                'product_id'        => $faker->randomElement($productIds),
+                'variant_id'        => $faker->randomElement($variantIds),
+            ]);
+
+            $characteristicValue->save();
 
             Console::stdout('.');
         }

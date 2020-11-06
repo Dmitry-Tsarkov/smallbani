@@ -15,6 +15,7 @@ use app\modules\catalog\models\ProductSearch;
 use app\modules\catalog\services\ProductService;
 use app\modules\colour\models\Colour;
 use app\modules\colour\models\ColourSearch;
+use Yii;
 use yii\data\ActiveDataProvider;
 use yii\data\ArrayDataProvider;
 use yii\filters\VerbFilter;
@@ -93,6 +94,8 @@ class ProductController extends BalletController
                 \Yii::$app->session->setFlash('error', 'Техническая ошибка');
             }
         }
+
+       // var_dump($result); die();
 
         return $this->render('update', compact('product', 'updateForm'));
     }

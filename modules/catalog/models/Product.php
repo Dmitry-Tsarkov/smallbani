@@ -5,6 +5,7 @@ namespace app\modules\catalog\models;
 
 use app\modules\admin\behaviors\ImageBehavior;
 use app\modules\catalog\models\ColourGroup;
+use app\modules\characteristic\models\Value;
 use app\modules\seo\behaviors\SeoBehavior;
 use app\modules\seo\valueObjects\Seo;
 use app\modules\admin\behaviors\SlugBehavior;
@@ -40,6 +41,7 @@ use yii\helpers\Url;
  * @property ClientPhoto[] $clientPhotos
  * @property ColourGroup[] $colourGroups
  * @property Modification[] $modifications
+ * @property Value[] $values
  *
  * @mixin SeoBehavior
  * @mixin SaveRelationsBehavior
@@ -64,7 +66,7 @@ class Product extends ActiveRecord
             SeoBehavior::class,
             [
                 'class' => SaveRelationsBehavior::class,
-                'relations' => ['images', 'drawings', 'clientPhotos', 'colourGroups'],
+                'relations' => ['images', 'drawings', 'clientPhotos', 'colourGroups', 'values'],
             ],
         ];
     }
@@ -414,5 +416,34 @@ class Product extends ActiveRecord
         }
 
         throw new \DomainException('Модификация не найдена');
+    }
+
+    public function setValue(Value $value)
+    {
+        $values = $this->values;
+        foreach ($values as $i => $current) {
+            if ($current->characteristic_id == $value->characteristic_id) {
+                $values[$i] = $value;
+            }
+        }
+        $this->values[] = $value;
+    }
+
+    public function getValues()
+    {
+        return $this->hasMany(Value::class, ['product_id' => 'id']);
+    }
+
+    public function removeValue($valueId)
+    {
+        $values = $this->values;
+        foreach ($values as $i => $value) {
+            if ($value->id == $valueId) {
+                unset($values[$i]);
+                $this->values[] = $value;
+                return;
+            }
+        }
+        throw new \DomainException('Значение не найдено');
     }
 }

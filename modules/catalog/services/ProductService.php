@@ -3,7 +3,9 @@
 namespace app\modules\catalog\services;
 
 use app\modules\catalog\forms\ColourGroupForm;
+use app\modules\catalog\forms\ValueForm;
 use app\modules\catalog\models\ColourGroup;
+use app\modules\characteristic\repositories\CharacteristicRepository;
 use app\modules\seo\valueObjects\Seo;
 use app\modules\catalog\forms\ClientPhotosForm;
 use app\modules\catalog\forms\DrawingsForm;
@@ -20,10 +22,12 @@ use yii\db\Exception;
 class ProductService
 {
     private $products;
+    private $characteristics;
 
-    public function __construct(ProductRepository $products)
+    public function __construct(ProductRepository $products, CharacteristicRepository $characteristics)
     {
         $this->products = $products;
+        $this->characteristics = $characteristics;
     }
 
     public function create(ProductCreateForm $form): Product
@@ -58,14 +62,8 @@ class ProductService
         return $product;
     }
 
-    public function update($email, $id, ProductUpdateForm $form): void
+    public function update($id, ProductUpdateForm $form): void
     {
-        $email = mb_strtolower($email);
-
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            throw new Exception();
-        }
-
         $product = $this->products->getById($id);
 
         $product->edit(
@@ -226,5 +224,26 @@ class ProductService
         $this->products->save($product);
     }
 
+    public function addValue($id, ValueForm $form)
+    {
+        $product = $this->products->getById($id);
+        $characteristic = $this->characteristics->getById($form->characteristicId);
+        $product->setValue($characteristic->createValue($form->value, $form->isMain));
+        $this->products->save($product);
+    }
 
+    public function editValue($id, ValueForm $form)
+    {
+        $product = $this->products->getById($id);
+        $characteristic = $this->characteristics->getById($form->characteristicId);
+        $product->setValue($characteristic->createValue($form->value, $form->isMain));
+        $this->products->save($product);
+    }
+
+    public function deleteValue($id, $valueId)
+    {
+        $product = $this->products->getById($id);
+        $product->removeValue($valueId);
+        $this->products->save($product);
+    }
 }

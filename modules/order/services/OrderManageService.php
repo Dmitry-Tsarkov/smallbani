@@ -5,9 +5,7 @@ namespace app\modules\order\services;
 
 
 use app\modules\catalog\repositories\ProductRepository;
-use app\modules\order\forms\OrderForm;
 use app\modules\order\forms\OrderStatusForm;
-use app\modules\order\models\Order;
 use app\modules\order\repositories\OrderRepository;
 
 class OrderManageService
