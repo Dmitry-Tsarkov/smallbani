@@ -29,4 +29,3 @@ use yii\bootstrap\Tabs;
         <?= $content ?>
     </div>
 </div>
-

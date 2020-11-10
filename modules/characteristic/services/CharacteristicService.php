@@ -45,11 +45,11 @@ class CharacteristicService
         $this->characteristics->delete($characteristic);
     }
 
-    public function addVariant($id, VariantForm $form)
+    public function addVariant($id, VariantForm $createForm)
     {
         $characteristic = $this->characteristics->getById($id);
         $characteristic->addVariant(
-            Variant::create($characteristic->id, $form->value)
+            Variant::create($characteristic->id, $createForm->value)
         );
     }
 

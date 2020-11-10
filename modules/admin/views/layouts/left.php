@@ -45,6 +45,12 @@ use dmstr\widgets\Menu;
                                 'active' => Yii::$app->controller->module->id == 'colour' && Yii::$app->controller->id == 'backend/colour',
 
                             ],
+                            [
+                                'label' => 'Характеристики',
+                                'icon' => 'user',
+                                'url' => ['/characteristic/backend/characteristic/index'],
+                                'active' => Yii::$app->controller->module->id == 'characteristic' && Yii::$app->controller->id == 'backend/characteristic',
+                            ],
                         ],
                     ],
                     [

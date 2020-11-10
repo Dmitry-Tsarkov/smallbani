@@ -32,4 +32,5 @@ class CharacteristicRepository
             throw new RuntimeException('Characteristic deleting error');
         }
     }
+
 }

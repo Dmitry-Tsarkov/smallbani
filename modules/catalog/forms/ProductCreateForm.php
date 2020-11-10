@@ -20,7 +20,6 @@ class ProductCreateForm extends CompositeForm
     public $categoryId;
     public $gift;
 
-
     public function __construct()
     {
         $this->photos = new PhotosForm();

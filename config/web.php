@@ -19,6 +19,7 @@ $config = [
         'page',
         'colour',
         'order',
+        'characteristic',
     ],
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
@@ -37,6 +38,7 @@ $config = [
         'page' => \app\modules\page\Module::class,
         'colour' => \app\modules\colour\Module::class,
         'order' => \app\modules\order\Module::class,
+        'characteristic' => \app\modules\characteristic\Module::class,
     ],
     'components' => [
         'authManager' => \yii\rbac\DbManager::class,

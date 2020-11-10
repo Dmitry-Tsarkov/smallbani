@@ -33,7 +33,6 @@ $this->params['breadcrumbs'] = [
 ?>
 <?php $this->beginContent('@app/modules/catalog/views/backend/product/layout.php', compact('product')) ?>
 
-
 <p>
     <?= Html::a('Редактировать', ['update', 'id' => $product->id], ['class' => 'btn btn-primary btn-sm']) ?>
     <?= Html::a('Удалить', ['delete', 'id' => $product->id], ['class' => 'btn btn-danger btn-sm', 'data-method' => 'POST']) ?>

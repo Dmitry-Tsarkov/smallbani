@@ -1,8 +1,6 @@
 <?php
 
-
 namespace app\modules\characteristic\models;
-
 
 use yii\db\ActiveRecord;
 
@@ -10,7 +8,6 @@ use yii\db\ActiveRecord;
  * @property int $id [int(11)]
  * @property int $characteristic_id [int(11)]
  * @property string $value [varchar(255)]
- * @property string $code [varchar(255)]
  */
 
 class Variant extends ActiveRecord

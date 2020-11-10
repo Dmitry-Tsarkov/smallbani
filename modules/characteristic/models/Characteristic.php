@@ -4,6 +4,7 @@
 namespace app\modules\characteristic\models;
 
 
+use app\modules\admin\traits\QueryExceptions;
 use yii\db\ActiveRecord;
 
 /**
@@ -20,11 +21,20 @@ class Characteristic extends ActiveRecord
     const TYPE_TEXT = 0;
     const TYPE_DROP_DOWN = 1;
 
-
+    use QueryExceptions;
 
     public static function tableName()
     {
         return '{{characteristics}}';
+    }
+
+    public function attributeLabels()
+    {
+        return [
+            'title' => 'Заголовок',
+            'unit'  => 'Ед. измерения',
+            'type'  => 'Как будет вводиться информация',
+        ];
     }
 
     public static function create($title, $unit, $type): Characteristic
@@ -33,7 +43,6 @@ class Characteristic extends ActiveRecord
         $characteristic->title = $title;
         $characteristic->unit = $unit;
         $characteristic->type = $type;
-
 
         return $characteristic;
     }
@@ -122,5 +131,4 @@ class Characteristic extends ActiveRecord
         }
         throw new \DomainException("Вариант не нейден");
     }
-
 }

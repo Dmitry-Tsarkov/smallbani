@@ -346,13 +346,6 @@ class ProductController extends BalletController
     {
         $product = Product::getOrFail($product_id);
 
-//        $groups = $product->colourGroups;
-//        foreach ($groups as $group) {
-//            var_dump($group->colours);
-//        } die();
-
-//        var_dump($groups);die();
-
         $groupForm = new ColourGroupForm();
 
         if ($groupForm->load(\Yii::$app->request->post()) && $groupForm->validate()) {
