@@ -5,6 +5,7 @@ namespace app\modules\characteristic\models;
 
 
 use app\modules\admin\traits\QueryExceptions;
+use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
 use yii\db\ActiveRecord;
 
 /**
@@ -26,6 +27,18 @@ class Characteristic extends ActiveRecord
     public static function tableName()
     {
         return '{{characteristics}}';
+    }
+
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => SaveRelationsBehavior::class,
+                'relations' => [
+                    'variants'
+                ],
+            ],
+        ];
     }
 
     public function attributeLabels()
@@ -131,4 +144,6 @@ class Characteristic extends ActiveRecord
         }
         throw new \DomainException("Вариант не нейден");
     }
+
+
 }

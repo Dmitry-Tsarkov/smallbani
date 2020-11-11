@@ -10,13 +10,11 @@ class CharacteristicEditForm extends Model
 {
     public $title;
     public $unit;
-    public $type;
 
     public function __construct(Characteristic $characteristic)
     {
         $this->title = $characteristic->title;
         $this->unit  = $characteristic->unit;
-        $this->type  = $characteristic->type;
 
         parent::__construct();
     }
@@ -25,7 +23,7 @@ class CharacteristicEditForm extends Model
     {
         return [
             [['title'], 'required'],
-            [['title', 'unit', 'type'], 'string'],
+            [['title', 'unit'], 'string'],
         ];
     }
 
@@ -34,7 +32,6 @@ class CharacteristicEditForm extends Model
         return [
             'title' => 'Заголовок',
             'unit'  => 'Ед. измерения',
-            'type'  => 'Как будет вводиться информация',
         ];
     }
 

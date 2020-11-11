@@ -1,8 +1,6 @@
 <?php
 
-
 namespace app\modules\characteristic\models;
-
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
@@ -10,6 +8,13 @@ use yii\data\ActiveDataProvider;
 class VariantSearch extends Model
 {
     public $value;
+    private $characteristic;
+
+    public function __construct(Characteristic $characteristic)
+    {
+        parent::__construct();
+        $this->characteristic = $characteristic;
+    }
 
     public function rules()
     {
@@ -20,7 +25,7 @@ class VariantSearch extends Model
 
     public function search(array $params): ActiveDataProvider
     {
-        $query = Variant::find();
+        $query = $this->characteristic->getVariants();
 
         if ($this->load($params) && $this->validate()) {
             $query->andFilterWhere(['like', 'value', $this->value]);
@@ -30,5 +35,4 @@ class VariantSearch extends Model
             'query' => $query,
         ]);
     }
-
 }

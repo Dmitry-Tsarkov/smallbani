@@ -8,6 +8,7 @@ use app\modules\characteristic\forms\CharacteristicEditForm;
 use app\modules\characteristic\forms\VariantForm;
 use app\modules\characteristic\models\Characteristic;
 use app\modules\characteristic\models\CharacteristicSearch;
+use app\modules\characteristic\models\Variant;
 use app\modules\characteristic\models\VariantSearch;
 use app\modules\characteristic\services\CharacteristicService;
 use DomainException;
@@ -16,7 +17,6 @@ use Yii;
 
 class CharacteristicController extends BalletController
 {
-
     private $service;
 
     public function __construct($id, $module, CharacteristicService $service, $config = [])
@@ -39,9 +39,9 @@ class CharacteristicController extends BalletController
 
         if ($createForm->load(Yii::$app->request->post()) && $createForm->validate()) {
             try {
-                $review = $this->service->create($createForm);
+                $characteristic = $this->service->create($createForm);
                 Yii::$app->session->setFlash('success', 'Харктеристика добавлена');
-                return $this->redirect(['update', 'id' => $review->id]);
+                return $this->redirect(['update', 'id' => $characteristic->id]);
             } catch (DomainException $e) {
                 Yii::$app->session->setFlash('error', $e->getMessage());
             } catch (RuntimeException $e) {
@@ -93,12 +93,14 @@ class CharacteristicController extends BalletController
         return $this->redirect(\Yii::$app->request->referrer);
     }
 
-    public function actionCreateVariant()
-    {
-        $searchModel = new VariantSearch();
-        $dataProvider = $searchModel->search(\Yii::$app->request->get());
-
-        return $this->render('variant', compact('dataProvider', 'searchModel'));
-    }
+//    public function actionVariant($id)
+//    {
+//        $characteristic = Characteristic::getOrFail($id);
+//
+//        $searchModel = new VariantSearch($characteristic);
+//        $dataProvider = $searchModel->search(\Yii::$app->request->get());
+//
+//        return $this->render('variant', compact('dataProvider', 'searchModel', 'characteristic'));
+//    }
 
 }

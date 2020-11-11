@@ -16,11 +16,11 @@ $this->params['breadcrumbs'] = [
 
 ?>
 
-<?php $this->beginContent('@app/modules/characteristic/views/backend/characteristic/layout.php', compact('createForm')) ?>
+
 
 <?php $form = ActiveForm::begin() ?>
-<div class="row">
-    <div class="col-xs-8">
+<div class="box box-default box-solid">
+    <div class="box-body">
         <?= $form->field($createForm, 'title'); ?>
         <?= $form->field($createForm, 'unit'); ?>
         <?= $form->field($createForm, 'type')->dropDownList($createForm->getTypesDropDown(), ['prompt' => '-- Выберете способ ввода --']); ?>
@@ -30,4 +30,4 @@ $this->params['breadcrumbs'] = [
 <?= Html::submitButton('Сохранить', ['class' => 'btn btn-primary']) ?>
 <?php ActiveForm::end() ?>
 
-<?php $this->endContent() ?>
+

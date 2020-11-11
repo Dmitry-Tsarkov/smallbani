@@ -52,7 +52,6 @@ class ReviewController extends BalletController
 
     public function actionCreate($productId)
     {
-
         $product = Product::getOrFail($productId);
 
         $createForm = new ReviewForm();
@@ -69,7 +68,6 @@ class ReviewController extends BalletController
                 Yii::$app->session->setFlash('error', 'Техническая ошибка');
             }
         }
-
         return $this->render('create', compact('createForm', 'product'));
     }
 

@@ -177,12 +177,10 @@ class SeederController extends Controller
 
             foreach ($characteristics as $characteristic) {
                 if ($faker->boolean(80)) {
-                    $product->setValue(
-                        $characteristic->createValue(
-                            $faker->randomElement($values),
-                            $faker->boolean(50)
-                        )
-                    );
+                    $product->setValue($characteristic->createValue(
+                        $faker->randomElement($values),
+                        $faker->boolean(50)
+                    ));
                 }
             }
 
@@ -194,22 +192,6 @@ class SeederController extends Controller
                 'created_at' => $faker->unixTime($updatedAt),
                 'updated_at' => $updatedAt,
             ]);
-
-            Console::stdout('.');
-        }
-        Console::stdout(PHP_EOL . 'characteristicValue..');
-
-        for ($i = 1; $i <= 5; $i++) {
-
-            $characteristicValue = new Value([
-                'value'             => $faker->realText(20),
-                'is_basic_set'      => $faker->realText(20),
-                'characteristic_id' => $faker->randomElement($characteristicIds),
-                'product_id'        => $faker->randomElement($productIds),
-                'variant_id'        => $faker->randomElement($variantIds),
-            ]);
-
-            $characteristicValue->save();
 
             Console::stdout('.');
         }

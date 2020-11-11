@@ -45,7 +45,7 @@ class m201106_083554_create_product_characteristic extends Migration
             'characteristic_id' => $this->integer()->defaultValue(null),
             'product_id'        => $this->integer()->defaultValue(null),
             'variant_id'        => $this->integer()->defaultValue(null),
-            'value'             => $this->string()->notNull(),
+            'value'             => $this->string()->defaultValue(null),
             'is_basic_set'      => $this->boolean()->defaultValue(false),
         ]);
 

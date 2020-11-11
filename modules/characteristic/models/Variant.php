@@ -2,6 +2,7 @@
 
 namespace app\modules\characteristic\models;
 
+use app\modules\admin\traits\QueryExceptions;
 use yii\db\ActiveRecord;
 
 /**
@@ -12,9 +13,19 @@ use yii\db\ActiveRecord;
 
 class Variant extends ActiveRecord
 {
+
+    use QueryExceptions;
+
     public static function tableName()
     {
         return '{{characteristic_variants}}';
+    }
+
+    public function attributeLabels()
+    {
+        return [
+            'value' => 'Значение',
+        ];
     }
 
     public static function create($characteristicId, $value): Variant
@@ -26,9 +37,13 @@ class Variant extends ActiveRecord
         return $variant;
     }
 
+    public function getCharacteristic()
+    {
+        return $this->hasOne(Characteristic::class, ['id' => 'characteristic_id']);
+    }
+
     public function edit($value)
     {
         $this->value = $value;
     }
-
 }

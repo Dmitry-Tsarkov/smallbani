@@ -51,6 +51,7 @@ class CharacteristicService
         $characteristic->addVariant(
             Variant::create($characteristic->id, $createForm->value)
         );
+        $this->characteristics->save($characteristic);
     }
 
     public function editVariant($characteristicId, $variantId, VariantForm $form)

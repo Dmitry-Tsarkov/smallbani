@@ -3,8 +3,6 @@
 
 namespace app\modules\catalog\models;
 
-use app\modules\admin\behaviors\ImageBehavior;
-use app\modules\catalog\models\ColourGroup;
 use app\modules\characteristic\models\Value;
 use app\modules\seo\behaviors\SeoBehavior;
 use app\modules\seo\valueObjects\Seo;
@@ -14,7 +12,6 @@ use app\modules\review\models\Review;
 use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
-use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 
 /**
@@ -424,9 +421,12 @@ class Product extends ActiveRecord
         foreach ($values as $i => $current) {
             if ($current->characteristic_id == $value->characteristic_id) {
                 $values[$i] = $value;
+                $this->values = $values;
+                return;
             }
         }
-        $this->values[] = $value;
+        $values[] = $value;
+        $this->values = $values;
     }
 
     public function getValues()

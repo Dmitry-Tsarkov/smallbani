@@ -15,13 +15,14 @@ use yii\bootstrap\Tabs;
         'items' => [
             [
                 'label' => 'Общее',
-                'url' => ['/characteristic/backend/characteristic/create', 'id' => $characteristic->id],
-                'active' => Yii::$app->controller->action->id == 'create' && Yii::$app->controller->id == 'backend/create',
+                'url' => ['/characteristic/backend/characteristic/update', 'id' => $characteristic->id],
+                'active' => Yii::$app->controller->action->id == 'update',
             ],
             [
-                'label' => 'Варианты',
-                'url' => ['/characteristic/backend/characteristic/create-variant', 'id' => $characteristic->id],
-                'active' => Yii::$app->controller->id == 'backend/create-variant',
+                'label' => 'Варианты (' . $characteristic->getVariants()->count('id') . ')',
+                'url' => ['/characteristic/backend/variant/index', 'id' => $characteristic->id],
+                'active' => Yii::$app->controller->action->id == 'index',
+                'visible' => $characteristic->isDropDown(),
             ],
         ]
     ]) ?>
