@@ -46,8 +46,8 @@ class FrontendController extends Controller
         if(!$product = $this->products->findByAlias($alias)) {
             throw new NotFoundHttpException();
         }
-
         return $this->render('product', compact('product'));
     }
+
 
 }

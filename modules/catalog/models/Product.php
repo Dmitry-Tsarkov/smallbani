@@ -431,7 +431,8 @@ class Product extends ActiveRecord
 
     public function getValues()
     {
-        return $this->hasMany(Value::class, ['product_id' => 'id']);
+        return $this->hasMany(Value::class, ['product_id' => 'id'])
+            ->orderBy(['is_basic_set' => SORT_DESC]);
     }
 
     public function removeValue($valueId)
@@ -440,10 +441,21 @@ class Product extends ActiveRecord
         foreach ($values as $i => $value) {
             if ($value->id == $valueId) {
                 unset($values[$i]);
-                $this->values[] = $value;
+                $this->values = $values;
                 return;
             }
         }
         throw new \DomainException('Значение не найдено');
+    }
+
+    public function findValueByCharacteristic($characteristicId): ?Value
+    {
+        $values = $this->values;
+        foreach ($values as $value) {
+            if ($value->characteristic_id == $characteristicId) {
+                return $value;
+            }
+        }
+        return null;
     }
 }

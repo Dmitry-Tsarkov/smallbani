@@ -18,7 +18,20 @@ $this->params['h1'] = $product->getH1();
 
 ?>
 
-    <section class="section is-products">
+<?php
+//
+//foreach($product->values as $a){
+//    var_dump($a);
+//}
+//echo '</br></br></br>';
+//    foreach($product->values as $a){
+//        var_dump($a->getBasicValue());
+//    }
+//    die();
+//    echo $product->values;die();
+//?>
+
+ <section class="section is-products">
         <div class="container">
             <div class="section__body">
                 <slider-product inline-template>
@@ -50,32 +63,25 @@ $this->params['h1'] = $product->getH1();
                                     <p class="product-description__text"><?=$product->description?></p>
                                 </div>
                             </div>
+
+
+
                             <div class="product-description__body">
+
                                 <div class="product-description__params">
                                     <div class="product-description__complectation">
                                         <p class="product-description__title">Базовая комплектация</p>
                                     </div>
+
+                                    <?php foreach ($product->values as $a): ?>
                                     <div class="product-description__option">
-                                        <p class="product-description__subtitle"><b>Печь модели:</b></p>
-                                        <p class="product-description__subtitle">Печь модели</p>
+                                            <p class="product-description__subtitle"><b>Печь модели</b></p>
+                                        <p class="product-description__subtitle"><?= $a->getBasicValue(); ?></p>
                                     </div>
-                                    <div class="product-description__option">
-                                        <p class="product-description__subtitle"><b>Печь модели:</b></p>
-                                        <p class="product-description__subtitle">380 см</p>
-                                    </div>
-                                    <div class="product-description__option">
-                                        <p class="product-description__subtitle"><b>Печь модели:</b></p>
-                                        <p class="product-description__subtitle">Печь модели</p>
-                                    </div>
-                                    <div class="product-description__option">
-                                        <p class="product-description__subtitle"><b>Печь модели:</b></p>
-                                        <p class="product-description__subtitle">Печь модели</p>
-                                    </div>
-                                    <div class="product-description__option">
-                                        <p class="product-description__subtitle"><b>Печь модели:</b></p>
-                                        <p class="product-description__subtitle">Печь модели</p>
-                                    </div>
+                                    <?php endforeach; ?>
+
                                 </div>
+
                                 <div class="product-description__params">
                                     <div class="product-description__complectation">
                                         <p class="product-description__title">Дополнительная комплектация</p>
@@ -102,6 +108,11 @@ $this->params['h1'] = $product->getH1();
                                     </div>
                                 </div>
                             </div>
+
+
+
+
+
                             <div class="product-description__gifts">
                                 <?php if (!empty($product->gift)): ?>
                                     <p class="product-description__title">Входит в подарок</p>

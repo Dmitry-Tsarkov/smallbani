@@ -5,6 +5,7 @@ namespace app\modules\catalog\services;
 use app\modules\catalog\forms\ColourGroupForm;
 use app\modules\catalog\forms\ValueForm;
 use app\modules\catalog\models\ColourGroup;
+use app\modules\characteristic\models\Value;
 use app\modules\characteristic\repositories\CharacteristicRepository;
 use app\modules\seo\valueObjects\Seo;
 use app\modules\catalog\forms\ClientPhotosForm;
@@ -224,19 +225,16 @@ class ProductService
         $this->products->save($product);
     }
 
-    public function addValue($id, ValueForm $form)
+    public function setValue($id, $characteristicId, ValueForm $form)
     {
         $product = $this->products->getById($id);
-        $characteristic = $this->characteristics->getById($form->characteristicId);
-        $product->setValue($characteristic->createValue($form->value, $form->isMain));
-        $this->products->save($product);
-    }
+        $characteristic = $this->characteristics->getById($characteristicId);
 
-    public function editValue($id, ValueForm $form)
-    {
-        $product = $this->products->getById($id);
-        $characteristic = $this->characteristics->getById($form->characteristicId);
-        $product->setValue($characteristic->createValue($form->value, $form->isMain));
+        $value = $characteristic->isDropDown()
+            ? $characteristic->createValueVariant($form->value, $form->isMain)
+            :  $characteristic->createValue($form->value, $form->isMain);
+
+        $product->setValue($value);
         $this->products->save($product);
     }
 

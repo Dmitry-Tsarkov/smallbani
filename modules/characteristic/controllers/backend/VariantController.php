@@ -43,7 +43,6 @@ class VariantController extends BalletController
            try{
                $this->service->addVariant($characteristic->id, $createForm);
                Yii::$app->session->setFlash('success', 'Вариант добавлен');
-
                return $this->redirect(['index', 'id' => $characteristic->id]);
            } catch (DomainException $e) {
                Yii::$app->session->setFlash('error', $e->getMessage());

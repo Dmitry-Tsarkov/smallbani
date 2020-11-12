@@ -7,9 +7,10 @@ use app\modules\catalog\models\ClientPhoto;
 use app\modules\catalog\models\Product;
 use app\modules\catalog\models\ProductDrawing;
 use app\modules\catalog\models\ProductImage;
+use app\modules\characteristic\models\Value;
 use kartik\file\FileInput;
 use kartik\grid\ActionColumn;
-use kartik\grid\GridView;
+use kartik\grid\DataColumn;use kartik\grid\GridView;
 use kartik\icons\Icon;
 use yii\data\ArrayDataProvider;
 use yii\helpers\Html;
@@ -152,6 +153,104 @@ $this->params['breadcrumbs'] = [
         </div>
     </div>
 </div>
+
+<div class="box box-default box-solid" id="test-values">
+    <div class="box-header with-border">
+        <h3 class="box-title">Значения</h3>
+    </div>
+    <div class="box-body">
+        <p>
+            <?= Html::a('Добавить значение', ['/catalog/backend/value/request', 'id' => $product->id], ['class' => 'btn btn-success', 'data-pjax' => '0']) ?>
+        </p>
+        <?= GridView::widget([
+            'dataProvider' => new ArrayDataProvider(['models' => $product->values]),
+            'summaryOptions' => ['class' => 'text-right'],
+            'bordered' => false,
+            'pjax' => true,
+            'pjaxSettings' => [
+                'options' => [
+                    'id' => 'pjax-values'
+                ],
+            ],
+            'striped' => false,
+            'hover' => true,
+            'panel' => false,
+            'export' => false,
+            'toggleDataOptions' => [
+                'all' => [
+                    'icon' => 'resize-full',
+                    'label' => 'Показать все',
+                    'class' => 'btn btn-default',
+                    'title' => 'Показать все'
+                ],
+                'page' => [
+                    'icon' => 'resize-small',
+                    'label' => 'Страницы',
+                    'class' => 'btn btn-default',
+                    'title' => 'Постаничная разбивка'
+                ],
+            ],
+            'columns' => [
+                [
+                    'class' => DataColumn::class,
+                    'vAlign' => GridView::ALIGN_MIDDLE,
+                    'hAlign' => GridView::ALIGN_CENTER,
+                    'attribute' => 'id',
+                    'format' => 'raw',
+                    'width' => '70px',
+                ],
+                [
+                    'label' => 'Характеристика',
+                    'value' => function(Value $value) {
+                        return $value->characteristic->title;
+                    }
+                ],
+                [
+                    'label' => 'Значение',
+                    'value' => function(Value $value) {
+                        return $value->getText();
+                    }
+                ],
+                [
+                    'label' => 'Комплектация',
+                    'value' => function(Value $value) {
+                        return $value->is_basic_set ? 'Базовая' : 'Дополнительная';
+                    }
+                ],
+
+                [
+                    'class' => ActionColumn::className(),
+                    'template' => '{update} {delete}',
+                    'noWrap' => true,
+                    'buttons' => [
+                        'update' => function ($url, Value $model, $key) {
+                            return Html::a(
+                                '<i class="fa fa-pencil-square-o" aria-hidden="true"></i> Редактировать',
+                                ['/catalog/backend/value/set', 'id' => $model->product_id, 'characteristicId' => $model->characteristic_id],
+                                ['class' => 'btn btn-primary btn-xs', 'data-pjax' => '0']);
+                        },
+                        'delete' => function ($url, $model, $key) {
+                            return Html::a('<i class="fa fa-trash" aria-hidden="true"></i>', [
+                                '/catalog/backend/value/delete',
+                                'productId' => $model->product_id,
+                                'valueId' => $model->id,
+
+                            ], [
+                                'class' => 'btn btn-danger btn-xs pjax-action',
+                                'data-pjax' => '0',
+                                'data-confirm' => 'Вы уверены?',
+                                'data-method' => 'post',
+                                'data-pjax-container' => 'pjax-values'
+                            ]);
+                        },
+                    ],
+                ],
+            ]
+        ]);
+        ?>
+    </div>
+</div>
+
 
 <div class="box box-default box-solid">
     <div class="box-header with-border">
@@ -322,4 +421,6 @@ $this->params['breadcrumbs'] = [
         ]); ?>
     </div>
 </div>
+
 <?php $this->endContent() ?>
+

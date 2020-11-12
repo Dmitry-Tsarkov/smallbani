@@ -84,6 +84,21 @@ class Characteristic extends ActiveRecord
         }
     }
 
+    public function createValueVariant($variantId, $isMain): Value
+    {
+        if (!$this->isDropDown()) {
+            throw new \DomainException('Тип характеристики не выпадающий список');
+        }
+
+        foreach ($this->variants as $variant) {
+            if ($variant->id == $variantId) {
+                return Value::createVariant($this->id, $variant->id, $isMain);
+            }
+        }
+
+        throw new \DomainException('Вариант не найден');
+    }
+
     public function findVariantByValue(string $valueText): ?Variant
     {
         foreach ($this->variants as $variant) {

@@ -11,6 +11,7 @@ use yii\helpers\Url;
 ?>
 
 <?php if (!empty($products)): ?>
+
     <section class="section">
         <div class="container">
             <header class="section__header">
@@ -28,4 +29,5 @@ use yii\helpers\Url;
             </div>
         </div>
     </section>
+
 <?php endif ?>

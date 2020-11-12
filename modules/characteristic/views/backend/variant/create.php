@@ -20,7 +20,6 @@ $this->params['breadcrumbs'] = [
 ];
 
 ?>
-
 <?php $form = ActiveForm::begin() ?>
 <div class="box box-default box-solid">
     <div class="box-body">
