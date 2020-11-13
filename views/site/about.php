@@ -2,14 +2,13 @@
 
 /* @var $this yii\web\View */
 
+use app\modules\page\components\Pages;
 use yii\helpers\Html;
 
-$this->params['breadcrumbs'] = \app\modules\page\components\Pages::getBreadcrumbs();
-\app\modules\page\components\Pages::getCurrentPage()->generateMetaTags();
+$this->params['breadcrumbs'] = Pages::getBreadcrumbs();
+Pages::getCurrentPage()->generateMetaTags();
 
 ?>
-<div class="site-about">
-<!--    <h1>--><?//= Html::encode($this->title) ?><!--</h1>-->
     <section class="section">
         <div class="container">
             <div class="section__body">
@@ -50,41 +49,9 @@ $this->params['breadcrumbs'] = \app\modules\page\components\Pages::getBreadcrumb
                             </div>
                         </div>
                         <div class="col-6">
-                            <ul class="about-us__list">
-                                <li class="about-us__item">
-                                    <p class="about-us__text">Крупнейший завод-изготовитель бань-бочек в Башкирии. Общая
-                                        площадь цехов (заготовочный, столярный, цех металлообработки, сборочный участок)
-                                        составляет порядка двух с половиной тысяч квадратных метров;</p>
-                                </li>
-                                <li class="about-us__item">
-                                    <p class="about-us__text">Собственная производственная линейка, созданная
-                                        профессионалами с огромным опытом создания деревообрабатывающего
-                                        оборудования;</p>
-                                </li>
-                                <li class="about-us__item">
-                                    <p class="about-us__text">Специальная конструкция, учитывающая особенности древесины
-                                        <br> в климатических условиях России;</p>
-                                </li>
-                                <li class="about-us__item">
-                                    <p class="about-us__text">Оборудование собственного производства, позволяющее
-                                        изготавливать качественные бани быстро и недорого;</p>
-                                </li>
-                                <li class="about-us__item">
-                                    <p class="about-us__text">Низкая цена, за счет высокой заводской
-                                        производительности;</p>
-                                </li>
-                                <li class="about-us__item">
-                                    <p class="about-us__text">Постоянный контроль качества выпускаемой продукции;</p>
-                                </li>
-                                <li class="about-us__item">
-                                    <p class="about-us__text">Постоянная модернизация оборудования и улучшение
-                                        конструкции бань-бочек, чтобы сделать бани еще более качественными и
-                                        недорогими;</p>
-                                </li>
-                                <li class="about-us__item">
-                                    <p class="about-us__text">Доступность продукции по всей России.</p>
-                                </li>
-                            </ul>
+                            <div>
+                                <?= Pages::getCurrentPage()->content ?>
+                            </div>
                         </div>
                         <div class="col-6">
                             <div class="about-us__container"><img class="about-us__image is-big"
@@ -121,6 +88,6 @@ $this->params['breadcrumbs'] = \app\modules\page\components\Pages::getBreadcrumb
         </div>
     </section>
 
-    <?= \app\modules\page\components\Pages::getCurrentPage()->content ?>
-<!--    <code>--><?//= __FILE__ ?><!--</code>-->
-</div>
+
+
+

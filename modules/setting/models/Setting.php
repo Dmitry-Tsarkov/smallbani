@@ -77,7 +77,7 @@ class Setting extends ActiveRecord
 
     public function getValue()
     {
-        return $this->value;
+        return trim($this->value);
     }
 
     public function formField(ActiveForm $form)

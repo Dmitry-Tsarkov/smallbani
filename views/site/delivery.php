@@ -5,6 +5,7 @@
 use app\modules\page\components\Pages;
 
 $this->params['breadcrumbs'] = Pages::getBreadcrumbs();
+Pages::getCurrentPage()->generateMetaTags();
 
 ?>
 

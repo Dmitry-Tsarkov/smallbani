@@ -2,10 +2,12 @@
 
 
 use app\modules\actions\widgets\RelevantActionsWidget;
+use app\modules\admin\helpers\YoutubeHelper;
 use app\modules\catalog\widgets\PopularProductsWidget;
 use app\modules\faq\widgets\FaqWidget;
 use app\modules\page\components\Pages;
 use app\modules\review\widgets\ReviewsSliderWidget;
+use app\modules\setting\components\Settings;
 use app\modules\slide\widgets\SliderWidget;
 
 /**
@@ -61,16 +63,24 @@ Pages::getCurrentPage()->generateMetaTags();
                         </div>
                     </div>
                     <div class="col-6">
-                        <div class="video__cover"><img class="video__image" src="img/video.jpg" alt=""><a
-                                href="https://www.youtube.com/watch?v=COTnn-VAGdg&amp;t=62s" target="_blank">
-                                <button class="video__button"><img src="img/play.svg" alt=""></button>
-                            </a></div>
+                        <div class="video__cover">
+                            <?php if ($youtubeImg = YoutubeHelper::previewImage(Settings::getValue('video'))): ?>
+                                <img class="video__image" src="<?= $youtubeImg ?>" alt="">
+                            <?php else: ?>
+                                <img class="video__image" src="/img/video.jpg" alt="">
+                            <?php endif ?>
+                            <?php if ($videoSrc = YoutubeHelper::url(Settings::getValue('video'))): ?>
+                                <a href="<?= $videoSrc ?>" target="_blank">
+                                    <button class="video__button"><img src="/img/play.svg" alt=""></button>
+                                </a>
+                            <?php endif ?>
+                        </div>
                     </div>
                     <div class="col-3">
-                        <div class="video__container"><img class="video__circle" src="img/option-2.svg" alt="">
+                        <div class="video__container"><img class="video__circle" src="/img/option-2.svg" alt="">
                             <p class="video__text">Доставка по смоленской обл. и России</p>
                         </div>
-                        <div class="video__container"><img class="video__circle" src="img/option-4.svg" alt="">
+                        <div class="video__container"><img class="video__circle" src="/img/option-4.svg" alt="">
                             <p class="video__text">Установка с помощью крана-манипулятора</p>
                         </div>
                     </div>

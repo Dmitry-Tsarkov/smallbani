@@ -16,4 +16,15 @@ trait QueryExceptions
 
         return $model;
     }
+
+    public static function findOneOrException($condition): self
+    {
+        $model = self::findOne($condition);
+
+        if (null == $model) {
+            throw new NotFoundHttpException('Model not found');
+        }
+
+        return $model;
+    }
 }

@@ -2,6 +2,7 @@
 
 use app\assets\AppAsset;
 use app\modules\page\components\Pages;
+use app\modules\setting\components\Settings;
 use app\widgets\BreadcrumbWidget;
 use yii\helpers\Html;
 use yii\widgets\Breadcrumbs;
@@ -58,15 +59,11 @@ AppAsset::register($this);
             </div>
             <nav class="phone">
               <ul class="phone__list">
-                <li class="phone__item">
-                  <p class="phone__number">+8 (800) 201 42 91</p>
-                </li>
-                <li class="phone__item">
-                  <p class="phone__number">+8 (920) 338 91 69</p>
-                </li>
-                <li class="phone__item">
-                  <p class="phone__number">510-110</p>
-                </li>
+                  <?php foreach (Settings::getArray('phones') as $phone): ?>
+                      <li class="phone__item">
+                          <p class="phone__number"><?= $phone ?></p>
+                      </li>
+                  <?php endforeach ?>
               </ul>
             </nav>
             <button class="button js-button is-call" area-label="Заказать звонок" @click="show">Заказать звонок</button>
@@ -97,7 +94,20 @@ AppAsset::register($this);
         <div class="footer__inner">
           <div class="footer__copy">© 2020 Изготовление бань-бочек в Смоленске</div>
           <div class="footer__social">
-              <img class="footer__image" src="/img/social-1.svg" alt=""><img class="footer__image" src="/img/social-2.svg" alt=""><img class="footer__image" src="/img/social-3.svg" alt=""></div>
+
+              <?php if (Settings::getValue('odnoklassniki')): ?>
+              <a href="<?= Settings::getValue('odnoklassniki') ?>" target="_blank"><img class="footer__image" src="/img/social-1.svg" alt=""></a>
+              <?php endif ?>
+
+              <?php if (Settings::getValue('facebook')): ?>
+                  <a href="<?= Settings::getValue('facebook') ?>" target="_blank"><img class="footer__image" src="/img/social-2.svg" alt=""></a>
+              <?php endif ?>
+
+              <?php if (Settings::getValue('vk')): ?>
+                  <a href="<?= Settings::getValue('vk') ?>" target="_blank"><img class="footer__image" src="/img/social-3.svg" alt=""></a>
+              <?php endif ?>
+
+          </div>
           <div class="footer__text">
               <a href="<?= Pages::getHref('policy') ?>" title="Политика конфиденциальности">Политика конфиденциальности</a>
               <a href="https://dancecolor.ru/" title="Сделано в Dancecolor">Сделано в Dancecolor</a></div>
