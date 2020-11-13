@@ -1,13 +1,10 @@
 <?php
 
-
-
 /* @var $this \yii\web\View */
 
 use app\modules\page\components\Pages;
 
 $this->params['breadcrumbs'] = Pages::getBreadcrumbs();
-
 
 ?>
 

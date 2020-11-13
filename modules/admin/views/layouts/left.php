@@ -117,6 +117,12 @@ use dmstr\widgets\Menu;
                                 'url' => ['/user/backend/index'],
                                 'active' => Yii::$app->controller->module->id == 'user',
                             ],
+                            [
+                                'label' => 'Настройки',
+                                'icon' => 'cog',
+                                'url' => ['/setting/backend/default/index'],
+                                'active' => Yii::$app->controller->module->id == 'setting',
+                            ],
                         ],
                     ],
                 ],

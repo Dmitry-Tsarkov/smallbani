@@ -11,10 +11,10 @@ class m201106_083554_create_product_characteristic extends Migration
     public function safeUp()
     {
         $this->createTable('{{%characteristics}}', [
-            'id'            => $this->primaryKey(),
-            'title'         => $this->string()->notNull(),
-            'unit'          => $this->string()->notNull(),
-            'type'          => $this->integer()->notNull(),
+            'id'    => $this->primaryKey(),
+            'title' => $this->string()->notNull(),
+            'unit'  => $this->string()->notNull(),
+            'type'  => $this->integer()->notNull(),
         ]);
 
         $this->createTable('{{%characteristic_variants}}', [

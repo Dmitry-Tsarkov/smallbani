@@ -2,7 +2,6 @@
 
 use app\modules\admin\helpers\ContentHelper;
 use app\modules\catalog\widgets\ProductValuesWidget;
-use app\modules\characteristic\models\Variant;
 use app\modules\faq\widgets\ProductFaqWidget;
 use app\modules\page\components\Pages;
 
@@ -17,27 +16,6 @@ $this->params['breadcrumbs'][] = ['label' => $product->category->title, 'url' =>
 $this->params['breadcrumbs'][] = $product->title;
 $this->params['h1'] = $product->getH1();
 
-
-?>
-
-<?php
-
-//echo '</br></br>';
-//
-//    foreach($product->values as $a){
-//
-//        if($a->is_basic_set == 1){
-//            if($a->value !== null){
-//                var_dump($a->value.'</br>');
-//            } else{
-//                foreach (Variant::find()->select('value')->andFilterWhere(['id'=>$a->variant_id])->asArray()->all() as $a){
-//                    var_dump($a['value'].'<br>');
-//                }
-//            }
-//        }
-//
-//    }
-//    die();
 
 ?>
 
@@ -76,9 +54,7 @@ $this->params['h1'] = $product->getH1();
                             </div>
                         </div>
 
-
                         <?= ProductValuesWidget::widget(compact('product')) ?>
-
 
                         <div class="product-description__gifts">
                             <?php if (!empty($product->gift)): ?>

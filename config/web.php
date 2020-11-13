@@ -39,6 +39,7 @@ $config = [
         'colour' => \app\modules\colour\Module::class,
         'order' => \app\modules\order\Module::class,
         'characteristic' => \app\modules\characteristic\Module::class,
+        'setting' => \app\modules\setting\Module::class,
     ],
     'components' => [
         'authManager' => \yii\rbac\DbManager::class,
