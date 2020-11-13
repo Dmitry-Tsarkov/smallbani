@@ -1,8 +1,6 @@
 <?php
 
-
 namespace app\modules\characteristic\models;
-
 
 use app\modules\admin\traits\QueryExceptions;
 use yii\db\ActiveRecord;
@@ -27,17 +25,6 @@ class Value extends ActiveRecord
     public static function tableName()
     {
         return '{{characteristic_values}}';
-    }
-
-    public function getValue()
-    {
-        return !empty($this->variant_id) ? $this->variant_id : $this->value;
-    }
-
-    public function getBasicValue()
-    {
-
-        return $this->is_basic_set == 0 ?: $this->value;
     }
 
     public static function createValue($characteristicId, $value, $is_basic_set): Value
@@ -73,5 +60,15 @@ class Value extends ActiveRecord
     public function getVariant()
     {
         return $this->hasOne(Variant::class, ['id' => 'variant_id']);
+    }
+
+    public function getLabel()
+    {
+        return $this->characteristic->title;
+    }
+
+    public function getUnit()
+    {
+        return $this->characteristic->unit;
     }
 }
