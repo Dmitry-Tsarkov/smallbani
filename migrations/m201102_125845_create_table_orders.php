@@ -34,7 +34,7 @@ class m201102_125845_create_table_orders extends Migration
             'product_id',
             'catalog_products',
             'id',
-            'CASCADE',
+            'SET NULL',
             'RESTRICT'
         );
     }

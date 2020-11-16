@@ -17,8 +17,21 @@ class m201028_123457_create_colour_groups extends Migration
             'position'   => $this->integer()->notNull(),
         ]);
 
-        $this->createIndex('idx-colour_groups-product_id', 'colour_groups', 'product_id');
-        $this->addForeignKey('fk-colour_groups-product_id', 'colour_groups', 'product_id', 'catalog_products', 'id', 'CASCADE', 'RESTRICT');
+        $this->createIndex(
+            'idx-colour_groups-product_id',
+            'colour_groups',
+            'product_id'
+        );
+
+        $this->addForeignKey(
+            'fk-colour_groups-product_id',
+            'colour_groups',
+            'product_id',
+            'catalog_products',
+            'id',
+            'CASCADE',
+            'RESTRICT'
+        );
 
     }
 

@@ -14,6 +14,9 @@ use app\modules\characteristic\models\Variant;
 use app\modules\colour\models\Colour;
 use app\modules\catalog\models\ColourGroup;
 use app\modules\faq\models\Question;
+use app\modules\feedback\helpers\FeedbackHelper;
+use app\modules\feedback\models\Feedback;
+use app\modules\feedback\models\FeedbackStatus;
 use app\modules\order\models\Order;
 use app\modules\page\models\Page;
 use app\modules\portfolio\models\Portfolio;
@@ -317,6 +320,11 @@ class SeederController extends Controller
           'https://www.youtube.com/watch?v=Fip2ISJxFTI',
           'https://www.youtube.com/watch?v=VMS30oV8ApE'
         ];
+        $images = [
+            Yii::getAlias('@app/modules/seeder/images/portfolio/first.jpg'),
+            Yii::getAlias('@app/modules/seeder/images/portfolio/second.jpg')
+        ];
+
         $portfolioIds = [];
         for ($i = 1; $i <= 10; $i++) {
 
@@ -330,6 +338,16 @@ class SeederController extends Controller
             );
             $portfolio->status = (int)$faker->boolean(80);
 
+
+            for ($j = 1; $j <= 2; $j++) {
+
+                $portfolio->addImage(
+                    PortfolioImage::create(
+                        new CopyUploadedFile($faker->randomElement($images))
+                    )
+                );
+            }
+
             $portfolio->save();
             $portfolioIds[] = $portfolio->id;
 
@@ -342,23 +360,50 @@ class SeederController extends Controller
             Console::stdout('.');
         }
 
-        $images = [
-            Yii::getAlias('@app/modules/seeder/images/portfolio/first.jpg'),
-            Yii::getAlias('@app/modules/seeder/images/portfolio/second.jpg')
-        ];
+        Console::stdout(PHP_EOL . 'feedbacks');
 
-        Console::stdout( PHP_EOL . 'portfolio_images..' );
+        for ($i = 1; $i <= 10; $i++) {
 
-        for ($i = 1; $i <= 25; $i++) {
+            $feedback = Feedback::feedback(
+                $faker->name,
+                $faker->email,
+                $faker->realText(100)
+            );
+            $feedback->changeStatus(
+                new FeedbackStatus(
+                    $faker->randomElement(array_keys(FeedbackStatus::list()))
+                )
+            );
+            $feedback->save();
 
-            $pImage = new PortfolioImage([
-                'position'     => $i,
-                'portfolio_id' => $faker->randomElement($portfolioIds),
-                'image'        => new CopyUploadedFile($faker->randomElement($images)),
-            ]);
+            $callback = Feedback::callback(
+                $faker->name,
+                $faker->phoneNumber
+            );
+            $callback->changeStatus(
+                new FeedbackStatus(
+                    $faker->randomElement(array_keys(FeedbackStatus::list()))
+                )
+            );
+            $callback->save();
 
-            $pImage->save();
+            $feedback = Feedback::affordTheSamePortfolio(
+                $faker->name,
+                $faker->phoneNumber,
+                Portfolio::findOne($faker->randomElement($portfolioIds))
+            );
+            $feedback->changeStatus(
+                new FeedbackStatus(
+                    $faker->randomElement(array_keys(FeedbackStatus::list()))
+                )
+            );
+            $feedback->save();
+
+            Console::stdout('.');
+
         }
+
+
 
         Console::stdout(PHP_EOL . 'reviews');
 
@@ -467,7 +512,8 @@ class SeederController extends Controller
         Page::create(
             'delivery',
             'Доставка и оплата',
-            'delivery'
+            'delivery',
+            '/site/delivery'
         )->appendTo($root);
         Console::stdout('.');
 

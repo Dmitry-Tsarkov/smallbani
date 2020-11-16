@@ -123,11 +123,13 @@ Pages::getCurrentPage()->generateMetaTags();
                     <p class="contact__subtitle">(рядом с оптовым продуктовым рынком <br> и остановкой Аэропорт)</p>
                 </div>
                 <div class="contact__phones">
-                    <p class="contact__phone">+8 (920) 338 91 69</p>
-                    <p class="contact__phone">+8 (800) 201 42 91</p>
-                    <p class="contact__phone">510-110</p>
+                    <?php foreach (Settings::getArray('phones') as $phone): ?>
+                        <p class="contact__phone"><?= $phone ?></p>
+                    <?php endforeach ?>
                 </div>
-                <div class="contact__emails"><a class="contact__email" href="#">info@smallbani.ru</a></div>
+                <?php if ($email = Settings::getValue('post')): ?>
+                    <div class="contact__emails"><a class="contact__email" href="mailto:<?= $email ?>"><?= $email ?></a></div>
+                <?php endif; ?>
             </div>
         </div>
     </div>

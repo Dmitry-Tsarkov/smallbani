@@ -102,6 +102,12 @@ use dmstr\widgets\Menu;
                         'active' => Yii::$app->controller->module->id == 'review' && Yii::$app->controller->id == 'backend/review',
                     ],
                     [
+                        'label' => 'Заявки',
+                        'icon' => 'bell',
+                        'url' => ['/feedback/backend/feedback/index'],
+                        'active' => Yii::$app->controller->module->id == 'feedback',
+                    ],
+                    [
                         'label' => 'Акции',
                         'icon' => 'adjust',
                         'url' => ['/actions/backend/actions/index'],

@@ -130,7 +130,6 @@ $this->params['breadcrumbs'] = [
             },
         ],
         [
-
             'class' => DataColumn::class,
             'attribute' => 'created_at',
             'value' => function(Review  $review){

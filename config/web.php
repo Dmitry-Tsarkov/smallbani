@@ -20,6 +20,7 @@ $config = [
         'colour',
         'order',
         'characteristic',
+        'feedback',
     ],
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
@@ -40,6 +41,8 @@ $config = [
         'order' => \app\modules\order\Module::class,
         'characteristic' => \app\modules\characteristic\Module::class,
         'setting' => \app\modules\setting\Module::class,
+        'feedback' => \app\modules\feedback\Module::class,
+
     ],
     'components' => [
         'authManager' => \yii\rbac\DbManager::class,
