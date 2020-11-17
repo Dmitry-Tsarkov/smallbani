@@ -9,11 +9,11 @@ use yii\data\DataProviderInterface;
 
 class FeedbackSearch extends Model
 {
+
     public $id;
     public $name;
-    public $portfolioTitle;
-    public $portfolioId;
-    public $phone;
+    public $email;
+    public $text;
     public $type;
     public $status;
     public $created_at;
@@ -22,24 +22,23 @@ class FeedbackSearch extends Model
     public function rules()
     {
         return [
-            [['name', 'portfolioTitle', 'phone', 'type'], 'string'],
+            [['name', 'email', 'text', 'type'], 'string'],
             [['status'],'integer'],
         ];
     }
 
     public function search(array $params): DataProviderInterface
     {
-        $query = Feedback::find()->andFilterWhere(['type'=>'portfolio']);
+        $query = Feedback::find()->andFilterWhere(['type'=>'feedback']);
 
         if ($this->load($params) && $this->validate()){
             $query->andFilterWhere([
                 'id' => $this->id,
                 'status' => $this->status,
             ]);
-            $query->andFilterWhere(['like', 'type', $this->type]);
             $query->andFilterWhere(['like', 'name', $this->name]);
-            $query->andFilterWhere(['like', 'portfolioTitle', $this->portfolioTitle]);
-            $query->andFilterWhere(['like', 'phone', $this->phone]);
+            $query->andFilterWhere(['like', 'email', $this->email]);
+            $query->andFilterWhere(['like', 'type', $this->type]);
         }
 
         return new ActiveDataProvider([

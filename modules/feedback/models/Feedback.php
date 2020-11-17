@@ -3,6 +3,7 @@
 
 namespace app\modules\feedback\models;
 
+use app\modules\admin\traits\QueryExceptions;
 use app\modules\portfolio\models\Portfolio;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
@@ -24,6 +25,8 @@ use yii\db\ActiveRecord;
 
 class Feedback extends ActiveRecord
 {
+    use QueryExceptions;
+
     const TYPE_CALLBACK = 'callback';
     const TYPE_FEEDBACK = 'feedback';
     const TYPE_PORTFOLIO = 'portfolio';
@@ -34,6 +37,20 @@ class Feedback extends ActiveRecord
             TimestampBehavior::class,
         ];
     }
+
+    public function attributeLabels()
+    {
+        return [
+            'name' => 'ФИО',
+            'email' => 'E-mail',
+            'text' => 'Вопрос',
+            'phone' => 'Теленфон',
+            'type' => 'Тип',
+            'portfolio_title' => 'Название портфолио',
+            'created_at' => 'Дата',
+        ];
+    }
+
 
     public static function tableName()
     {

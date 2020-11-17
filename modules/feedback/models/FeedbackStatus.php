@@ -33,6 +33,7 @@ class FeedbackStatus
         ];
     }
 
+
     public function getValue()
     {
         return $this->value;
@@ -46,5 +47,15 @@ class FeedbackStatus
     public function getLabel()
     {
         return self::list()[$this->value];
+    }
+
+    public function getClass()
+    {
+        switch ($this->value) {
+            case self::NEW: return 'danger';
+            case self::DONE: return 'success';
+        }
+
+        return 'default';
     }
 }

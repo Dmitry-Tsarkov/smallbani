@@ -26,5 +26,9 @@ class FeedbackRepository
 
     public function getById($id): Feedback
     {
+        if (!$feedback = Feedback::findOne($id)) {
+            throw new \DomainException('Заявка не найдена');
+        }
+        return $feedback;
     }
 }

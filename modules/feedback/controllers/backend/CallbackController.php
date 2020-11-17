@@ -4,14 +4,15 @@ namespace app\modules\feedback\controllers\backend;
 
 use app\modules\admin\components\BalletController;
 use app\modules\feedback\models\Feedback;
-use app\modules\feedback\models\FeedbackSearch;
+use app\modules\feedback\models\FeedbackCallbackSearch;
 use app\modules\feedback\services\manage\FeedbackManageService;
 
-class FeedbackController extends BalletController
+class CallbackController extends BalletController
 {
     /**
      * @var FeedbackManageService
      */
+
     private $service;
 
     public function __construct($id, $module, FeedbackManageService $service, $config = [])
@@ -22,7 +23,7 @@ class FeedbackController extends BalletController
 
     public function actionIndex()
     {
-        $searchModel = new FeedbackSearch();
+        $searchModel = new FeedbackCallbackSearch();
         $dataProvider = $searchModel->search(\Yii::$app->request->get());
 
         return $this->render('index', compact('dataProvider', 'searchModel'));
@@ -47,4 +48,6 @@ class FeedbackController extends BalletController
 
         return $this->redirect(\Yii::$app->request->referrer);
     }
+
+
 }

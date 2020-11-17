@@ -73,6 +73,7 @@ AppAsset::register($this);
     </v-header>
   </header>
   <main class="page__content">
+
       <?php if (!empty($this->params['breadcrumbs'])): ?>
           <div class="container">
               <?= BreadcrumbWidget::widget(['links' => $this->params['breadcrumbs']]) ?>
@@ -84,7 +85,6 @@ AppAsset::register($this);
               <h1 class="section__title"><?= Html::encode($this->params['h1']) ?></h1>
           </div>
       <?php endif ?>
-
 
     <?= $content ?>
   </main>

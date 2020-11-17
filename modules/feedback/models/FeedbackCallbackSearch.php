@@ -1,8 +1,6 @@
 <?php
 
-
 namespace app\modules\feedback\models;
-
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
@@ -21,7 +19,7 @@ class FeedbackCallbackSearch extends Model
     public function rules()
     {
         return [
-            [['name', 'phone', 'type'], 'string'],
+            [['name', 'phone', 'type', 'created_at'], 'string'],
             [['status'],'integer'],
         ];
     }
@@ -38,6 +36,7 @@ class FeedbackCallbackSearch extends Model
             $query->andFilterWhere(['like', 'name', $this->name]);
             $query->andFilterWhere(['like', 'phone', $this->phone]);
             $query->andFilterWhere(['like', 'type', $this->type]);
+            $query->andFilterWhere(['like', 'created_at', $this->created_at]);
         }
 
         return new ActiveDataProvider([

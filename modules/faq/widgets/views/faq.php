@@ -6,6 +6,8 @@
 /* @var $questions \app\modules\faq\models\Question[] $questions
  */
 
+use app\modules\feedback\widgets\FeedbackWidget;
+
 ?>
 
 <?php if(!empty($questions)):?>
@@ -37,6 +39,7 @@
                     <form class="form is-answers" role="form" action="response.html">
                         <div class="form__body">
                             <div class="answers__container">
+                                <?= FeedbackWidget::widget() ?>
                                 <p class="answers__title">Если вопросы еще остались</p>
                                 <div class="answers__info">
                                     <input class="answers__input" type="text" placeholder="Как вас зовут?">

@@ -1,5 +1,6 @@
 <?php
 
+use app\modules\feedback\helpers\FeedbackHelper;
 use dmstr\widgets\Menu;
 
 ?>
@@ -102,7 +103,7 @@ use dmstr\widgets\Menu;
                         'active' => Yii::$app->controller->module->id == 'review' && Yii::$app->controller->id == 'backend/review',
                     ],
                     [
-                        'label' => 'Заявки',
+                        'label' => 'Заявки' .  FeedbackHelper::badge(FeedbackHelper::newCount()),
                         'icon' => 'bell',
                         'url' => ['/feedback/backend/feedback/index'],
                         'active' => Yii::$app->controller->module->id == 'feedback',

@@ -3,6 +3,7 @@
 use app\modules\admin\helpers\ContentHelper;
 use app\modules\catalog\widgets\ProductValuesWidget;
 use app\modules\faq\widgets\ProductFaqWidget;
+use app\modules\feedback\widgets\FeedbackWidget;
 use app\modules\page\components\Pages;
 
 /**
@@ -126,6 +127,7 @@ $this->params['h1'] = $product->getH1();
                                 <form class="form is-left is-answers" role="form" action="response.html">
                                     <div class="form__body">
                                         <div class="answers__container">
+                                            <?= FeedbackWidget::widget() ?>
                                             <p class="answers__title">Если вопросы еще остались</p>
                                             <div class="answers__info">
                                                 <input class="answers__input" type="text" placeholder="Как вас зовут?">

@@ -17,6 +17,7 @@ class AdminLteAsset extends AssetBundle
     public $js = [
         'js/jquery.liTranslit.js',
         'js/script.js',
+        'js/vue.js',
     ];
     public $depends = [
         'rmrevin\yii\fontawesome\cdn\AssetBundle',

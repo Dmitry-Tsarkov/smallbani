@@ -4,7 +4,9 @@
 namespace app\modules\feedback\controllers;
 
 
-class FrontendController
+use yii\web\Controller;
+
+class FrontendController extends  Controller
 {
 
 }
