@@ -5,13 +5,11 @@ use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
-
 /**
  * @var $this \yii\web\View
  * @var OrderForm $orderForm
  * @var \app\modules\catalog\models\Product $product
  */
-
 
 ?>
 

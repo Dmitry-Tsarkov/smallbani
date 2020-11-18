@@ -399,11 +399,52 @@ class SeederController extends Controller
             );
             $feedback->save();
 
+            $feedback = Feedback::preview(
+                $faker->name,
+                $faker->phoneNumber
+            );
+            $feedback->changeStatus(
+                new FeedbackStatus(
+                    $faker->randomElement(array_keys(FeedbackStatus::list()))
+                )
+            );
+
+            $feedback->save();
+
+            $feedback = Feedback::previewPortfolio(
+                $faker->name,
+                $faker->phoneNumber,
+                Portfolio::findOne($faker->randomElement($portfolioIds))
+            );
+            $feedback->changeStatus(
+                new FeedbackStatus(
+                    $faker->randomElement(array_keys(FeedbackStatus::list()))
+                )
+            );
+
+            $feedback->save();
+
+            $feedback = Feedback::previewProduct(
+                $faker->name,
+                $faker->phoneNumber,
+                Product::findOne($faker->randomElement($productIds))
+            );
+            $feedback->changeStatus(
+                new FeedbackStatus(
+                    $faker->randomElement(array_keys(FeedbackStatus::list()))
+                )
+            );
+            $feedback->changeStatus(
+                new FeedbackStatus(
+                    $faker->randomElement(array_keys(FeedbackStatus::list()))
+                )
+            );
+            $feedback->save();
+
+
             Console::stdout('.');
 
         }
-
-
 
         Console::stdout(PHP_EOL . 'reviews');
 

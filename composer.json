@@ -37,6 +37,7 @@
         "fzaninotto/faker": "^1.9",
         "2amigos/yii2-transliterator-helper": "^1.0",
         "kartik-v/yii2-widget-colorinput": "dev-master",
+        "giggsey/libphonenumber-for-php": "^8.12",
       "ext-http": "*"
     },
     "require-dev": {

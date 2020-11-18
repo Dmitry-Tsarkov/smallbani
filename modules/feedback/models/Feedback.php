@@ -4,6 +4,7 @@
 namespace app\modules\feedback\models;
 
 use app\modules\admin\traits\QueryExceptions;
+use app\modules\catalog\models\Product;
 use app\modules\portfolio\models\Portfolio;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
@@ -30,6 +31,7 @@ class Feedback extends ActiveRecord
     const TYPE_CALLBACK = 'callback';
     const TYPE_FEEDBACK = 'feedback';
     const TYPE_PORTFOLIO = 'portfolio';
+    const TYPE_PREVIEW = 'preview';
 
     public function behaviors()
     {
@@ -87,6 +89,41 @@ class Feedback extends ActiveRecord
         $self->status = FeedbackStatus::new();
         $self->portfolio_id = $portfolio->id;
         $self->portfolio_title = $portfolio->title;
+        return $self;
+    }
+
+    public static function preview($name, $phone): self
+    {
+        $self = new self();
+        $self->name = $name;
+        $self->phone = $phone;
+        $self->phone = $phone;
+        $self->type = self::TYPE_PREVIEW;
+        $self->status = FeedbackStatus::new();
+        return $self;
+    }
+
+    public static function previewProduct($name, $phone, Product $product): self
+    {
+        $self = new self();
+        $self->name = $name;
+        $self->phone = $phone;
+        $self->product_id = $product->id;
+        $self->product_title = $product->title;
+        $self->type = self::TYPE_PREVIEW;
+        $self->status = FeedbackStatus::new();
+        return $self;
+    }
+
+    public static function previewPortfolio($name, $phone, Portfolio $portfolio): self
+    {
+        $self = new self();
+        $self->name = $name;
+        $self->phone = $phone;
+        $self->portfolio_id = $portfolio->id;
+        $self->portfolio_title = $portfolio->title;
+        $self->type = self::TYPE_PREVIEW;
+        $self->status = FeedbackStatus::new();
         return $self;
     }
 

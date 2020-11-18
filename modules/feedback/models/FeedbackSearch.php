@@ -43,6 +43,7 @@ class FeedbackSearch extends Model
 
         return new ActiveDataProvider([
             'query' => $query,
+            'sort' => ['defaultOrder' => ['created_at' => SORT_DESC]]
         ]);
     }
 }

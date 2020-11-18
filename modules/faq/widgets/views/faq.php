@@ -39,7 +39,7 @@ use app\modules\feedback\widgets\FeedbackWidget;
                     <form class="form is-answers" role="form" action="response.html">
                         <div class="form__body">
                             <div class="answers__container">
-                                <?= FeedbackWidget::widget() ?>
+<!--                                --><?//= FeedbackWidget::widget() ?>
                                 <p class="answers__title">Если вопросы еще остались</p>
                                 <div class="answers__info">
                                     <input class="answers__input" type="text" placeholder="Как вас зовут?">

@@ -7,21 +7,22 @@ use yii\db\Migration;
  */
 class m201116_114931_feedback extends Migration
 {
-
     public function safeUp()
     {
         $this->createTable('{{%feedbacks}}', [
-            'id'           => $this->primaryKey(),
-            'portfolio_id' => $this->integer()->defaultValue(null),
+            'id'              => $this->primaryKey(),
+            'portfolio_id'    => $this->integer()->defaultValue(null),
             'portfolio_title' => $this->string()->defaultValue(null),
-            'name'         => $this->string()->defaultValue(null),
-            'email'        => $this->string()->defaultValue(null),
-            'text'         => $this->string()->defaultValue(null),
-            'phone'        => $this->string()->defaultValue(null),
-            'type'         => $this->string()->notNull(),
-            'status'       => $this->integer()->notNull(),
-            'created_at'   => $this->integer()->notNull(),
-            'updated_at'   => $this->integer()->notNull(),
+            'product_id'      => $this->integer()->defaultValue(null),
+            'product_title'   => $this->string()->defaultValue(null),
+            'name'            => $this->string()->defaultValue(null),
+            'email'           => $this->string()->defaultValue(null),
+            'text'            => $this->string()->defaultValue(null),
+            'phone'           => $this->string()->defaultValue(null),
+            'type'            => $this->string()->notNull(),
+            'status'          => $this->integer()->notNull(),
+            'created_at'      => $this->integer()->notNull(),
+            'updated_at'      => $this->integer()->notNull(),
         ]);
 
         $this->createIndex(
@@ -35,6 +36,22 @@ class m201116_114931_feedback extends Migration
             'feedbacks',
             'portfolio_id',
             'portfolios',
+            'id',
+            'SET NULL',
+            'RESTRICT'
+        );
+
+        $this->createIndex(
+            'idx-feedbacks-product_id',
+            'feedbacks',
+            'product_id'
+        );
+
+        $this->addForeignKey(
+            'fk-feedbacks-product_id',
+            'feedbacks',
+            'product_id',
+            'catalog_products',
             'id',
             'SET NULL',
             'RESTRICT'

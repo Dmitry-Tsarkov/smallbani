@@ -5,6 +5,7 @@ use app\modules\catalog\widgets\ProductValuesWidget;
 use app\modules\faq\widgets\ProductFaqWidget;
 use app\modules\feedback\widgets\FeedbackWidget;
 use app\modules\page\components\Pages;
+use yii\helpers\Url;
 
 /**
  * @var $this \yii\web\View
@@ -117,7 +118,8 @@ $this->params['h1'] = $product->getH1();
 
                                     <div class="slider-done__buttons is-description">
                                         <button class="button">Попасть на просмотр</button>
-                                        <button class="button unfill">Смотреть все отзывы</button>
+                                        <a class="button js-button unfill" area-label="Смотреть все отзывы" href="<?= Url::to(['/review/frontend/index'])?>">Смотреть все отзывы</a>
+<!--                                        <button class="button unfill">Смотреть все отзывы</button>-->
                                     </div>
                                 </div>
                             </slider-photos>
@@ -127,7 +129,6 @@ $this->params['h1'] = $product->getH1();
                                 <form class="form is-left is-answers" role="form" action="response.html">
                                     <div class="form__body">
                                         <div class="answers__container">
-                                            <?= FeedbackWidget::widget() ?>
                                             <p class="answers__title">Если вопросы еще остались</p>
                                             <div class="answers__info">
                                                 <input class="answers__input" type="text" placeholder="Как вас зовут?">

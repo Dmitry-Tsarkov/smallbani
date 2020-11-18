@@ -22,15 +22,15 @@ class FeedbackPortfolioSearch extends Model
     {
         return [
             [['name', 'portfolioTitle', 'phone', 'type'], 'string'],
-            [['status'],'integer'],
+            [['status'], 'integer'],
         ];
     }
 
     public function search(array $params): DataProviderInterface
     {
-        $query = Feedback::find()->andFilterWhere(['type'=>'portfolio']);
+        $query = Feedback::find()->andFilterWhere(['type' => 'portfolio']);
 
-        if ($this->load($params) && $this->validate()){
+        if ($this->load($params) && $this->validate()) {
             $query->andFilterWhere([
                 'id' => $this->id,
                 'status' => $this->status,
@@ -42,7 +42,8 @@ class FeedbackPortfolioSearch extends Model
         }
 
         return new ActiveDataProvider([
-          'query' => $query,
+            'query' => $query,
+            'sort' => ['defaultOrder' => ['created_at' => SORT_DESC]]
         ]);
     }
 
